@@ -30,7 +30,7 @@
 ## __pm2__ 
 - nodeJS 관리를 더 쉽게해주는 툴
 - 다운로드: `npm install pm2`
-    - npm은 npm은 Node Package Manager 또는 Node Package Modules 으로 node.js를 설치하면 자동으로 설치됨
+    - npm(node package manager)은 node.js를 설치하면 자동으로 설치됨
 <br>
 
 ## __MySQL__ 
