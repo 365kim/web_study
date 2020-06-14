@@ -1,4 +1,4 @@
-[강의 바로가기](https://opentutorials.org/course/3162)
+[__데이터베이스 입문__ 강의 영상보기](https://opentutorials.org/course/3162)
 
 ## 1. 수업소개
 - __데이터베이스__: 정보기술의 심장
