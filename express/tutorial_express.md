@@ -240,14 +240,14 @@
     - '다른 소프트웨어를 부품으로 해서 나의 소프트웨어를 만들어나간다'
     - [Express 미들웨어 안내](https://expressjs.com/en/guide/using-middleware.html)
     - 써드파티 미들웨어: 익스프레스 외의 제3자가 만든 미들웨어 [(목록)](https://expressjs.com/en/resources/middleware.html)
-- __body-parser__
+- __미들웨어: body-parser__
     - 사용자가 전송한 post의 데이터를 내부적으로 분석해서 필요한 형태로 가공해주는 프로그램
     - body 변수를 선언해서 data가 있을 때 계속 body + data 해주고 없으면 end해주는 코드를 간단하게 바꿀 수 있음
         - __body__: 웹브라우저 쪽에서 요청한 정보의 본체
         - __header__: 그 본체를 설명하는 데이터
-    - 설치: `npm install body-parser`
+    - 설치: `npm install body-parser --save`
     ```js
-    `var bodyParser = require('body-parser')`
+    var bodyParser = require('body-parser')
         
     app.use(bodyParser.urlencoded({ extended: false }))     // 미들웨어가 들어와서 실행됨
     app.post('/create_process', function(request, response){
@@ -256,15 +256,85 @@
     })
     ```
     - [사용법 안내](http://expressjs.com/en/resources/middleware/body-parser.html)
+- __미들웨어: compression__
+    - 웹서버가 웹브라우저한테 응답할 때 압축된 데이터를 보내주면서 데이터 압축방식을 알려주면, 압축방식에 따라 해제해서 데이터 사용
+    - 데이터를 전송할 때 압축된 데이터가 전송되기 때문에 데이터의 양이 획기적으로 줄어듬
+    - 압축을 하고 푸는 과정이 대체로 네트워크의 전송비용보다 싸고 빠르기 때문에 이 방식을 많이 사용함
+    - 페이지 용량(Size) 확인하는 방법
+        - Ctrl+Shift+i 또는 우클릭+'검사'클릭 - Network 탭 선택 - 해당 웹페이지 새로고침 - Size확인
+    - 강제로 리로드하는 방법(캐시가 사라짐)
+        - Ctrl+Shift+r
+    - 설치: `npm install compression --save`
+    ```js
+    var compression = require('compression')
+    
+    app.use(compression());    // 미들웨어가 장착됨
+    ```
+    - [사용법 안내](http://expressjs.com/en/resources/middleware/compression.html)
 <br>
 
 ## 10. Express 미들웨어 만들기
+- [Express 미들웨어 작성]http://expressjs.com/en/guide/writing-middleware.html
+- 복잡한 코드를 단순화 시킬 수 있음
+```js
+    app.get('*', function(request, response, next){     // get 방식으로 들어오는 모든 코드에 적용
+        fs.readdir('./data', function(error, filelist){
+            request.list = filelist;
+            next();
+        });
+    })
+```
+
+- __미들웨어__
+    - Express에서는 콜백함수가 미들함수였던 것이었다!
+    - 웹 애플리케이션이 구동될 때, 서로와 서로를 연결해주며 순서대로 실행되는 조그만 소프트웨어
 <br>
 
 ## 11. Express 미들웨어의 실행순서
+- __미들웨어의 종류__
+    - Application-level 미들웨어
+    - Router-level 미들웨어
+    - Error-handling 미들웨어
+    - Built-in 미들웨어
+    - Third-party 미들웨어
+    
+- __Application-level 미들웨어__
+    - app.use, app.get과 같은 방식으로 미들웨어를 등록해서 사용하는 미들웨어
+    - request와 response 객체를 받아서 그것을 변형할 수 있다.
+    - next미들웨어 실행할지 하지 않을지 여부를 그 이전 미들웨어가 결정한다.
+    ```js
+    var express = require('express')
+    var app = express()
+
+    app.use(function (req, res, next) {
+      console.log('Time:', Date.now())
+      next()
+})
+    ```
+- __라우터가 여러 개일때 실행순서__
+    - 미들웨어를 잘 설계하면 애플리케이션이 실행되는 흐름을 자유자재로 제어할 수 있음
+    ```
+    app.get('/user/:id', function (req, res, next) {
+      // if the user ID is 0, skip to the next route
+      if (req.params.id === '0') next('route')      // 맨 아래의 미들웨어 실행
+      // otherwise pass the control to the next middleware function in this stack
+      else next()       // 바로 아래의 미들웨어 실행
+    }, function (req, res, next) {
+      // send a regular response
+      res.send('regular')
+    })
+
+    // handler for the /user/:id path, which sends a special response
+    app.get('/user/:id', function (req, res, next) {
+      res.send('special')
+    })
+    ```
+
 <br>
 
 ## 12. 정적인 파일의 서비스
+- __정적인 파일__: 이미지파일, 자바스크림트 또는 cs 파일 등을 웹브라우저로 다운로드 시켜주는 경우
+
 <br>
 
 ## 13. 에러처리
