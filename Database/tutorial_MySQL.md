@@ -34,7 +34,7 @@
     - 또는 workbench를 포함한 전체 한번에 설치 [(설치방법 참조)](https://velog.io/@secho/node.js-04-js%EC%97%90%EC%84%9C%EC%9D%98-DB%EC%97%B0%EB%8F%99-%EB%B0%8F-%ED%85%8C%EC%8A%A4%ED%8A%B8mysql-workbench-nodejs)
     - 설치 중 "No compatible server were found. You'll need to cancel this wizard and install one" 에러 메세지가 뜸
     - 설치방법 참조링크에 따라 윈도우 포맷하면서 없어진 [Visual Studio](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) 를 다시 설치하니 해결됨
-    <p><img src="https://user-images.githubusercontent.com/60066472/84589916-1b3ef300-ae6d-11ea-9dcc-3db74ef459b2.PNG" width="600"></p> 
+    <p><img src="https://user-images.githubusercontent.com/60066472/84591467-a0c8a000-ae79-11ea-9d23-6d1da64bc8e6.PNG" width="500"></p> 
     <p><img src="https://user-images.githubusercontent.com/60066472/84590181-4591b000-ae6f-11ea-9000-1f4914cbb49c.PNG" width="400"></p>
 - 다운로드 후 사용법
     - 터미널에서 `cd /usr/local/mysql/bin/` 이동 및 MySQL 실행`./mysql -uroot -p` 
@@ -117,7 +117,7 @@
 
 <br>
 
-## 1. SQL의 INSERT 구문
+## 10. SQL의 INSERT 구문
 - __추천검색어__: mysql create row
     - mysql> `DESC nameoftable` 참조해서 작성
     - mysql> `INSERT INTO topic (title,description,created,author,profile) VALUES('MySQL','MySQL is ...',NOW(),'egoing','developer');`
@@ -125,7 +125,7 @@
     - __NOW()__: 현재시간
 <br>
 
-## 1. SQL의 SELECT 구문
+## 11. SQL의 SELECT 구문
 - __추천검색어__: how to read row in mysql / mysql select syntax
     - mysql> `SELECT * FROM nameoftable;
     - mysql> `SELECT id, title,created,author FROM topic WHERE author='egoing' ORDER BY id DESC LIMIT 2;`
@@ -134,49 +134,49 @@
     - LIMIT 2 : 최대 2개만 보여주기
 <br>
 
-## 1. SQL의 UPDATE 구문
+## 12. SQL의 UPDATE 구문
 - __추천검색어__: mysql update
     - mysql> `
 <br>
 
-## 1. SQL의 DELETE 구문
+## 13. SQL의 DELETE 구문
 
 
 <br>
 
-## 1. 수업의 정상
+## 14. 수업의 정상
 
 
 <br>
 
-## 1. 관계형 데이터베이스의 필요성
+## 15. 관계형 데이터베이스의 필요성
 
 
 <br>
 
-## 1. 테이블 분리하기
+## 16. 테이블 분리하기
 
 
 <br>
 
-## 1. 관계형 데이터베이스의 꽃 JOIN
+## 17. 관계형 데이터베이스의 꽃 JOIN
 
 
 <br>
 
-## 1. 인터넷과 데이터베이스
+## 18. 인터넷과 데이터베이스
 
 
 <br>
 
-## 1. MySQL 클라이언트
+## 19. MySQL 클라이언트
 
 
 <br>
 
-## 1. MySQL Workbench
+## 20. MySQL Workbench
 
 
 <br>
 
-## 1. 수업을 마치며
+## 21. 수업을 마치며
