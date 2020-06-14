@@ -1,4 +1,6 @@
-## 📂 1. 수업소개
+[강의 바로가기](https://opentutorials.org/course/3162)
+
+## 1. 수업소개
 - __데이터베이스__: 정보기술의 심장
 - __데이터가 중요한 이유__: 데이터를 가공해서 다양한 일을 할 수 있기 때문
 - __file__: 성능, 보안, 편의성에 한계가 있음
@@ -6,7 +8,7 @@
     - MySQL, Oracle, SQL Server, PostgreSQL, MongoDB, ...
 <br>
 
-## 📂 2. 데이터베이스의 본질
+## 2. 데이터베이스의 본질
 - __데이터베이스의 본질__ : CRUD
     - Create _(input)_
     - Read _(output)_
@@ -14,14 +16,14 @@
     - Delete _(input)_
 <br>
 
-## 📂 3. file vs database
+## 3. file vs database
 - 구조적으로 데이터를 저장했을 때 데이터를 가공하는 것이 훨씬 쉬워짐
 - file >>> Spreadseet >>> Database
 - 스프레드시트를 데이터베이스라고 하지는 않지만 데이터베이스적 특성을 가지고 있음
 - 사람이 일일이 작업하지 않고도 데이터를 생성하고 읽고 수정하고 삭제하는 작업을 자동화할 수 있다는 점이 데이터베이스의 장점
 <br>
 
-## 📂 4. 수업을 마치며
+## 4. 수업을 마치며
 - __통계기반 툴 선택__
     - 추천검색어 : database ranking 2020
 - __관계형 데이터베이스__ _(Relational DBMS)_
