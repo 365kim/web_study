@@ -31,8 +31,9 @@
     - 관계형 데이터베이스 하나를 배우면 다른 관계형 데이터베이스도 금방 배울 수 있음
     - __Oracle__ : 데이터베이스 시장의 절대강자, 관공서나 기업에서 사용, 1천만원 이상
     - __MySQL__ : 무료, 오픈소스
-- __관계형이 아닌 데이터베이스 _(NoSQL, Non-Relational DBMS)_
+- __관계형이 아닌 데이터베이스 _(NoSQL, Non-Relational DBMS)__
     - 2010년부터 나타난 흐름으로 다양한 데이터베이스가 폭발적으로 만들어지고 있음
     - __MongoDB__ : 관계형 데이터베이스
     
 　　　　![ranking_database](https://user-images.githubusercontent.com/60066472/84589217-1fb4dd00-ae68-11ea-9fc1-0d078a9a51d1.PNG)
+출처: https://db-engines.com/en/ranking
