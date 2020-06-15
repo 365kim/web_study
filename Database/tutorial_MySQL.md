@@ -39,7 +39,7 @@
 - 다운로드 후 사용법
     - 터미널에서 `cd /usr/local/mysql/bin/` 이동 및 MySQL 실행`./mysql -uroot -p` 
     - `mysql>`과 같은 프롬프트가 표시되고 있어야 정상적으로 작동하는 것
-　　<p><img src="https://user-images.githubusercontent.com/60066472/84590307-64447680-ae70-11ea-9bf8-67e2867a725c.jpg" width="500"></p>
+　　　<p><img src="https://user-images.githubusercontent.com/60066472/84590307-64447680-ae70-11ea-9bf8-67e2867a725c.jpg" width="500"></p>
 
 <br>
 
@@ -49,7 +49,7 @@
     - __표__ : 데이터를 기록하는 최종적인 곳
     - __스키마__ : 표들을 서로 그룹핑할 때 사용하는 일종의 폴더, 서로 연관된 표의 모음
     - __데이터베이스 서버__ : 스키마를 저장
-    <p><img src="https://user-images.githubusercontent.com/60066472/84590055-33fbd880-ae6e-11ea-9d40-5100f85acfdb.jpg" width="700"></p> 
+ 　   <p><img src="https://user-images.githubusercontent.com/60066472/84590055-33fbd880-ae6e-11ea-9d40-5100f85acfdb.jpg" width="700"></p> 
 <br>
 
 ## 5. MySQL 서버 접속
@@ -127,7 +127,7 @@
 
 ## 11. SQL의 SELECT 구문
 - __추천검색어__: how to read row in mysql / mysql select syntax
-    - mysql> `SELECT * FROM nameoftable;
+    - mysql> `SELECT * FROM nameoftable;`
     - mysql> `SELECT id, title,created,author FROM topic WHERE author='egoing' ORDER BY id DESC LIMIT 2;`
     - WHERE author='egoing': 특정 값을 갖는 경우만 읽기
     - ORDER BY id DESC : 오름차/내림차 순으로 읽기
@@ -136,47 +136,123 @@
 
 ## 12. SQL의 UPDATE 구문
 - __추천검색어__: mysql update
-    - mysql> `
+    - mysql> `UPDATE nameoftable SET description='newcontents...', title='Oracle' WHERE id=2;`
+    - (주의) WHERE 조건을 빼먹으면 모든 값이 변경되어버림..!
 <br>
 
 ## 13. SQL의 DELETE 구문
-
-
+- __추천검색어__: sql delete in mysql
+    - mysql> `DELETE FROM nameoftable WHERE id = 5`
+    - (주의) WHERE 조건을 빼먹으면 모든 값이 삭제되어버림..!
 <br>
 
 ## 14. 수업의 정상
-
-
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84616920-53dfda80-af08-11ea-9038-1d32909f02c9.jpg" width="500"></p>
 <br>
 
 ## 15. 관계형 데이터베이스의 필요성
-
-
+- __중복 제거를 가능하게 함__
+    - 데이터의 중복이 발생할 경우, 특히 중복되는 데이터의 용량이 클 경우 데이터 처리과정이 비효율적이게 됨
+    - 중복되는 부분을 또 하나의 테이블로 저장해서 중복을 없애면 효율을 높일 수 있음
+    - 관계형 데이터베이스는 join기능으로 분산된 테이블을 결합하여 한눈에 볼 수 있게해줌
+　　　<p><img src="https://user-images.githubusercontent.com/60066472/84620350-b938c900-af12-11ea-8204-199700e9b834.jpg" width="400"><img src="https://user-images.githubusercontent.com/60066472/84620354-bb028c80-af12-11ea-92d0-68001a9dcd3e.jpg" width="500"></p>
+   
 <br>
 
 ## 16. 테이블 분리하기
-
-
+- __테이블 분리__
+    - topic테이블 --(분리)--> topic테이블 + author테이블
+- __테이블 이름 변경__
+    - mysql> `RENAME TABLE topic TO topic_backup;`
 <br>
 
 ## 17. 관계형 데이터베이스의 꽃 JOIN
+- __Join 기능__
 
-
+    - 독립적으로 분리되어 저장된 테이블을 결합하여 하나의 테이블로 볼 수 있는 기능
+    - mysql> `SELECT * FROM topic LEFT JOIN author;`
+        - (주의) ON 조건을 빼먹으면 syntax 에러 발생
+    - mysql> `SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id;`
+        - topic의 author_id 와 author의 id 값이 같을 때
+    - mysql> `SELECT id,title,description,create,name,profile FROM topic LEFT JOIN author ON topic.author_id = author.id;`
+        - (주의) "ERROR 1052(23000): Column 'id' in field list is ambiguous"
+        - 두 테이블에 모두 id 칼럼이 있어서 어느 값을 기준으로할지 모호해서 에러 발생
+    - mysql> `SELECT topic.id,title,description,create,name,profile FROM topic LEFT JOIN author ON topic.author_id = author.id;`
+        - topic.id 로 어느테이블의 id칼럼인지 명시해서 해결
+    - mysql> `SELECT topic.id AS topic_id,title,description,create,name,profile FROM topic LEFT JOIN author ON topic.author_id = author.id;`
+        - 결과물에 topic.id를 topic_id로 표현해줌
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84621325-36653d80-af15-11ea-8e30-edafaa1479b7.jpg" width="500"></p>
 <br>
 
 ## 18. 인터넷과 데이터베이스
-
-
+- __인터넷__
+    - 인터넷은 흩어져있는 컴퓨터가 연결되어 컴퓨터 간의 사회가 만들어지는 것
+    - 인터넷이 동작하기 위해서 최소 컴퓨터 2대 필요함
+    - 한대의 컴퓨터는 다른 컴퓨터에게 정보를 요청(client, 갑), 다른 컴퓨터는 요청한 정보를 응답해줌(server, 을)
+    
+- __Database Server__
+    - 데이터베이스 서버에는 데이터가 저장되고, 데이터베이스 서버는 반드시 데이터베이스 클라이언트를 사용해야 함
+    - MySQL을 설치하면 MySQL client와 MySQL server 두 개가 동시에 설치됨
+    - 지금까지 데이터베이스 서버를 직접 다룬 것처럼 느껴지지만 사실 우리가 사용했던 것은 데이터베이스 클라이언트 중 하나
+    - __MySQL Monitor__
+        - MySQL 서버에 접속할 수 있도록 기본적으로 번들로써 제공하는 클라이언트
+        - 명령어로 데이터베이스 서버를 제어하는 프로그램
+　　　　　<p><img src="https://user-images.githubusercontent.com/60066472/84623197-bbeaec80-af19-11ea-8fbb-98ce8ae9af7a.jpg" width="400"></p>
+    - MySQL은 내부적으로 인터넷을 활용할 수 있도록 고안된 시스템
+    - 전세계에 있는 수많은 데이터베이스 클라이언트들이 하나의 데이터베이스 서버를 통해서 서로 데이터를 주고받고 관리하는 것이 가능해짐
+- _"수학에서 사물은 이해하는 것이 아니라, 그저 익숙해지는 것일 뿐이다"_ - 폰 노이만
 <br>
 
 ## 19. MySQL 클라이언트
-
-
+- __MySQL Monitor__
+    - 명령어 기반 클라이언트
+    - 어디서든 실행할 수 있지만 명령어를 알아야 제어할 수 있다
+- __MySQL Workbench__
+    - GUI 기반 클라이언트
+    - 명령어를 몰라도 클릭만으로 제어할 수 있다
+- __추천검색어__: mysql client
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84625452-3b7aba80-af1e-11ea-9d28-2d53d5a83af4.PNG" width="400"></p>
+출처: https://www.slant.co/topics/53/~best-mysql-client-applications-for-windows
 <br>
 
 ## 20. MySQL Workbench
+- MySQL 에서 공식적으로 제공하는 클라이언트 중 하나
+- GUI 환경에서 엑셀을 다루듯 데이터베이스를 다룰 수 있음
+- `./mysql -uroot -p -hlocalhost` // -h 서버에 해당되는 컴퓨터, 쓰지 않으면 기본으로 localhost
 
-
+- __작성한 쿼리문 실행__
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84628025-e3928280-af22-11ea-83e8-ffcadfdb933b.jpg" width="600"></p>
+  
+- __스키마 생성__
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84628028-e55c4600-af22-11ea-8ec7-884cbbfdba03.jpg" width="600"></p>
+  
+- __현재 활성화되어있는 스키마에서 테이블 생성__
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84628183-23596a00-af23-11ea-9062-3e196323f720.jpg" width="600"></p>
+  
+- __데이터 설정__
+    - PK: Primary Key
+    - NN: Not Null
+    - AI: Auto Increment
+　<p><img src="https://user-images.githubusercontent.com/60066472/84628520-c14d3480-af23-11ea-8faf-fc2e2893874d.jpg" width="600"></p>
+  
+- __서버에 전송__
+    - Apply 버튼을 눌러 생성된 sql문을 MySQL 서버에 전송함으로서 데이터베이스 서버를 제어함
 <br>
 
 ## 21. 수업을 마치며
+- __색인(index)__
+    - 이미 뒤져놨기 때문에 빠르게 찾을 수 있다
+    
+- __모델링(modeling)__
+    - 어떻게하면 데이터의 중복없이 테이블의 효율적으로 설계할 것인가
+    
+- __백업(backup)__
+    - 하드디스크는 언제 고장날지 모르지만 반드시 고장난다
+    
+- __클라우드(cloud)__
+    - 아마존, 네이버 같은 큰 회사들이 운영하고 있는 인프라 위에 있는 컴퓨터를 임대하여 사용하는 것
+    - 추천키워드: AWS RDS, Google Cloud SQL for MySQL, AZURE Database for MySQL
+    
+- __프로그래밍__
+    - 프로그래밍 언어로 데이터베이스 서버에 sql을 던져줄 수 있는 방법만 알면 자신의 웹사이트에 데이터 분석과 같은 것을 수행할 수 있음
+    - 추천키워드: Python mysql api, PHP mysql api, Java mysql api, ...
