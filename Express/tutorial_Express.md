@@ -3,7 +3,7 @@
 
 ## 1. 수업소개
 
-- 이 수업은 nodeJS 수업에 의존함
+- 이 수업은 [nodeJS 수업](https://opentutorials.org/course/3332)에 의존함
 
 - __Web Framework란?__
     - 웹에서 URL 파라미터를 통해 데이터를 받고 무언가 처리하는 일, 로그인기능 등 반복되는 일을 자동화해주는 도구
@@ -240,6 +240,7 @@
     - '다른 소프트웨어를 부품으로 해서 나의 소프트웨어를 만들어나간다'
     - [Express 미들웨어 안내](https://expressjs.com/en/guide/using-middleware.html)
     - 써드파티 미들웨어: 익스프레스 외의 제3자가 만든 미들웨어 [(목록)](https://expressjs.com/en/resources/middleware.html)
+    
 - __미들웨어: body-parser__
     - 사용자가 전송한 post의 데이터를 내부적으로 분석해서 필요한 형태로 가공해주는 프로그램
     - body 변수를 선언해서 data가 있을 때 계속 body + data 해주고 없으면 end해주는 코드를 간단하게 바꿀 수 있음
@@ -256,6 +257,7 @@
     })
     ```
     - [사용법 안내](http://expressjs.com/en/resources/middleware/body-parser.html)
+    
 - __미들웨어: compression__
     - 웹서버가 웹브라우저한테 응답할 때 압축된 데이터를 보내주면서 데이터 압축방식을 알려주면, 압축방식에 따라 해제해서 데이터 사용
     - 데이터를 전송할 때 압축된 데이터가 전송되기 때문에 데이터의 양이 획기적으로 줄어듬
@@ -274,7 +276,7 @@
 <br>
 
 ## 10. Express 미들웨어 만들기
-- [Express 미들웨어 작성]http://expressjs.com/en/guide/writing-middleware.html
+- [Express 미들웨어 작성](http://expressjs.com/en/guide/writing-middleware.html)
 - 복잡한 코드를 단순화 시킬 수 있음
 ```js
     app.get('*', function(request, response, next){     // get 방식으로 들어오는 모든 코드에 적용
@@ -333,14 +335,63 @@
 <br>
 
 ## 12. 정적인 파일의 서비스
-- __정적인 파일__: 이미지파일, 자바스크림트 또는 cs 파일 등을 웹브라우저로 다운로드 시켜주는 경우
+- __정적인 파일__ _(Static files)_
+    - 이미지파일, 자바스크림트 또는 cs 파일 등을 웹브라우저로 다운로드 시켜주는 경우
+    
+- [Express에서 정적인 파일 서비스하기](http://expressjs.com/en/starter/static-files.html)
+    - 미들웨어 이용사례
+    - 정적인 파일을 서비스하고자하는 디렉토리를 직접 지정하면 해당 파일을 url을 통해 접근할 수 있음
+    ```js
+    app.use(express.static('nameofdirectory'));
+    ```
+    
+　![static](https://user-images.githubusercontent.com/60066472/84644873-ba7dec00-af3a-11ea-9fb9-fbbeebf1b28e.jpg)
 
 <br>
 
-## 13. 에러처리
+## 13. 에러처리 ★
+- [Express 에러처리](http://expressjs.com/en/guide/error-handling.html)
+- __/asdf 와 같이 존재하지 않는 페이지로 접근하려고 하는 경우__
+    - 가장 흔한 에러
+    - http상 404 not found 에러를 보내주기로 약속되어 있음
+    - 아래의 코드가 미들웨어의 순차적인 실행 후 찾지 못했을 때 실행되도록 전체코드의 마지막 부분에 넣어주어서 에러처리
+    ```js
+    app.use(function(request, response, next){
+      response.status(404).send('Sorry cannot find that!');
+    }
+    ```
+    
+- __/page/CSS1 과 같은 파일이 없는데 접근하려고 하는경우 처리방법__
+    - app.get 함수를 아래와 같이 수정해줌
+    ```js
+    app.get('/page/:pageId', function(request, response, next) { 
+      var filteredId = path.parse(request.params.pageId).base;
+      fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+        if(err){
+          next(err);
+        } else {
+          ...중략...
+      });
+    });
+    ```
+    - 아래 코드를 404에러 처리 밑에다가 추가해줌
+    - 4개 인자를 같는 함수는 에러핸들링을 하기 위한 미들웨어로 하기로 약속되어 있음
+    - 페이지를 찾을 수 없어 위의 코드에서 next(err)가 호출될 경우, 아래 인자가 4개인 함수로 등록된 미들웨어가 호출됨
+    ```js
+    app.use(function(err, request, response, next){
+      console.error(err, stack)     // console에 "no such file or directory"라는 에러메세지 발생
+      response.status(500).send('Something broke!')
+    })
+    ```
 <br>
 
-## 14. 라우터
+## 14. 라우터 - 주소체계변경 ★
+- [Express 라우팅](http://expressjs.com/en/guide/routing.html)
+- __express.Router__
+    - 라우터를 만드는 것
+    - 현업에서는 라우터가 200개, 1,000개 이렇게 증가할 수 있음
+    - 이렇게 증가한 라우터들을 잘 정리정돈하기 위해 필요한 테크닉
+
 <br>
 
 ## 15. 보안
