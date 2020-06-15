@@ -388,16 +388,87 @@
 ## 14. 라우터 - 주소체계변경 ★
 - [Express 라우팅](http://expressjs.com/en/guide/routing.html)
 - __express.Router__
-    - 라우터를 만드는 것
     - 현업에서는 라우터가 200개, 1,000개 이렇게 증가할 수 있음
-    - 이렇게 증가한 라우터들을 잘 정리정돈하기 위해 필요한 테크닉
-
+    - main.js가 복잡한 것은 대문이 복잡한 것과 같음 
+    - 이렇게 증가한 라우터들을 서로 연관된 라우터들끼리 쪼개서 잘 정리정돈하기 위해 필요한 테크닉
+    
+- __주소체계 변경과정__
+    - Routes 디렉토리를 만들고 그 아래에 index.js 및 topic.js 파일 생성
+    - main.js 수정
+        - 홈('/') 부분 코드는 index.js로, 나머지 app.get() app.post() 코드는 topic.js로 이동
+        ```js
+        var indexRouter = require('/.routes/index');
+        var topicRouter = require('/.routes/topic');
+    
+        app.use('/', indexRouter);     // topic으로 시작하는 주소들에게 topicRouter라는 미들웨어를 적용
+        app.use('/topic', topicRouter);     // topic으로 시작하는 주소들에게 topicRouter라는 미들웨어를 적용
+        ```
+    - index.js 및 topic.js 수정
+        ```js
+        var express = require('express');
+        var router = express.Router();  //express가 가지고 있는 Router라는 메서드를 호출
+        var template = require('../lib/template.js');   // template.js 파일의 상대적위치가 변경됨
+        
+        router.get('/create', function(request, response){...   // path에 /topic을 담을 필요가 없음
+        router.post('/create_process', function(request, response){...
+        ...
+        module.exports = router;
+        
+        ```
+    - index.js
+    
 <br>
 
 ## 15. 보안
+- [Express 보안지침](http://expressjs.com/en/advanced/best-practice-security.html)
+- 최신 버전의 Express를 사용할 것
+- http가 아닌 https를 사용할 것
+- Helmet을 사용할 것
+    - __Helemt__: 보안과 관련해서 일어날 수 있는 여러가지 보안이슈를 자동으로 해결해주는 모듈
+    - `npm install helmet --save`
+- 쿠키를 안전하게 사용할 것
+- dependencies를 안전하게 관리할 것
+    - __nsp(node security project)__: 보안을 체크해주는 모듈
+    - `npm install nsp -g`
 <br>
 
 ## 16. express generator
+- [Express 제네레이터](http://expressjs.com/en/starter/generator.html)
+
+- __실행방법__
+    - __설치__: ` npx express-generator`
+    - __생성__: `express nameofapp`
+        - bin, public, routes, view 디렉토리 및 app.js, package.json 생성됨
+        - package.json에 express로 웹프로젝트를 할 때 필요한 기본적인 라이브러리 포함되어 있음
+    - `cd nameofapp` 및 `npm install`
+    - __실행__: `npm start`
+        - node ./bin/www를 실행한것
+        
+- __자동으로 생성된 app.js(메일파일)에 포함된 내용__
+    - 정적인 파일처리 세팅
+    - 라우터 세팅
+    - 에러처리 세팅
+    - 템플릿엔진 세팅
+    - 아래코드는 apps.js에서 템플릿엔진을 세팅하는 코드
+        ```js
+        app.set('views', path.join(__dirname, 'views'));
+        app.set('view engine', jade);
+        ```
+        - jade: html을 더 적은코드로 생성해줄수 있는 별도의 문법을 가지고 있는 언어, 템플릿엔진
 <br>
 
 ## 17. 수업을 마치며
+- nodeJS의 웹 프레임워크 Express
+- __Template Engine__
+    - html에 직접타이핑하는 귀찮은 일을 줄여주는 소프트웨어 또는 언어
+    - Express와 자주 함께 사용되는 템플릿엔진 중 하나는 pug
+    - [Express 템플릿엔진](http://expressjs.com/en/resources/template-engines.html)
+    
+- __Database__
+    - Express는 자체적으로 데이터베이스의 드라이버를 제공하지 않음
+    - [Express 데이터베이스 통합](http://expressjs.com/en/guide/database-integration.html)
+    
+- __Middleware__
+    - Express는 미들웨어의 기능을 지원하는 것이 거의 전부라고 해도 과언이 아님
+    - 어떤 미들웨어가 있고 어떻게 사용하는지 알면 Express를 통해 할 수 있는 일의 가능성이 획기적으로 늘어날 것
+    - [Express 미들웨어](http://expressjs.com/en/resources/middleware.html)
