@@ -7,8 +7,8 @@
 
 - __Web Framework란?__
     - 웹에서 URL 파라미터를 통해 데이터를 받고 무언가 처리하는 일, 로그인기능 등 반복되는 일을 자동화해주는 도구
+    - 웹애플리케이션을 구현할 때 순수한 nodeJS만의 기능으로는 세련되지 못하고 불편함<br> -> nodeJS 위에서 동작하는 Web Framework 탄생
     - 프레임워크는 사용하기는 편리하지만 배우기 어려움
-    - 웹애플리케이션을 구현할 때 순수한 nodeJS만의 기능으로는 세련되지 못하고 불편함 > nodeJS 위에서 동작하는 Web Framework 탄생
 - __Express__
     - nodeJS에서 보편적으로 사용되는 프레임워크
     <p><img src="https://user-images.githubusercontent.com/60066472/84592558-8abedd80-ae81-11ea-953b-bb50d4920bc9.PNG" width="500"></p>
@@ -84,30 +84,29 @@
 - __Path방식으로 변경하기__
     - main.js 수정
         ```js
-        app.get('/page/:pageId', function(request, response){
-            fs.readdir('./data', function(error, filelist){
+        app.get('/page/:pageId', function(request, response) { 
+          fs.readdir('./data', function(error, filelist){
             var filteredId = path.parse(request.params.pageId).base;
             fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-                var title = request.params.pageId;
-                var sanitizedTitle = sanitizeHtml(title);
-                var sanitizedDescription = sanitizeHtml(description, {
-                    allowedTags:['h1']
-                });
-                var list = template.list(filelist);
-                var html = template.HTML(sanitizedTitle, list,
-                    `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-                    ` <a href="/create">create</a>
-                    <a href="/update/${sanitizedTitle}">update</a>
-                    <form action="/delete_process" method="post">
-                      <input type="hidden" name="id" value="${sanitizedTitle}">
-                      <input type="submit" value="delete">
-                    </form>`
-            );
-            response.send(html);
+              var title = request.params.pageId;
+              var sanitizedTitle = sanitizeHtml(title);
+              var sanitizedDescription = sanitizeHtml(description, {
+                allowedTags:['h1']
+              });
+              var list = template.list(filelist);
+              var html = template.HTML(sanitizedTitle, list,
+                `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+                ` <a href="/create">create</a>
+                  <a href="/update?id=${sanitizedTitle}">update</a>
+                  <form action="delete_process" method="post">
+                    <input type="hidden" name="id" value="${sanitizedTitle}">
+                    <input type="submit" value="delete">
+                  </form>`
+              );
+              response.send(html);
+            });
+          });
         });
-    });
-})
-        })
         ```
     - lib/template.js 수정
         ```js
@@ -247,15 +246,15 @@
         - __body__: 웹브라우저 쪽에서 요청한 정보의 본체
         - __header__: 그 본체를 설명하는 데이터
     - 설치: `npm install body-parser --save`
-    ```js
-    var bodyParser = require('body-parser')
-        
-    app.use(bodyParser.urlencoded({ extended: false }))     // 미들웨어가 들어와서 실행됨
-    app.post('/create_process', function(request, response){
-    var post = request.body;    // 한 줄로 단축
-    ...
-    })
-    ```
+        ```js
+        var bodyParser = require('body-parser')
+
+        app.use(bodyParser.urlencoded({ extended: false }))     // 미들웨어가 들어와서 실행됨
+        app.post('/create_process', function(request, response){
+        var post = request.body;    // 한 줄로 단축
+        ...
+        })
+        ```
     - [사용법 안내](http://expressjs.com/en/resources/middleware/body-parser.html)
     
 - __미들웨어: compression__
@@ -267,25 +266,26 @@
     - 강제로 리로드하는 방법(캐시가 사라짐)
         - Ctrl+Shift+r
     - 설치: `npm install compression --save`
-    ```js
-    var compression = require('compression')
     
-    app.use(compression());    // 미들웨어가 장착됨
-    ```
+        ```js
+        var compression = require('compression')
+
+        app.use(compression());    // 미들웨어가 장착됨
+        ```
     - [사용법 안내](http://expressjs.com/en/resources/middleware/compression.html)
 <br>
 
 ## 10. Express 미들웨어 만들기
 - [Express 미들웨어 작성](http://expressjs.com/en/guide/writing-middleware.html)
 - 복잡한 코드를 단순화 시킬 수 있음
-```js
-    app.get('*', function(request, response, next){     // get 방식으로 들어오는 모든 코드에 적용
-        fs.readdir('./data', function(error, filelist){
-            request.list = filelist;
-            next();
-        });
-    })
-```
+    ```js
+        app.get('*', function(request, response, next){     // get 방식으로 들어오는 모든 코드에 적용
+            fs.readdir('./data', function(error, filelist){
+                request.list = filelist;
+                next();
+            });
+        })
+    ```
 
 - __미들웨어__
     - Express에서는 콜백함수가 미들함수였던 것이었다!
@@ -304,33 +304,33 @@
     - app.use, app.get과 같은 방식으로 미들웨어를 등록해서 사용하는 미들웨어
     - request와 response 객체를 받아서 그것을 변형할 수 있다.
     - next미들웨어 실행할지 하지 않을지 여부를 그 이전 미들웨어가 결정한다.
-    ```js
-    var express = require('express')
-    var app = express()
+        ```js
+        var express = require('express')
+        var app = express()
 
-    app.use(function (req, res, next) {
-      console.log('Time:', Date.now())
-      next()
-})
-    ```
+        app.use(function (req, res, next) {
+          console.log('Time:', Date.now())
+          next()
+        })
+        ```
 - __라우터가 여러 개일때 실행순서__
     - 미들웨어를 잘 설계하면 애플리케이션이 실행되는 흐름을 자유자재로 제어할 수 있음
-    ```
-    app.get('/user/:id', function (req, res, next) {
-      // if the user ID is 0, skip to the next route
-      if (req.params.id === '0') next('route')      // 맨 아래의 미들웨어 실행
-      // otherwise pass the control to the next middleware function in this stack
-      else next()       // 바로 아래의 미들웨어 실행
-    }, function (req, res, next) {
-      // send a regular response
-      res.send('regular')
-    })
+        ```
+        app.get('/user/:id', function (req, res, next) {
+          // if the user ID is 0, skip to the next route
+          if (req.params.id === '0') next('route')      // 맨 아래의 미들웨어 실행
+          // otherwise pass the control to the next middleware function in this stack
+          else next()       // 바로 아래의 미들웨어 실행
+        }, function (req, res, next) {
+          // send a regular response
+          res.send('regular')
+        })
 
-    // handler for the /user/:id path, which sends a special response
-    app.get('/user/:id', function (req, res, next) {
-      res.send('special')
-    })
-    ```
+        // handler for the /user/:id path, which sends a special response
+        app.get('/user/:id', function (req, res, next) {
+          res.send('special')
+        })
+        ```
 
 <br>
 
@@ -341,9 +341,9 @@
 - [Express에서 정적인 파일 서비스하기](http://expressjs.com/en/starter/static-files.html)
     - 미들웨어 이용사례
     - 정적인 파일을 서비스하고자하는 디렉토리를 직접 지정하면 해당 파일을 url을 통해 접근할 수 있음
-    ```js
-    app.use(express.static('nameofdirectory'));
-    ```
+        ```js
+        app.use(express.static('nameofdirectory'));
+        ```
     
 　![static](https://user-images.githubusercontent.com/60066472/84644873-ba7dec00-af3a-11ea-9fb9-fbbeebf1b28e.jpg)
 
@@ -355,34 +355,34 @@
     - 가장 흔한 에러
     - http상 404 not found 에러를 보내주기로 약속되어 있음
     - 아래의 코드가 미들웨어의 순차적인 실행 후 찾지 못했을 때 실행되도록 전체코드의 마지막 부분에 넣어주어서 에러처리
-    ```js
-    app.use(function(request, response, next){
-      response.status(404).send('Sorry cannot find that!');
-    }
-    ```
+        ```js
+        app.use(function(request, response, next){
+          response.status(404).send('Sorry cannot find that!');
+        }
+        ```
     
 - __/page/CSS1 과 같은 파일이 없는데 접근하려고 하는경우 처리방법__
     - app.get 함수를 아래와 같이 수정해줌
-    ```js
-    app.get('/page/:pageId', function(request, response, next) { 
-      var filteredId = path.parse(request.params.pageId).base;
-      fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-        if(err){
-          next(err);
-        } else {
-          ...중략...
-      });
-    });
-    ```
+        ```js
+        app.get('/page/:pageId', function(request, response, next) { 
+          var filteredId = path.parse(request.params.pageId).base;
+          fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
+            if(err){
+              next(err);
+            } else {
+              ...중략...
+          });
+        });
+        ```
     - 아래 코드를 404에러 처리 밑에다가 추가해줌
     - 4개 인자를 같는 함수는 에러핸들링을 하기 위한 미들웨어로 하기로 약속되어 있음
     - 페이지를 찾을 수 없어 위의 코드에서 next(err)가 호출될 경우, 아래 인자가 4개인 함수로 등록된 미들웨어가 호출됨
-    ```js
-    app.use(function(err, request, response, next){
-      console.error(err, stack)     // console에 "no such file or directory"라는 에러메세지 발생
-      response.status(500).send('Something broke!')
-    })
-    ```
+        ```js
+        app.use(function(err, request, response, next){
+          console.error(err, stack)     // console에 "no such file or directory"라는 에러메세지 발생
+          response.status(500).send('Something broke!')
+        })
+        ```
 <br>
 
 ## 14. 라우터 - 주소체계변경 ★
