@@ -252,7 +252,6 @@
           name: 'Hong gil-dong'
         };
         ```
-        
 - __함수형 컴포넌트__
     - 함수형 컴포넌트에서는 첫번째 파라미터로 props 객체를 전달받음
     - [구조분해 할당 문법](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
@@ -311,14 +310,14 @@
 <br>
 
 ## 10 LifeCycle API
-- [참고자료]()
+- [참고자료](https://react-anyone.vlpt.us/05.html)
 - __나타날 때(Mounting)__
     - ___constructor(props)___
     - ___static getDerivedStateFromProps(nextProps, prevState)___
         - props로 받은 값을 state에 그대로 동기화를 시킬 때 사용
         - 특정 props 가 바뀔 때 설정하고 싶은 state 값을 리턴
         - 업데이트 할 것이 없으면 null 을 리턴
-    - render(https://react-anyone.vlpt.us/05.html)
+    - __render()__
     - ___componentDidMount()___
         - 외부 라이브러리 연동: D3, masonry, ...
         - 컴포넌트에서 필요한 데이터 요청: Ajax, GraphQL, ...
