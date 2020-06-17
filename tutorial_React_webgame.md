@@ -1,4 +1,4 @@
-[__리액트 기본강좌(웹게임)__ 강의 영상보기](https://www.youtube.com/watch?v=V3QsSrldHqI&list=PLcqDmjxt30RtqbStQqk-eYMK8N-1SYIFn&index=2&t=0s)
+[__리액트 기본강좌(웹게임 만들기)__ 강의 영상보기](https://www.youtube.com/watch?v=V3QsSrldHqI&list=PLcqDmjxt30RtqbStQqk-eYMK8N-1SYIFn&index=2&t=0s)
 
 ## 1. 리액트를 왜 쓰는가
 - __강좌 소개__
@@ -27,11 +27,10 @@
 ## 2. 좋아요 버튼 구현하기
 - __문법__
     - 대문자로 시작하면 컴포넌트
-    - class는 기본적으로 constructor가 있음
-    - constructor, super 부분은 컴포넌트가 처음에 실행될때 제일 먼저 실행되는 부분
-    - 속성은 자바스크립트니까 camelCase로!
+    - class에 기본적으로 있는 constructor는 컴포넌트가 실행될때 제일 먼저 실행됨
+    - 속성은 자바스크립트니까 camelCase로
     - jsx에서는 닫는 괄호를 꼭 해주어야 함. 문법이 엄격함
-    - render(): 좋아요 버튼을 어떻게 화면에 표시해줄지 결정하는 메서드
+    - render(): (좋아요 버튼을) 어떻게 화면에 표시해줄지 결정하는 메서드
 - __상태(State)__
     - 상태(state)는 (수동으로) 바뀔 수 있는 부분 eg.좋아요를 눌렀음
 - __JSX와 바벨(bable)__
@@ -92,8 +91,8 @@
 - __React 특징__
     - 같은 컴포넌트로 구구단을 여러개 찍어내도 컴포넌트마다 각자 다른 state를 가질 수 있어서 중복이 엄청 줄게됨
     - React의 편한점은 데이터를 변화시키면 알아서 화면에 반영해 주는 것에 있음
-    - 화면 컨트롤은 React가 전담하고, 우리는 데이터 바꿔주는 것에만 집중해서 효율을 높임
-    - 따라서 document.querySelector('input').focus() 이런 방법보다는 React가 제공하는 것을 사용
+    - 화면컨트롤은 React가 전담하고, 우리는 데이터 바꿔주는 것에만 집중해서 효율을 높임
+    - 따라서 document.querySelector('input').focus()와 같이 document를 쓰기보다는 React가 제공하는 것을 사용하는 것이 좋음
     - 돔에 직접 접근하고 싶을 때는 ref를 붙여주면 됨. 클래스에 input선언해주고 ref에 함수 선언하고, this.input.focus() 코드 추가
 - __클래스메서드__ (기본 자바스크립트 핸들러)
     - onclick, onchange, onsubmit, onload, oninput, onfocus, onblur 
@@ -106,7 +105,7 @@
     - 실무에서는 constructor, super, this거의 안쓰고 바로 state만 씀
 - __setState__ 에 새로운 state를 리턴하는 함수 넣어주기
     - setState 바꾸고싶은 상태를 입력해줄 때 이전 상태의 값(this.state.value)을 사용하면 이전 상태와 바뀔 예정인 상태가 헷갈릴 수 있음. 이를 위한 API
-    - setState가 비동기 이기 때문에 setState 연달아 썼을 때 문제 발생
+    - setState가 비동기 이기 때문에 setState 연달아 쓰면 문제발생할 수 있음
     - 예전 상태값을 prevState를 다음상태값에 활용할 수 있음
 - __render()와 성능최적화__
     - setState를 할 때마다 render() 함수가 실행됨
@@ -184,6 +183,7 @@
     </body>
     </html>
     ```
+<br>
 
 ## 4. 구구단 게임만들기 - Hooks
 - __Hooks의 등장__
@@ -324,34 +324,3 @@
     };
     ```
     - New - File - 'client.js'
-- import vs require
-- props
-<br>
-
-## 5. 숫자야구 만들기
-- React.createRef
-- 성능체크
-- 라이프사이클
-<br>
-
-## 6. 가위바위보 게임만들기
-- useEffect
-<br>
-
-## 7. 로또추첨기 만들기
-- componentDidUpdate
-- useMemo
-- useCallback
-<br>
-
-## 8. 틱택토 만들기
-- useReducer
-- Context API
-<br>
-
-## 9. 지뢰찾기 만들기
-- React Router
-- Link & 브라우저라우터
-- 해시라우터
-- location, match, history
-- render props, switch, exact
