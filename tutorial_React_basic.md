@@ -14,6 +14,7 @@
     - 웹 개발을 하게 될 때 귀찮은 돔 관리와 상태값 업데이트 관리를 최소한으로 하고 오직 기능 개발 그리고 사용자 인터페이스를 구현하는 것에 대해서 집중할 수 있도록 해줌
     
 - __프론트엔드 프레임워크 3대장__
+
     - Angular
         - 다양한 기능들이 이미 내장 or 공식 라이브러리 지정
         - e.g. http 클라이언트 라우터 심지어 다국어 지원까지
@@ -63,30 +64,31 @@
     - 자바스크립트 컴파일러
     - jsx와 같은 새로운 문법을 사용할 수 있게 해줌
 - 추천에디터: [CodeSandbox](https://codesandbox.io/s/4r6lqrlvj9)
-- 파일에서 JSX 를 사용하rl 위해 리액트와 그 내부의 Component 를 불러옴
-    ```js
-    import React, { Component } from 'react';
-    import logo from './logo.svg';
-    import './App.css';
-    ```    
-- 컴포넌트를 만들어줌
-    - class로 만드는 방법, 함수로 만드는 방법 2가지 방법이 있음
-    - class로 만들때는 render()함수 사용하고 render()함수 안에 JSX를 리턴해주어야 함
-    ```js
-    class App extends Component {
-      render() {
-        return (
-          <div>
-            <h1>안녕하세요 리액트</h1>
-          </div>
-        );
+- __코드작성 시작__
+  - 파일에서 JSX 를 사용하기 위해 리액트와 그 내부의 Component 를 불러옴
+      ```js
+      import React, { Component } from 'react';
+      import logo from './logo.svg';
+      import './App.css';
+      ```    
+  - 컴포넌트를 만들어줌
+      - class로 만드는 방법, 함수로 만드는 방법 2가지 방법이 있음
+      - class로 만들때는 render()함수 사용하고 render()함수 안에 JSX를 리턴해주어야 함
+      ```js
+      class App extends Component {
+        render() {
+          return (
+            <div>
+              <h1>안녕하세요 리액트</h1>
+            </div>
+          );
+        }
       }
-    }
-    ```
-- 작성한 컴포넌트를 다른 곳에서 불러와서 사용 할 수 있도록 내보내기
-    ```js
-    export default App;
-    ```
+      ```
+  - 작성한 컴포넌트를 다른 곳에서 불러와서 사용 할 수 있도록 내보내기
+      ```js
+      export default App;
+      ```
 <br>
 
 
@@ -129,13 +131,11 @@
           }
         }
         ```
-        
 - __변수 타입__
     - let과 const는 scope가 블록단위
-    - var은 더이상 사용 x
-    - const 한번 선언 후 고정적인 값
-    - let 유동적인 값
-    
+    - __var__ : 더이상 사용 x
+    - __const__ : 한번 선언 후 고정적인 값
+    - __let__ : 유동적인 값
 - __화살표 함수(arrow function)__
     - this, arguemnts, super 개념이 없는 함수
     - 항상 익명
@@ -185,11 +185,10 @@
 <br>
 
 ## 8 Props
-- __Props__
-    - props와 state 모두 리액트에서 데이터를 다룰 때 사용되는 개념
-    - React 컴포넌트로 전달되는 인수
-    - 부모컴포넌트가 자식컴포넌트한테 값을 전달할 때 사용
-    - 컴포넌트 렌더링할 때 `<Child value="props_value" />` 에서 넘겨주는 값이 props
+- props와 state 모두 리액트에서 데이터를 다룰 때 사용되는 개념
+- React 컴포넌트로 전달되는 인수
+- 부모컴포넌트가 자식컴포넌트한테 값을 전달할 때 사용
+- 컴포넌트 렌더링할 때 `<Child value="props_value" />` 에서 넘겨주는 값이 props
 - __Props 사용법__   
     ```js
     //MyName.js
@@ -263,10 +262,9 @@
 
 
 ## 9 State
-- __state__
-    - state는 props처럼 받아오는게 아니고, 컴포넌트 자기자신이 갖고 있음
-    - props는 읽기전용인 반면 states는 내부에서 변경할 수 있음
-    - 변경할 때는 컴포넌트의 내장함수인 setState 함수 사용
+- state는 props처럼 받아오는게 아니고, 컴포넌트 자기자신이 갖고 있음
+- props는 읽기전용인 반면 states는 내부에서 변경할 수 있음
+- 변경할 때는 컴포넌트의 내장함수인 setState 함수 사용
 <br>
 
 ## 10 LifeCycle API (i)
