@@ -350,12 +350,10 @@
         출처:https://twitter.com/dan_abramov/status/981712092611989509
 <br>
 
-## 11 필요한 도구 설치하기
-- __subject__
-
-<br>
-
-
-## 12 Create React App 사용하기
-- __subject__
-<br>
+## 11. Create React App 사용하기
+- [Getting Started](https://create-react-app.dev/docs/getting-started/)
+    - `create-react-app directoryName`
+- 원래는 만들면 웹팩, 바벨 설정 때문에 프로젝트가 엄청나게 복잡해짐
+- create react app으로 만들면 node_modules - react_script 안에 숨어서 깔끔해짐
+- 꺼낼 수 있는데 한번 꺼내면 되돌릴 수 없음
+　　<p><img src="https://user-images.githubusercontent.com/60066472/84904598-72053080-b0ea-11ea-94fb-30d527def6d1.PNG" widht="150"></p>
