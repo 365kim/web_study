@@ -1,4 +1,4 @@
-[__초심자를 위한 리액트핵심__ 강의 영상보기](https://www.youtube.com/watch?v=fT9iFFAt60E&list=PL9FpF_z-xR_E4rxYMMZx5cOpwaiwCzWUH&index=1)
+[__벨로퍼트 님의 누구든지 하는 리액트__ 강의 영상보기](https://www.youtube.com/watch?v=fT9iFFAt60E&list=PL9FpF_z-xR_E4rxYMMZx5cOpwaiwCzWUH&index=1)
 
 ## 1. 소개
 - __강의목표__
@@ -45,7 +45,7 @@
     - 변화가 일어나면 실제로 브라우저의 DOM의 새로운 걸 넣는 것이 아니라 자바스크립트로 이루어진 가상이 도움에 한번 렌더링을 하고 기존의 DOM과 비교를 한 다음에 정말 변화가 필요한 곳에만 업데이트를 해줌
     - [React and the Virtual DOM 쉽게 설명하는 영상](https://youtu.be/muc2ZF0QIO4)
         - View: Draw all on Virtual DOM
-        - React: Detect differences and display them on Real DOM
+        - React: Detect differences and patch the Real DOM
 <br>
 
 ## 4 리액트를 특별하게 만드는 점
@@ -146,7 +146,7 @@
 ## 7 JSX 기본 문법 알아보기 (ii)
 - __JSX에서 CSS 스타일 사용__
     - 기존 html에서는 문자열로 속성 지정하지만 리액트에서는 객체형식으로 지정함
-    - 카멜케이스 background-color 가 아닌 backgroundColor
+    - 카멜케이스 사용 (background-color 가 아닌 backgroundColor)
     ```js
     class App extends Component {
       render() {
@@ -187,8 +187,9 @@
 ## 8 Props
 - props와 state 모두 리액트에서 데이터를 다룰 때 사용되는 개념
 - React 컴포넌트로 전달되는 인수
-- 부모컴포넌트가 자식컴포넌트한테 값을 전달할 때 사용
+- 주로 부모컴포넌트가 자식컴포넌트한테 값을 전달할 때 사용
 - 컴포넌트 렌더링할 때 `<Child value="props_value" />` 에서 넘겨주는 값이 props
+- 사용할 때는 this.props.name
 - __Props 사용법__   
     ```js
     //MyName.js
@@ -262,26 +263,100 @@
 
 
 ## 9 State
-- state는 props처럼 받아오는게 아니고, 컴포넌트 자기자신이 갖고 있음
-- props는 읽기전용인 반면 states는 내부에서 변경할 수 있음
-- 변경할 때는 컴포넌트의 내장함수인 setState 함수 사용
+- state는 컴포넌트 자기자신이 갖고 있고, state가 바뀔 때마다 리렌더링됨
+- props는 자식입장에서는 읽기전용인 반면 states는 내부에서 변경할 수 있음
+- 변경할 때는 반드시 컴포넌트의 내장함수인 setState 함수 사용
+- 사용할 때는 this.state.number
+  ```js
+  class Counter extends Component {
+    state = {
+      number: 0
+    }
+
+    handleIncrease = () => {
+      this.setState({
+        number: this.state.number + 1
+      });
+    }
+
+    handleDecrease = () => {
+      this.setState({
+        number: this.state.number - 1
+      });
+    }
+
+    render() {
+      return (
+        <div>
+          <h1>카운터</h1>
+          <div>값: {this.state.number}</div>
+          <button onClick={this.handleIncrease}>+</button>
+          <button onClick={this.handleDecrease}>-</button>
+        </div>
+      );
+    }
+  }
+  ```
+- __생성자 메서드__
+  - handleIncrease랑 hanleDecrease를 화살표함수가 아닌 그냥 함수로 하려면 아래 코드를 먼저써주어야함
+  - 생성자 메서드 constructor는 컴포넌트가 생성될 때마다 한 번 실행됨
+  ```
+  constructor(props){
+    super(props);
+    this.handleIncrease = this.handleIncrease.bind(this);
+    this.handleDecrease = this.handleDecrease.bind(this);
+  }
+  ```
+
 <br>
 
-## 10 LifeCycle API (i)
+## 10 LifeCycle API
+- [참고자료]()
+- __나타날 때(Mounting)__
+    - ___constructor(props)___
+    - ___static getDerivedStateFromProps(nextProps, prevState)___
+        - props로 받은 값을 state에 그대로 동기화를 시킬 때 사용
+        - 특정 props 가 바뀔 때 설정하고 싶은 state 값을 리턴
+        - 업데이트 할 것이 없으면 null 을 리턴
+    - render(https://react-anyone.vlpt.us/05.html)
+    - ___componentDidMount()___
+        - 외부 라이브러리 연동: D3, masonry, ...
+        - 컴포넌트에서 필요한 데이터 요청: Ajax, GraphQL, ...
+        - DOM 관련 작업: 스크롤 설정, 크기 읽어오기 등
+        - 이벤트리스닝: 마우스 클릭
+
+- __업데이트될 때(Updating)__
+    - ___shouldComponentUpdate(nextProps, nextState)___
+        - 특정조건에 따라 렌더링을 막아줄 수 있어서 컴포넌트 최적화에 유용하게 사용되는 API
+        - true(기본값): 렌더함수 실행함 / false: 렌더함수 실행안함
+        - 일반적으로 부모컴포넌트가 렌더링 되면 자식 컴포넌트의 렌더함수도 실행되지만 아예 Virtual DOM에 렌더하지 않도록해서 성능 최적화
+    - ___getSnapshotBeforeUpdate(prevProps, prevState)___
+        - 결과물이 브라우저 상에 반영되기 직전에 호출된 함수
+        - 새 데이터가 상단에 추가되어도 snapshot 찍어놓은 스크롤바 위치를 componentDidUpdate에 넘겨주어서 스크롤바를 유지되도록 할 수 있음
+        - 또 이미 구현이 되어있는지 확인해서 처리하지 않도록 할 수 있음
+    - ___componentDidUpdate(prevProps, prevState, snapshot)___
+        - getSnapshotBeforeUpdate 의 리턴값(snapshot)을 세번째 인자로 받음
+        - state가 바뀌어서 this.state.page !== prevSate.page 일때 특정 코드 실행하도록 할 수 있음
+
+- __사라질 때(Unmounting)__
+    - ___componentWillUnmount()___
+        - 설정한 리스너를 없애주는 작업
+- __에러발생했을 때__
+    - ___componentDidCatch(error, info)___
+        - 에러가 발생할 수 있는 컴포넌트의 부모 컴포넌트에서 사용해야 함
+        - error: 어떤 에러가 발생했는지 알려줌
+        - info: 에러가 어디서 발생했는지 알려줌
+        - 실수로 잡지 못했던 버그 발생 시 사용자에게는 "오류를 해결하기 위해서 최선을 다하겠습니다. "메세지 보여주고 에러 내용이 개발자에게 전달하는 용도로 사용
+        ![comp](https://user-images.githubusercontent.com/60066472/84901294-3bc5b200-b0e6-11ea-8d0f-0b54b2dc1f29.jpeg)
+        출처:https://twitter.com/dan_abramov/status/981712092611989509
+<br>
+
+## 11 필요한 도구 설치하기
 - __subject__
+
 <br>
 
 
-## 11 LifeCycle API (ii)
-- __subject__
-<br>
-
-
-## 12 필요한 도구 설치하기
-- __subject__
-<br>
-
-
-## 13 Create React App 사용하기
+## 12 Create React App 사용하기
 - __subject__
 <br>
