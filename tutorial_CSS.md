@@ -194,7 +194,6 @@
     - 버튼은 보여야 하고 글자는 안보이게 하는 방법
         - `<button><span class="blind"></span></button>`
     - div태그가 가로로 100% 차지 하지 않게하는 방법
-        - (웹접근성) 스크린리더에는 읽히게 하려면 아래와 같이 속성 지정
         - `display: inline-block;`
    ![after](https://user-images.githubusercontent.com/60066472/84974341-12e10380-b15e-11ea-849f-37a093ae4063.PNG)
     - display 속성값 비교
