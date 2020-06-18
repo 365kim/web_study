@@ -6,14 +6,14 @@
     - CSS(Cascading Style Sheets) : 디자인담당
     - JavaScript : 동작담당 
     - 요새는 JS가 모든 것을 함
-- __네이버메인 CSS없이 띄워보기__
+- __웹페이지에서 CSS없애고 보는 방법__
     - 개발자도구 - Console창 `document.head.parentNode.removeChild(document.head);`
     - Head를 지워서 CSS를 사라지게 함
-- 법인인 경우 차별금지법에 따라 시각장애인분들도 스크린리더를 통해 읽을 수 있도록 해야함(그래서 html 작성 중요)
+- 법인인 경우 차별금지법에 따라 시각장애인분들도 스크린리더를 통해 읽을 수 있도록 해야함(그래서 html를 제대로 작성해야함)
 <br>
 
-## 1-2. 기본 태그 구조 이해하기
-- __기본구조 자동완성하는 방법__
+## 1-2. HTML 기본구조 이해하기
+- __HTML 기본구조 자동완성하는 방법__
     - 에디터에서 .html 파일에서 `doc`입력 + tab키
 　　　<p><img src="https://user-images.githubusercontent.com/60066472/84913470-8b5faa00-b0f5-11ea-8ce2-d5db07ef3e31.PNG" width=300></p>
 - __네이버 html 구조 확인하는 방법__
@@ -28,8 +28,8 @@
     - `<body>` 화면(스크롤바 포함)
 <br>
 
-## 1-3. 다양한 태그 사용하기
-- __주석(comment)__
+## 1-3. 다양한 HTML 태그 사용하기
+- __HTML 주석(comment)__
     - `<!-- 주석입니다 -->`
 - __\<a\> 태그__
     - `<a href="https://www.naver.com">네이버</a>`
@@ -83,3 +83,113 @@
 - __(주의)__ 
     - 웹페이지에서 탭만 눌러도 다음 메뉴로 넘어가져야 함(html 작성 시 유의)
     - 프론트엔드의 html, CSS, JS 코드는 모두에게 노출되므로 개인정보 넣어두면 안됨
+<br>
+
+## 2-1. CSS로 레이아웃 잡기
+- __큰틀부터 맞추기__
+    - 처음부터 우겨넣으면 유지보수도 어렵고 반응형으로 만들기도 어려움
+    - (원칙) 가로로 먼저 나누고 세로로 나눔
+    - /<div/>태그로 구역을 나눔. 가로 전체를 차지함
+- __/<div/> 끼리 구별하는 방법__
+    - id값 부여
+        - `<div id="header">`
+    - 시맨틱 태그
+        - `<header>`, `<nav>`, `<main>`, `<footer>`, `<article>`, ...
+        - 구역을 나누는 div태그가 많이 쓰여서 이름을 붙여 html5에서 태그 추가됨
+- __웹표준(제약사항) 확인하는 방법__
+    - 크롬 확장프로그램 [Validity](https://chrome.google.com/webstore/detail/validity/bbicmjjbohdfglopkidebfccilipgeif?hl=en-GB) 설치
+    - 작성한 코드가 html5 웹표준에 맞는지 검사해줌
+    - `<main>`태그는 한 페이지에서 한번만 쓰여야 하는 등의 제약사항 일일이 확인하기 어려워서 유용함
+        - `Page is valid`
+        - `88 validation errors`: 완전히 지키기는 어려움(네이버도 validation error 가 있음)
+- __정렬__
+    - 창의 너비를 조정하면 가운데정렬 관계를 확인할 수 있음
+    - 가운데 정렬되는 부분을 따라 잡아서 컨텐츠끼리 먼저 묶어줌
+    - \<center\>는 없어진 태그
+    - 내부컨텐츠 div태그가 '부모'태그인 header태그를 기반으로 가운데 정렬되는 것임을 숙지
+    - `<div style="margin: 0 auto; width: 1080px;">`
+<br>
+
+## 2-2 CSS파일 작성하기
+- __인라인스타일__
+    - css파일을 따로 안만들고 html에 스타일 속성으로 css를 넣어주는 방식
+    - style ="속성명1: 속성값1; 속성명2: 속성값2;"
+    - .css파일을 따로 생성해서 html과의 기능을 분리해주는 것이 좋음
+- __CSS 파일 분리하기__
+    - html 파일에서
+        - div 태그에 id 생성 `<div id="header-center">`
+        - ``
+    - css 파일에서
+        - css 파일에서 서식 지정 (div만 #앞에 div생략가능)
+            ```css
+            /* 주석입니다 */
+            div#header-wrapper, div#nav-wrapper, div#main-wrapper, div#footer-wrapper{
+                margin: 0 auto;
+                width: 1080px;
+            }
+            ```
+- __html 파일__
+    - 웹에서 메인이 되는 파일은 html 파일
+    - .css, .js 파일이 늘어나면서 link도 많이 늘어날텐데 rel에 적힌 내용으로 구분
+    ```html
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./naver.css" />
+    ```
+- __크로스브라우징__
+    - 크롬, 사파리, 익스플로러 등 각 브라우저 별 기본스타일이 상이한 상황에서 일관성 있게 처리하는 일
+    - 'user agent style'
+        - 웹브라우저가 정한 스타일
+        - css파일에서 설정하지 않아도 기본으로 설정되어 있는 스타일
+        - 개발자도구 - Elements - Styles 탭에서 확인가능
+<br>
+
+## 2-3 CSS 선택자 사용하기
+- __CSS 특징__
+    - css의 특성 조상에 적용된 속성은 자손에게도 적용됨
+        - e.g. html에 적용한 태그가 div태그에도 적용됨
+    - 조상의 속성이 기본적으로 있고, 자손의 속성이 덮어씌워지는 이 속성을 잘 활용해야함
+- __자식/자손 선택자__
+    - 자식태그 선택자
+        ```css
+        div#header_logo_area > h1{
+            width: 240px;
+        }
+        ```
+    - 자손태그 선택자
+        ```css
+        div#header_wrapper h1{
+           width: 240px;
+        }
+        ```
+<br>
+
+## 2-4 display 사용하기
+- __내 모니터의 픽셀 확인하는 방법__
+    - 개발자도구 - Console창 `screen.width` 및 `screen.height` 입력
+        - screen.width: 1536 (1920 % 125% 된 것 같음)
+        - screen.height: 864 
+    - 픽셀은 상대적인 단위
+- __CSS 박스모델__
+    - contents: 컨텐츠(파란색)
+    - padding: 안쪽여백(초록색)
+    - border: 테두리(노란색)
+    - margin: 바깥여백(주황색)
+        - margin 부분에는 원칙적으로 컨텐츠가 못오지만 강제로 밀어넣는 방법이 있음(나중에 다룸)
+　　　![margin](https://user-images.githubusercontent.com/60066472/84974148-a239e700-b15d-11ea-84d9-6cff0ad89f15.PNG)
+- __display 속성__
+    - 헤더내용 화면에 표시하지 않는 방법
+        - 스크린 리더를 위해 html에 반드시 적어야 하는 내용 화면에 표시하지 않게 해주는 display 속성
+            ```css
+            div#header_logo_area h2{
+                display: none;
+            }
+            ```
+    - div태그가 가로로 100% 차지 하지 않게하는 방법
+        - `display: inline-block;`
+        - (크롬 기준) div태그 기본 속성이 display: block라서 margin을 100%로 갖게 됨
+        - inline-block으로 display값을 바꿔주면 한 줄에 나타낼 수 있음
+   ![after](https://user-images.githubusercontent.com/60066472/84974341-12e10380-b15e-11ea-849f-37a093ae4063.PNG)
+    - display 속성값 비교
+        - block: 한 줄 차지
+        - inline: 자기컨텐츠만큼 차지(빈공간을 만들 수 없음)
+        - inline-block: 자기컨텐츠만큼 차지(width,hegiht 지정해서 빈공간 만들 수 있음)
