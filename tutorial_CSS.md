@@ -9,7 +9,9 @@
 - __웹페이지에서 CSS없애고 보는 방법__
     - 개발자도구 - Console창 `document.head.parentNode.removeChild(document.head);`
     - Head를 지워서 CSS를 사라지게 함
-- 법인인 경우 차별금지법에 따라 시각장애인분들도 스크린리더를 통해 읽을 수 있도록 해야함(그래서 html를 제대로 작성해야함)
+- __웹 접근성__
+    - 특히 법인인 경우 차별금지법에 따라 시각장애인분들도 스크린리더를 통해 읽을 수 있도록 해야함
+    - 이를 위해 html 구조를 제대로 작성하는 것이 중요함
 <br>
 
 ## 1-2. HTML 기본구조 이해하기
@@ -35,11 +37,13 @@
     - `<a href="https://www.naver.com">네이버</a>`
     - 태그만으로 설명이 안되는 부분은 속성(attribute)으로써 부가정보를 적어줌
     - 마우스 올려놓으면 링크 눌렀을 때 어디로 이동되는지 작업표시줄에 나타남
+    - CSS로 밑줄 없애기 `text-decoration: none;`
 - __\<fieldset\> 태그__
     -  웹 양식의 여러 컨트롤과 레이블(label)을 묶을 때 사용
 - __\<input\> 태그__
-    - 짧은 입력, 더 긴 입력은 textarea 사용
+    - 짧은 입력. 더 긴 입력을 하려면 textarea 사용(창 크기 조절가능)
     - 체크박스/라디오버튼 옵션 있음
+    - CSS로 outline 없애기 `outline: none;`
 - __\<button\> 태그__
     ```html
     <body>
@@ -88,7 +92,7 @@
 
 ## 2-1. CSS로 레이아웃 잡기
 - __큰틀부터 맞추기__
-    - 처음부터 우겨넣으면 유지보수도 어렵고 반응형으로 만들기도 어려움
+    - 앞에부터 욱여넣으면 유지보수도 어렵고 반응형으로 만들기도 어려움
     - (원칙) 가로로 먼저 나누고 세로로 나눔
     - /<div/>태그로 구역을 나눔. 가로 전체를 차지함
 - __\<div\> 끼리 구별하는 방법__
@@ -109,6 +113,7 @@
     - \<center\>는 없어진 태그
     - 내부컨텐츠 div태그가 '부모'태그인 header태그를 기반으로 가운데 정렬되는 것임을 숙지
     - `<div style="margin: 0 auto; width: 1080px;">`
+    - 형제태그 끼리 중앙맞춤 `vertical-align: middle`
 <br>
 
 ## 2-2 CSS파일 작성하기
@@ -141,6 +146,8 @@
     - 'user agent style'
         - css파일에서 설정하지 않아도 기본으로 설정되어 있는 스타일(웹브라우저가 정한 스타일)
         - 개발자도구 - Elements - Styles 탭에서 확인가능
+    - CSS 리셋: 기본 브라우저의 CSS를 없애는 작업
+        - reset.css, normalize.css 파일 사용
 <br>
 
 ## 2-3 CSS 선택자 사용하기
@@ -161,6 +168,11 @@
            width: 240px;
         }
         ```
+        ```css
+        div#header_wrapper h1 fieldset span{
+           width: 240px;
+        }
+        ```
 <br>
 
 ## 2-4 display 사용하기
@@ -169,13 +181,6 @@
         - screen.width: 1536 (1920 % 125% 된 것 같음)
         - screen.height: 864 
     - 픽셀은 상대적인 단위
-- __CSS 박스모델__
-    - contents: 컨텐츠(파란색)
-    - padding: 안쪽여백(초록색)
-    - border: 테두리(노란색)
-    - margin: 바깥여백(주황색)
-        - margin 부분에는 원칙적으로 컨텐츠가 못오지만 강제로 밀어넣는 방법이 있음(나중에 다룸)
-　　　![margin](https://user-images.githubusercontent.com/60066472/84974148-a239e700-b15d-11ea-84d9-6cff0ad89f15.PNG)
 - __display 속성__
     - 헤더내용 화면에 표시하지 않는 방법
         - 스크린리더에도 읽히지 않고 화면에도 표시되지 않지만 문서의 구조를 위해 있는 h태그를 숨겨주는 display 속성
@@ -186,15 +191,16 @@
             ```
         - (웹접근성) 스크린리더에는 읽히게 하려면 아래와 같이 속성 지정
 　　　　　　![blind_class](https://user-images.githubusercontent.com/60066472/84976173-2db57700-b162-11ea-9c78-78067f5d57df.PNG)
+    - 버튼은 보여야 하고 글자는 안보이게 하는 방법
+        - `<button><span class="blind"></span></button>`
     - div태그가 가로로 100% 차지 하지 않게하는 방법
+        - (웹접근성) 스크린리더에는 읽히게 하려면 아래와 같이 속성 지정
         - `display: inline-block;`
-        - (크롬 기준) div태그 기본 속성이 display: block라서 margin을 100%로 갖게 됨
-        - inline-block으로 display값을 바꿔주면 한 줄에 나타낼 수 있음
    ![after](https://user-images.githubusercontent.com/60066472/84974341-12e10380-b15e-11ea-849f-37a093ae4063.PNG)
     - display 속성값 비교
         - block: 한 줄 차지
-        - inline: 자기컨텐츠만큼 차지(빈공간을 만들 수 없음)
-        - inline-block: 자기컨텐츠만큼 차지(width,hegiht 지정해서 빈공간 만들 수 있음)
+        - inline: 딱 자기컨텐츠만큼 차지(빈공간을 만들 수 없음)
+        - inline-block: 자기컨텐츠만큼 차지(width,hegiht 지정해서 빈공간 만들 수 있어서 유용)
 <br>
 <br>
 
@@ -202,11 +208,70 @@
 - __이미지 스프라이트__
     - 필요한 여러 개의 이미지를 하나로 합쳐서 사용하는 이미지
     - 이미지 수만큼 웹서버에 다운로드 요청해서 전체 로딩시간이 길어지는 것을 방지해줌
-　　　![sp](https://user-images.githubusercontent.com/60066472/84976602-46725c80-b163-11ea-83ff-20fb133cb2d0.PNG)
-__백그라운드 이미지__
-    - background image:
+　　　<p><img src="https://user-images.githubusercontent.com/60066472/84976602-46725c80-b163-11ea-83ff-20fb133cb2d0.PNG" width="400"></p>
+- __이미지 스프라이트 사용__
+    - 이미지 넣고 위치 맞추기
+        ```css
+        background image: url(./sp_main.png);
+        background position: -4px -10px;
+        background repeat: no-repeat;
+        ```
+        ```
+        /* 한줄로 적을 수도 있음 */
+        background image: url(./sp_main.png) -4px -10px no-repeat; 
+        ```
+        - 포지션: 좌(-)/우(+) 상(-)/하(+)
+        - 개발자도구 - Elements - Styles 숫자(px) 눌러서 화살표 키로 먼저 조정해서 적당한 값 가져오기
+    - 이미지만 남기고 글자 숨기기
+        ```css
+        text-indent: 100%;
+        overflow: hidden;
+        ```
 - __클래스 사용__
     - id는 #, class는 .으로 선택
     - 하나의 태그에 여러 클래스 적용 가능
 <br>
 
+## 3-3. 박스모델
+- __CSS 박스모델__
+    - margin: 바깥여백(주황색)
+    - border: 테두리(노란색)
+    - padding: 안쪽여백(초록색)
+    - contents: 컨텐츠(파란색)
+        - margin 부분에는 원칙적으로 컨텐츠가 못오지만 강제로 밀어넣는 방법이 있음(나중에 다룸)
+        - 색깔은 크롬기준. 브라우저마다 
+　　　![margin](https://user-images.githubusercontent.com/60066472/84974148-a239e700-b15d-11ea-84d9-6cff0ad89f15.PNG)
+- __값 설정하기__
+    ```css
+    margin-left: 20px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    border-top: 2px solid #03cf5d;
+    border-right: 2px solid #03cf5d;
+    border-bottom: 2px solid #03cf5d;
+    border-left: 2px solid #03cf5d;
+    /* 한줄로 적을 수도 있음 (시계방향 순 ↑ → ↓ ←)
+    padding: 12px 0 12px 10px; 
+    border: 2px solid #03cf5d;
+    */
+    ```
+    ```css
+    margin: 0
+    border: none
+    padding: 0
+    ```
+- __box-sizing__
+    - 지정한 width,hegiht: contents만
+        - `box-sizing: content-box;`
+    - 지정한 width,hegiht: contents + padding + border
+        - `box-sizing: border-box;`
+        - 기본으로 border-box로 설정해주는 것이 좋음
+            ```
+            * {
+            box-sizing: border-box;
+            }
+            ```
+- __hex 색상 표기법__
+    - [컬러피커](https://www.google.com/search?q=hex+color&oq=hex+color&aqs=chrome..69i57.1366j0j1&sourceid=chrome&ie=UTF-8)
+<br>
