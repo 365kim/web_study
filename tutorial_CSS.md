@@ -84,6 +84,7 @@
     - 웹페이지에서 탭만 눌러도 다음 메뉴로 넘어가져야 함(html 작성 시 유의)
     - 프론트엔드의 html, CSS, JS 코드는 모두에게 노출되므로 개인정보 넣어두면 안됨
 <br>
+<br>
 
 ## 2-1. CSS로 레이아웃 잡기
 - __큰틀부터 맞추기__
@@ -118,7 +119,7 @@
 - __CSS 파일 분리하기__
     - html 파일에서
         - div 태그에 id 생성 `<div id="header-center">`
-        - ``
+        - `<link rel="stylesheet" href="./naver.css" />`
     - css 파일에서
         - css 파일에서 서식 지정 (div만 #앞에 div생략가능)
             ```css
@@ -131,21 +132,20 @@
 - __html 파일__
     - 웹에서 메인이 되는 파일은 html 파일
     - .css, .js 파일이 늘어나면서 link도 많이 늘어날텐데 rel에 적힌 내용으로 구분
-    ```html
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
-    <link rel="stylesheet" href="./naver.css" />
-    ```
+        ```html
+        <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+        <link rel="stylesheet" href="./naver.css" />
+        ```
 - __크로스브라우징__
     - 크롬, 사파리, 익스플로러 등 각 브라우저 별 기본스타일이 상이한 상황에서 일관성 있게 처리하는 일
     - 'user agent style'
-        - 웹브라우저가 정한 스타일
-        - css파일에서 설정하지 않아도 기본으로 설정되어 있는 스타일
+        - css파일에서 설정하지 않아도 기본으로 설정되어 있는 스타일(웹브라우저가 정한 스타일)
         - 개발자도구 - Elements - Styles 탭에서 확인가능
 <br>
 
 ## 2-3 CSS 선택자 사용하기
 - __CSS 특징__
-    - css의 특성 조상에 적용된 속성은 자손에게도 적용됨
+    - 조상에 적용된 속성은 자손에게도 적용됨
         - e.g. html에 적용한 태그가 div태그에도 적용됨
     - 조상의 속성이 기본적으로 있고, 자손의 속성이 덮어씌워지는 이 속성을 잘 활용해야함
 - __자식/자손 선택자__
@@ -178,12 +178,14 @@
 　　　![margin](https://user-images.githubusercontent.com/60066472/84974148-a239e700-b15d-11ea-84d9-6cff0ad89f15.PNG)
 - __display 속성__
     - 헤더내용 화면에 표시하지 않는 방법
-        - 스크린 리더를 위해 html에 반드시 적어야 하는 내용 화면에 표시하지 않게 해주는 display 속성
+        - 스크린리더에도 읽히지 않고 화면에도 표시되지 않지만 문서의 구조를 위해 있는 h태그를 숨겨주는 display 속성
             ```css
             div#header_logo_area h2{
                 display: none;
             }
             ```
+        - (웹접근성) 스크린리더에는 읽히게 하려면 아래와 같이 속성 지정
+　　　　　　![blind_class](https://user-images.githubusercontent.com/60066472/84976173-2db57700-b162-11ea-9c78-78067f5d57df.PNG)
     - div태그가 가로로 100% 차지 하지 않게하는 방법
         - `display: inline-block;`
         - (크롬 기준) div태그 기본 속성이 display: block라서 margin을 100%로 갖게 됨
@@ -193,3 +195,18 @@
         - block: 한 줄 차지
         - inline: 자기컨텐츠만큼 차지(빈공간을 만들 수 없음)
         - inline-block: 자기컨텐츠만큼 차지(width,hegiht 지정해서 빈공간 만들 수 있음)
+<br>
+<br>
+
+## 3-1 이미지
+- __이미지 스프라이트__
+    - 필요한 여러 개의 이미지를 하나로 합쳐서 사용하는 이미지
+    - 이미지 수만큼 웹서버에 다운로드 요청해서 전체 로딩시간이 길어지는 것을 방지해줌
+　　　![sp](https://user-images.githubusercontent.com/60066472/84976602-46725c80-b163-11ea-83ff-20fb133cb2d0.PNG)
+__백그라운드 이미지__
+    - background image:
+- __클래스 사용__
+    - id는 #, class는 .으로 선택
+    - 하나의 태그에 여러 클래스 적용 가능
+<br>
+
