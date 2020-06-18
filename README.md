@@ -3,6 +3,7 @@
 ## __Webstorm__ 
 - 자바스크립트 에디터
 - [다운로드 바로가기](https://www.jetbrains.com/webstorm/)
+- [플러그인: 프리티어 설치방법 바로가기](https://www.jetbrains.com/help/webstorm/prettier.html#)
 - 참조: [5 Best JavaScript Editors](https://dev.to/jscharting/5-best-javascript-editors-developers-rank-the-best-tools-worldwide-1da)
 　　<p><img src="https://user-images.githubusercontent.com/60066472/84588656-5f79c580-ae64-11ea-872c-84ced08a251d.PNG" width="600"></p>
 <br>
