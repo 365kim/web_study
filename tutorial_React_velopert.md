@@ -352,7 +352,7 @@
 
 ## 11. Create React App 사용하기
 - [Getting Started](https://create-react-app.dev/docs/getting-started/)
-    - `create-react-app directoryName`
+    - `npm init react-app my-app`
 - 원래는 만들면 웹팩, 바벨 설정 때문에 프로젝트가 엄청나게 복잡해짐
 - create react app으로 만들면 node_modules - react_script 안에 숨어서 깔끔해짐
 - 꺼낼 수 있는데 한번 꺼내면 되돌릴 수 없음
