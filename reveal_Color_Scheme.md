@@ -10,7 +10,7 @@
 - 하트 순으로 보여주어 색상조합 트렌드 파악 가능
 - [공식 홈페이지](https://coolors.co/)<p><img src="https://user-images.githubusercontent.com/60066472/85195356-99d3de80-b30c-11ea-9328-756bcc06ef73.PNG" width="800"></p>
 
-## 3. 클라우드플레어 (Cloud Flare)
+### 3. 클라우드플레어 (Cloud Flare)
 - 색상조합에 컴포넌트를 얹어서 확인할 수 있음
 - [공식 홈페이지](https://cloudflare.design/color/)<p><img src="https://user-images.githubusercontent.com/60066472/85195354-98a2b180-b30c-11ea-8b68-13fa623fc201.PNG" width="800"></p>
 
