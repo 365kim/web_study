@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {MDBBtn, MDBCol, MDBContainer, MDBRow, MDBView, MDBMask} from "mdbreact";
 
 import 'react-vertical-timeline-component/style.min.css';
-import Table from "./utils/Table";
-import Cards from "./utils/Cards"
-import FullPageNavbar from "./utils/Navbar";
-import Timeline from "./utils/Timeline";
+import Table from "../components/Table";
+import Cards from "../components/Cards"
+import FullPageNavbar from "../components/Navbar";
+import Timeline from "../components/Timeline";
 
-import "./index.css";
+import "../index.css";
 
 class App extends Component {
   render() {

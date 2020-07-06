@@ -28,7 +28,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "rename": "renamer --find App-clear.js --replace App.js ./src/App-clear.js && renamer --find style.css --replace index.css ./src/style.css ",
-    "remove-demo": "rimraf ./src/assets ./src/components ./src/pages ./src/Routes.js ./src/App.js ./src/index.css && npm run rename"
+    "remove-demo": "rimraf ./src/assets ./src/components ./src/pages ./src/Routes.js src/shared/App.js ./src/index.css && npm run rename"
   },
   "version": "0.1.0"
 }

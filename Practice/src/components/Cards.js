@@ -52,7 +52,7 @@ const Cards = () => {
                                 </MDBRow>
                                 <MDBRow>
                                     <MDBCol md='3'>혜택</MDBCol>
-                                    <MDBCol md='9' className='text-dark'>교육비 무료<br />세전 월 100만원</MDBCol>
+                                    <MDBCol md='9' className='text-dark'>세전 월 100만원</MDBCol>
                                 </MDBRow>
                                 <MDBRow>
                                     <MDBCol md='3'>기간</MDBCol>

@@ -1,0 +1,62 @@
+html, body {
+  overflow-x: hidden;
+}
+
+.github-corner svg {
+    z-index: 1000;
+}
+
+.vertical-timeline-element-content {
+    color: black;
+}
+
+.vertical-timeline-element--work .vertical-timeline-element-content {
+    border-top: 3px solid #2196f3;
+}
+
+.vertical-timeline-element--education .vertical-timeline-element-content {
+    border-top: 3px solid #e91e63;
+}
+
+.vertical-timeline-element-date {
+  color: #333;
+}
+
+/* CUSTOM LINE COLOR */
+/* The line */
+.vertical-timeline.vertical-timeline-custom-line::before {
+  background: #424242;
+}
+
+/* Icon container's border */
+.vertical-timeline.vertical-timeline-custom-line .vertical-timeline-element--work .vertical-timeline-element-icon {
+  box-shadow: 0 0 0 4px #1976d2, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.vertical-timeline.vertical-timeline-custom-line .vertical-timeline-element--education .vertical-timeline-element-icon {
+  box-shadow: 0 0 0 4px #c2185b, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Example with custom animations */
+/*
+.vertical-timeline--animate .vertical-timeline-element-content.bounce-in {
+  visibility: visible;
+  animation: custom-animation 0.6s !important;
+}
+
+@keyframes custom-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+*/
