@@ -9,8 +9,13 @@
         - 완전히 똑같이 만들 필요X
         - 동적인 부분 구현X(JS 스터디 후 진행)
         - 완성예정일 : 8/15 또는 8/22
-- __결과물__
-    - [8월 5일 업데이트(테스트용)](https://www.w3schools.com/code/tryit.asp?filename=GHF8SS8BUZNL)
+- __과제물__
+    - 원하는 페이지 position, grid, flex 연습할 수 있을 것 같은 Github 선정
+    - 클론대상 구조분석 <p><img src="https://user-images.githubusercontent.com/60066472/89725869-5a458b00-da4f-11ea-9d23-1a7ee147a619.png"></p>
+    - 참고
+        - [헤딩맵스](https://chrome.google.com/webstore/detail/headingsmap/flbjommegcjonpdmenkdiocclhjacmbi) : html문서 구조 알려주는 구글 익스텐젼
+        - [W3스쿨 에디터)](https://www.w3schools.com/code/tryit.asp?filename=GHF8SS8BUZNL) : html 수정 저장 공유가능
+        - [코드펜 에디터)](https://codepen.io/365kim/pen/yLONJaz) : html, css, js 수정 저장 공유가능
 <br>
 <br>
 
