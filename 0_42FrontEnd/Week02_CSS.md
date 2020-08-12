@@ -23,6 +23,7 @@
     - `absolute`
     - `sticky`
 <br>
+
 ### :page_with_curl: Overflow
 ### :page_with_curl: Inline-block
 ### :page_with_curl: Combinators
