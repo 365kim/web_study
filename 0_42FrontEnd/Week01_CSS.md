@@ -3,10 +3,10 @@
 - __키워드__　`flex`, `display`, `grid`
 - __알짜팁__
     - 유용한 폰트 사이트: [구글폰트](fonts.google.com)
-    - span 태그(inline) 안에 div 태그(block) 넣을 수 없음
-    - webkit은 구글, 사파리 등 브라우저 스타일의 접두어
+    - `<span>`(inline) 안에 `<div>`(block) 넣을 수 없음
+    - `webkit-`은 구글, 사파리 등 브라우저 스타일의 접두어
     - 이전의 float를 개선한 것이 flex
-    - display: grid; grid-template-coulumns: 1fr 1fr 1fr; 은 세 개의 공간을 1:1:1로 놓겠다는 뜻!
+    - `display: grid; grid-template-coulumns: 1fr 1fr 1fr;` 은 세 개의 공간을 1:1:1로 놓겠다는 뜻!
 - __과　제__　
     - __[레이아웃 디자인]__ 원하는 페이지를 만들어보기
         - 어떤 페이지를 만들어볼지 고민해보고 웹사이트 한 페이지 __#firstweb__ 채널에 올려두기
@@ -184,13 +184,4 @@
 - __display:none__ vs __visibility:hidden__
     - `display: none;` : as if the element is not there
     - `visibility:hidden;` : still take up the same space as before.
-<br>
-
-### :page_with_curl: [Position](https://www.w3schools.com/css/css_positioning.asp)
-- Possible Values
-    - `static`
-    - `relative`
-    - `fixed`
-    - `absolute`
-    - `sticky`
 <br>
