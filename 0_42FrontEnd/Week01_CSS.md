@@ -2,7 +2,7 @@
 - __주　제__　CSS 기초
 - __키워드__　`flex`, `display`, `grid`
 - __알짜팁__
-    - 유용한 폰트 사이트: [구글폰트](fonts.google.com)
+    - 유용한 폰트 사이트: [구글폰트](https://fonts.google.com/)
     - `<span>`(inline) 안에 `<div>`(block) 넣을 수 없음
     - `webkit-`은 구글, 사파리 등 브라우저 스타일의 접두어
     - 이전의 float를 개선한 것이 flex
