@@ -1,6 +1,12 @@
 ## :tulip: 1주차 진도
 - __주　제__　CSS 기초
-- __키워드__　`flex`, `grid`, `position`
+- __키워드__　`flex`, `display`, `grid`
+- __알짜팁__
+    - 유용한 폰트 사이트: [구글폰트](fonts.google.com)
+    - span 태그(inline) 안에 div 태그(block) 넣을 수 없음
+    - webkit은 구글, 사파리 등 브라우저 스타일의 접두어
+    - 이전의 float를 개선한 것이 flex
+    - display: grid; grid-template-coulumns: 1fr 1fr 1fr; 은 세 개의 공간을 1:1:1로 놓겠다는 뜻!
 - __과　제__　
     - __[레이아웃 디자인]__ 원하는 페이지를 만들어보기
         - 어떤 페이지를 만들어볼지 고민해보고 웹사이트 한 페이지 __#firstweb__ 채널에 올려두기
@@ -188,15 +194,3 @@
     - `absolute`
     - `sticky`
 <br>
-
-### :page_with_curl: Overflow
-### :page_with_curl: Inline-block
-### :page_with_curl: Combinators
-### :page_with_curl: Pseudo-class
-### :page_with_curl: Pseudo-element
-### :page_with_curl: Attr Selectors
-### :page_with_curl: Counters
-### :page_with_curl: Specificity
-
-### :page_with_curl: flex
-### :page_with_curl: grid
