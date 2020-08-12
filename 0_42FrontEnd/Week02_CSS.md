@@ -15,9 +15,14 @@
 
 ## :tulip: 보충학습
 
-### :page_with_curl: [주제](링크)
-- 내용
-
+### :page_with_curl: [Position](https://www.w3schools.com/css/css_positioning.asp)
+- Possible Values
+    - `static`
+    - `relative`
+    - `fixed`
+    - `absolute`
+    - `sticky`
+<br>
 ### :page_with_curl: Overflow
 ### :page_with_curl: Inline-block
 ### :page_with_curl: Combinators
