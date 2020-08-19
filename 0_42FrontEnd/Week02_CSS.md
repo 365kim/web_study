@@ -12,25 +12,3 @@
     - 구현
 <br>
 <br>
-
-## :tulip: 보충학습
-
-### :page_with_curl: [Position](https://www.w3schools.com/css/css_positioning.asp)
-- Possible Values
-    - `static`
-    - `relative`
-    - `fixed`
-    - `absolute`
-    - `sticky`
-<br>
-
-### :page_with_curl: Overflow
-### :page_with_curl: Inline-block
-### :page_with_curl: Combinators
-### :page_with_curl: Pseudo-class
-### :page_with_curl: Pseudo-element
-### :page_with_curl: Attr Selectors
-### :page_with_curl: Counters
-### :page_with_curl: Specificity
-### :page_with_curl: flex
-### :page_with_curl: grid
