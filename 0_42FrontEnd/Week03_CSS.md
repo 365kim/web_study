@@ -3,7 +3,7 @@
 - __과　제__　
     - 원하는 페이지를 만들어보기 (계속)
 - __과제물__
-    - 08/19(수) [전체적인 틀 잡기](https://codepen.io/365kim/pen/yLONJaz)
+    - 08/19(수) 전체적인 틀 잡기 - [코드펜](https://codepen.io/365kim/pen/yLONJaz)
 - __처음 써본 것__
     - `position: sticky;`
     - `grid-template-columns: auto auto;`
@@ -114,8 +114,3 @@
 - `a[href*="w3schools"]`
     - Selects every a element whose href attribute value __contains__ the substring "w3schools"
 <br>
-
-### :page_with_curl: Counters
-### :page_with_curl: Specificity
-### :page_with_curl: flex
-### :page_with_curl: grid
