@@ -108,12 +108,77 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
 - __Head__
     - `import Head from 'next/head';`
     - 넥스트의 head 컴포넌트를 활용해서.js에서 head태그를 사용할 수 있음
-        ```
+        ```js
         <Head>
           <title>내 프로필 | Nodebird</title>
         </Head>
         ```
 - __반응형 그리드 사용하기__
-    - 빠샤
+    - (원칙) 가로먼저 쪼개고 세로 쪼갠다
+    - (원칙) 모바일 - 태블릿 - 데스크탑 순서로 디자인한다
+    - 기존 Ant Design에 CSS코드를 작성해서 스타일을 덮어씌울 수 있음
+    - 적응형(따로) vs 반응형
+    - AntD 그리드 (24칸 기준)
+        ```js
+        <Row gutter={8}> //column 사이의 간격
+          <Col xs={24} md={6} /> //xs 모바일, sm 태블릿, md 데스크탑
+          <Col xs={24} md={12} />
+          <Col xs={24} md={6} />
+        </Row>
+        ```
+    - \<a\> 새 탭 열기 보안위협 제거
+        `<a href="https://www.zerocho.com" target="_blank" rel="noreferer noopener`></a>
 - __로그인 폼 만들기__
+    - 원래는 컴포넌트(순수하게 화면 보여주는것), 컨테이너(데이터 다루는 것) 구분했으나, hooks 나오면서 컴포넌트와 컨테이너 구분을 추천하지 않는 것이 공식 리액트 입장
+    - 이번 한번만 직접 만들어보고 리액트Form 관련 라이브러리 활용 추천
+    ```js
+    const [isLoggedIn, setIstLoggedIn] = useState(false);
+    
+    {isLoggedIn ? <UserProfile /> : <LoginForm />}
+    ```
+    ```js
+    //LoginForm.js
+    import {Form, Input, Button } from 'antd';
+    
+    const LoginForm = () =? {
+        const [id, setId] = useState('');
+        const [password, setPassword] = useState('');
+        
+        const onChangeId = useCallback(() => {
+            setId(e.target.value);
+        }, []); //컴포넌트의 props로 넘겨주는 함수는 useCallback를 써야 최적화가 됨
+        const onChangePassword = useCallback(() => {
+            setPassword(e.target.value);
+        }, []); // 반복되는 것 custom hook으로 처리 가능
+        
+        return {
+        <Form>
+            <div>
+                <label htmlForm="user-id">아이디</label>
+                <br />
+                <Input name="user-id" value={id} onChange={onChangeId} required />
+            </div>
+            <div>
+                <label htmlForm="user-password">패스워드</label>
+                <br />
+                <Input name="user-password" type="password" value={password} onChange={onChangePassword} required />
+            </div>
+            
+            <div>
+            </div>
+                <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
+                <Link href="/signup"><a><Button>회원가입</Button></a></Link>
+            <div>
+            </div>
+        </Form>
+    ```
+-__리렌더링 이해하기__
+    - 빠샤
+-__더미 데이터로 로그인하기__
+    - 빠샤
+-__크롬 확장프로그램__
+    - 빠샤
+-__프로필 페이지 만들기__
+    - 빠샤
+-___회원가입 페이지 만들기(커스텀 훅)__
     - 빠샤
