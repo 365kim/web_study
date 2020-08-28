@@ -52,30 +52,30 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - 한 사람이 코딩한 것처럼 할 수 있음!
     - 설정파일 .eslintrc 생성하고 vscode 에디터 연동 별도로 해야함!
         ```
-        {
-          "parserOptions": {
-            "ecmaVersion": 2020,
-            "sourceType": "module",
-            "ecmaFeatures": {
-              "jsx: true
+            {
+              "parserOptions": {
+                "ecmaVersion": 2020,
+                "sourceType": "module",
+                "ecmaFeatures": {
+                  "jsx: true
+                }
+              },
+              "env": {
+                "browser": true,
+                "node": true,
+                "ex6": true,
+              },
+              "extends": [
+                "esline:recommended",
+                "plugin:react/recommended"
+              ],
+              "plugins": [
+                "import",
+                "react-hooks"
+              ],
+              "rules": {
+              }
             }
-          },
-          "env": {
-            "browser": true,
-            "node": true,
-            "ex6": true,
-          },
-          "extends": [
-            "esline:recommended",
-            "plugin:react/recommended"
-          ],
-          "plugins": [
-            "import",
-            "react-hooks"
-          ],
-          "rules": {
-          }
-        }
         ```
 - __Q&A__
     - 다이나믹라우팅 덕분에 이제 custom 프론트엔드를 만들 필요없이 next로만 할 수 있음
@@ -109,9 +109,9 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - `import Head from 'next/head';`
     - 넥스트의 head 컴포넌트를 활용해서.js에서 head태그를 사용할 수 있음
         ```js
-        <Head>
-          <title>내 프로필 | Nodebird</title>
-        </Head>
+            <Head>
+              <title>내 프로필 | Nodebird</title>
+            </Head>
         ```
 - __반응형 그리드 사용하기__
     - (원칙) 가로먼저 쪼개고 세로 쪼갠다
@@ -120,62 +120,119 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - 적응형(따로) vs 반응형
     - AntD 그리드 (24칸 기준)
         ```js
-        <Row gutter={8}> //column 사이의 간격
-          <Col xs={24} md={6} /> //xs 모바일, sm 태블릿, md 데스크탑
-          <Col xs={24} md={12} />
-          <Col xs={24} md={6} />
-        </Row>
+            <Row gutter={8}> //column 사이의 간격
+              <Col xs={24} md={6} /> //xs 모바일, sm 태블릿, md 데스크탑
+              <Col xs={24} md={12} />
+              <Col xs={24} md={6} />
+            </Row>
         ```
     - \<a\> 새 탭 열기 보안위협 제거
         `<a href="https://www.zerocho.com" target="_blank" rel="noreferer noopener`></a>
 - __로그인 폼 만들기__
     - 원래는 컴포넌트(순수하게 화면 보여주는것), 컨테이너(데이터 다루는 것) 구분했으나, hooks 나오면서 컴포넌트와 컨테이너 구분을 추천하지 않는 것이 공식 리액트 입장
     - 이번 한번만 직접 만들어보고 리액트Form 관련 라이브러리 활용 추천
-    ```js
-    const [isLoggedIn, setIstLoggedIn] = useState(false);
-    
-    {isLoggedIn ? <UserProfile /> : <LoginForm />}
-    ```
-    ```js
-    //LoginForm.js
-    import {Form, Input, Button } from 'antd';
-    
-    const LoginForm = () =? {
-        const [id, setId] = useState('');
-        const [password, setPassword] = useState('');
-        
-        const onChangeId = useCallback(() => {
-            setId(e.target.value);
-        }, []); //컴포넌트의 props로 넘겨주는 함수는 useCallback를 써야 최적화가 됨
-        const onChangePassword = useCallback(() => {
-            setPassword(e.target.value);
-        }, []); // 반복되는 것 custom hook으로 처리 가능
-        
-        return {
-        <Form>
-            <div>
-                <label htmlForm="user-id">아이디</label>
-                <br />
-                <Input name="user-id" value={id} onChange={onChangeId} required />
-            </div>
-            <div>
-                <label htmlForm="user-password">패스워드</label>
-                <br />
-                <Input name="user-password" type="password" value={password} onChange={onChangePassword} required />
-            </div>
-            
-            <div>
-            </div>
-                <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
-                <Link href="/signup"><a><Button>회원가입</Button></a></Link>
-            <div>
-            </div>
-        </Form>
-    ```
+        ```js
+        const [isLoggedIn, setIstLoggedIn] = useState(false);
+
+        {isLoggedIn ? <UserProfile /> : <LoginForm={ />}
+        ```
+        ```js
+        //LoginForm.js
+        import {Form, Input, Button } from 'antd';
+
+        const LoginForm = () =? {
+            const [id, setId] = useState('');
+            const [password, setPassword] = useState('');
+
+            const onChangeId = useCallback(() => {
+                setId(e.target.value);
+            }, []); //컴포넌트의 props로 넘겨주는 함수는 useCallback를 써야 최적화가 됨
+            const onChangePassword = useCallback(() => {
+                setPassword(e.target.value);
+            }, []); // 반복되는 것 custom hook으로 처리 가능
+
+            return {
+            <Form>
+                <div>
+                    <label htmlForm="user-id">아이디</label>
+                    <br />
+                    <Input name="user-id" value={id} onChange={onChangeId} required />
+                </div>
+                <div>
+                    <label htmlForm="user-password">패스워드</label>
+                    <br />
+                    <Input name="user-password" type="password" value={password} onChange={onChangePassword} required />
+                </div>
+
+                <div>
+                </div>
+                    <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
+                    <Link href="/signup"><a><Button>회원가입</Button></a></Link>
+                <div>
+                </div>
+            </Form>
+        ```
 -__리렌더링 이해하기__
-    - 빠샤
+    - __리액트의 리렌더링__
+        - 함수형 컴포넌트에서 리렌더링 될 때 함수 안에 부분이 다시 실행되는 것은 맞음
+        - 그렇지만 return() 전부를 다시 그리는건 아님
+        - 이전 컴포넌트과 비교해서 바뀌는 부분을 다시 그려줌
+        - useCallback과 useMemo는 바뀐게 없는 것으로 쳐줌
+        - return 부분이 그냥 버츄얼돔 부분이라고 생각하면 됨
+    - __(문제)__ 이 객체를 주는 인라인스타일은 리렌더링 최적화 안됨
+            ```
+                <div style={{ marginTop: 10px}}>
+                    <Button> ... </Button>
+                </div>
+            ```
+        - `{} === {}` 같이 객체와 객체를 비교하면 무조건 false이기 때문
+        - 성능에 크게 영향이 없다면 그냥 인라인스타일로 해도 되지만 누적되면 성능저하가 뚜렷함
+    - __(해결방법1)__ 스타일드 컴포넌트 적용
+        - \<Button\>과 같은 일반적인 컴포넌트일 경우
+            ```js
+                `import styled from 'styled-components';`
+                const ButtonWrapper = styled.div` // div 컴포넌트이면서 css가 다음과 같이 적용된 버튼래퍼라는 컴포넌트 생성
+                    margin-top: 10px;
+                `; // backtic으로 감싼 것에 주의
+                ...
+                <ButtonRapper> // div 대신에 styled-component로 감싸줌
+                    <Button> ... </Button>
+                </ButtonRapper>
+            ```
+        - \<Input.Search\> 같은 (AntD에서) 가져온 컴포넌트
+            ```js
+                const SearchInput = styled.(Input.Search)`
+                    vetical align = middle;
+                `;
+                ...
+                <SearchInput enterButton /> // 원래의 <Input.Search> 대신에 styled-component로 감싸줌
+            ```
+    - __(해결방법2)__ useMemo
+        - useMemo: 값을 캐싱 vs useCallback: 함수를 캐싱
+            ```js
+                import React, { useState, useCallback, useMemo } from `react`;`
+                const style = useMemo(() => ({ marginTop: 10px }, []);
+                ...
+                <ButtonRapper style = {style}> // 리렌더링 시도해도 계속 같은 객체가 유지됨
+                    <Button> ... </Button>
+                </ButtonRapper>
+            ```
 -__더미 데이터로 로그인하기__
-    - 빠샤
+    ```js
+    /*
+        const LoginForm = ({ setIsLoggedIn }) => { // 더미데이터로 
+            ...
+            const onSubmitForm = (e) => {
+                e.preventDefault(); //AntD e.preventDefault 이미 적용되어 있어서 또 하면 안됨
+            }
+            */
+            const onSubmitForm = useCallback(() => {
+                console.log(id, password);
+                setIsLoggedIn(true); // 실무에서는 state보다 Redux, MobX 사용
+            }, [id, password]); // id, password를 dependency에 넣어줌
+            <Form onFinish={onSubmitForm}>
+        }
+    ```
 -__크롬 확장프로그램__
     - 빠샤
 -__프로필 페이지 만들기__
