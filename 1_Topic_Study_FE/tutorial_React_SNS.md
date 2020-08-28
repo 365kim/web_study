@@ -218,7 +218,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             </ButtonRapper>
             ```
 - __더미 데이터로 로그인하기__
-    - LoginForm.js
+    - pages/LoginForm.js
         ```js
         /*
         const LoginForm = ({ setIsLoggedIn }) => { // 더미데이터로 
@@ -234,7 +234,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             <Form onFinish={onSubmitForm}>
         }
         ```
-    - UserProfile.js
+    - pages/UserProfile.js
         ```js
         const UserProfile = ({ setIsLoggedIn }) => {
             const onLogout = useCallback(() => {
@@ -264,5 +264,73 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - 대륙의실수: echarts 오픈소스 차트라이브러리, AntD, Vue
 - __프로필 페이지 만들기__
     - 페이지를 만들 때 바로 div, div 코딩하지 말고 먼저 가상의 컴포넌트를 생각해서 적는 것이 효율적
+    - 한 컴포넌트당 100줄이 넘어가면 분리하는 편(제로초 스타일)
+    - 리누스의 법칙
+        - "눈알이 충분할수록, 모든 벌레는 드러나기 마련이다."(given enough eyeballs, all bugs are shallow)
+        - "베타 테스터와 공동 개발자 기반이 충분히 클 경우, 거의 모든 문제는 빠르게 특징을 구별해낼 수 있고 수정할 부분이 누군가에게는 명확히 보이게 된다"
+        - 리누스 토르발스의 이름을 따온 소프트웨어 개발에 관한 주장으로, 에릭 레이먼드가 그의 수필이자 책인 《성당과 시장(1999년)에 표현
+    - components/FollowList.js
+        ```
+        import { StopOutlined } from '@ant-design/icons';
+        
+        const FollowList = ({ header, data )} => {
+            return (
+            <List
+                ...
+                dataSource={data} // 배열. 배열의 요소가 item으로 들어가서 반복됨
+                renderItem={(item) => (
+                <List.item>
+                    <Card actions={[<StopOutlined kye="stop" />]}>
+                        <Card.Meta description={item.nickname} />
+                    </Card>
+                <List.item>
+                )}
+            />
+            )
+        }
+        FollowList.propTypes = {
+            header: PropTypes.string.isRequired,
+            data: PropTypes.array.isRequired,
+        }
+        ```
 - ___회원가입 페이지 만들기(커스텀 훅)__
-    - 빠샤
+    - 변수명은 알아보기 쉽게 nick처럼 줄이지 않고 nickname이라고 전체단어를 적어줌
+    - 리렌더링 최적화는 배포직전에 테스트해보고 보완해도 늦지않음
+    - 사용자에게 입력받는 내용은 여러 번 체크할수록 좋음
+    - 훅스를 쓸 수 있는 조건이 아니라면 커스텀훅 사용!
+    예외: 커스텀 hooks
+    - hooks/useInput.js
+        ```
+        import {useState, useCallback } from 'react';
+        
+        export default (initialValue = null) => {
+            const [value, setValue] = useState(initialValue);
+            const handler = useCallback((e) => {
+                setValue(e.target.value);
+            }, []);
+            return [value, handler]; // 원래 useState가 [value, setValue]를 리턴해주지만 우리는 useState와 useCallback 을 합친거니까 value와 handler를 리턴해주도록 custom hook
+        }
+        ```
+    - pages/signup.js
+        ```
+        // 커스텀훅스로 중복되는 코드 정리
+        const [id, onChangeId] = useInput('');
+        const [nickname, onChangeNickname] = useInput('');
+        const [password, onChangePassword] = useInput('');
+        
+        // 조금 다르게 생겨서 커스텀훅스 못넣는 부분
+        const [passwordCheck, setPasswordCheck] = useState('');
+        const [passwordError, setPasswordError] = useState(false);
+        const onChangePasswordCheck = useCallback((e) => {
+            setPasswordCheck(e.target.value);
+            setPasswordError(e.target.value !== password);
+        }, [password]);
+        ...
+        <Form>
+            ...
+            {passwordError && <div>비밀번호가 일치하지 않습니다.</div>}
+            ...
+        </Form>
+        ```
+        
+## 🌼 . Hello, Next.js
