@@ -257,6 +257,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - React Developer Tools: 리렌더링 되는 부분 하이라이트됨
         ![image](https://user-images.githubusercontent.com/60066472/91579629-dfed9400-e986-11ea-8458-7e91576aa5e9.png)
     - Redux DevTools
+        ![image](https://user-images.githubusercontent.com/60066472/91638295-5fdc3280-ea49-11ea-90bb-8fcc3bfc363f.png)
     - MobX Developer Tools
     - 리액트 + 제이쿼리 같이 쓰면 안좋은 이유
         - 이미 리액트에서 데이터가 바뀌면 알아서 화면을 다시 그려주는데 제이쿼리는 자기가 알아서 화면을 다시 직접 그려야 함
@@ -270,7 +271,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         - "베타 테스터와 공동 개발자 기반이 충분히 클 경우, 거의 모든 문제는 빠르게 특징을 구별해낼 수 있고 수정할 부분이 누군가에게는 명확히 보이게 된다"
         - 리누스 토르발스의 이름을 따온 소프트웨어 개발에 관한 주장으로, 에릭 레이먼드가 그의 수필이자 책인 《성당과 시장(1999년)에 표현
     - components/FollowList.js
-        ```
+        ```js
         import { StopOutlined } from '@ant-design/icons';
         
         const FollowList = ({ header, data )} => {
@@ -300,7 +301,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - 훅스를 쓸 수 있는 조건이 아니라면 커스텀훅 사용!
     예외: 커스텀 hooks
     - hooks/useInput.js
-        ```
+        ```js
         import {useState, useCallback } from 'react';
         
         export default (initialValue = null) => {
@@ -312,7 +313,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         }
         ```
     - pages/signup.js
-        ```
+        ```js
         // 커스텀훅스로 중복되는 코드 정리
         const [id, onChangeId] = useInput('');
         const [nickname, onChangeNickname] = useInput('');
@@ -336,6 +337,168 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
 
 ## 🌼 3. Redux 연동하기
 - __리덕스 설치와 필요성 소개__
+    - 중앙 데이터 저장소의 필요성
+        - 여러 컴포넌트에서 걸쳐 공통으로 쓰이는 데이터(e.g. 사용자 정보, 로그인 여부)가 컴포넌트별로 흩어져있다면 관리가 어려움
+        - 부모컴포넌트에서 자식컴포넌트로 일일이 전해주는 방법도 있지만 매우 비효율적임
+        - 변경된 데이터를 다른 컴포넌트로 전달하기도 어렵고 데이터가 불일치해서 다른 화면이 렌더링될 수도 있음
+        - 그러므로 모든 데이터를 중앙에서 관리해서 컴포넌트에 각각 뿌려주는 중앙 데이터 저장소는 필수!
+    - 중앙 데이터 저장소 비교
+        - __React의 Context API__ 가볍게 사용가능, 비동기 지원이 어려움
+            - 서버에서 데이터 받아오는 것은 항상 비동기!
+            - 비동기 3단계(데이터 보내기, 성공적으로 받기, 받기 실패)
+            - 비동기 요청을 컴포넌트 바깥으로 꺼낼 순 있지만 직접 구현해놓으면 결국 그 모양이 Redux와 같음
+        - __Redux__ 사용자 많음, 에러 추적이 잘됨, 코드량이 많아짐 (초보 추천)
+        - __MobX__ 코드량 적음, 에러 추적이 어려움 (초보 비추천)
+    - next-redux-wrapper
+        - 일반 리덕스와 다름
+        - `npm i redux react-redux next-redux-wrapper` @6.0.2버전
+        - `npm i redux-devtools-extension` 브라우저 개발자도구랑 연동하기 위함
+    - store/configureStore.js
+        ```js
+        import { createWrapper} from 'next-redux-wrapper';
+        import { applyMiddleware, compose, createStore } from 'redux';
+        import { composeWithDevTools } from 'redux-devtools-extension';
+        import reducer from 'reducers/index.js';
+        
+        const configureStore = () => {
+            // enhancer: 리덕스기능 확장
+            const middlewares = [];
+            const enhancer = process.env.NODE_ENV === 'production'  //개발용 배포용 미들웨어 다르게 설정
+                ? commpose(applyMiddleware(...middlewares)) // 배포용에 devtool 연결X, saga,thunk는 여기에 넣을 예정
+                : commposeWithDevTools(applyMiddleware(...middlewares))
+            const store = createStore(reducer, enhancer);
+            store.dispatch({
+                type: 'CHANGE_NICKNAME',
+                data: 'boogicho',
+            })
+            return store;
+        }
+
+        const wrapper = createWrapper(configureStore, {
+            debug: process.env.NODE_ENV === 'development', // 리덕스에 관해서 자세한 설명이 나와서 코딩할 때 편리
+        });
+
+        export default wrapper;
+        ```
+    - pages/\_app.js
+        ```js
+        import wrapper from '../store/configureStore';
+        // 원래 리덕스는 <Provider store={store}> ... </Provider>로 감싸줘야하지만 넥스트 현재버전에선 넣으면 안됨
+        export default wrapper.withRedux(NodeBird);
+        ```
 - __리덕스의 원리와 불변성__
+    - reducer에서 항상 새로 생성된 객체를 리턴하는 이유
+        - 객체를 새로 만들어야 모든게 기록으로 남아 변경 추적이 되기 때문
+        - 단, 메모리를 아끼기 위해 `...state`(object spread)로 된 부분은 확실히 안바뀌는 참조관계로 해줌
+        <p><img src="https://user-images.githubusercontent.com/60066472/91637430-4fc15480-ea43-11ea-9349-f6265f3b6c3e.png" width="400"></p>
+    - reducers/index.js
+        ```js
+        // (이전 상태, 액션) => 다음 상태
+        const initialState = {
+            name: 'zerocho',
+            age: 27,
+            password: 'babo'.
+        }
+        
+        const changeNickname ={ // action은 객체
+            type: 'CHANGE_NICKNAME',
+            data: 'boogicho',
+        }
+        
+        const rootReducer  = (state = initialState, action) => {
+            switch (action.type) {
+                case 'CHANGE_NICKNAME':
+                    return {                // 새로 생성된 객체를 리턴
+                        ...state,
+                        name: action.data,
+                    }
+                case 'CHANGE_AGE':
+                    return {
+                        ...state,
+                        age: action.data
+                }
+            }
+        }
+        ```
 - __리덕스 실제 구현하기__
-- __미들웨어와 리덕스 데브툴즈__
+    - 빌드옵션에 `npm run dev -p 3060` 하면 포트설정 가능
+    - 동적 action 생성 (action creator)
+        ```js
+        /*
+        const changeNickname ={
+            type: 'CHANGE_NICKNAME',
+            data: 'boogicho',   // 이 부분 하드코딩, 사용자가 정할 모든 닉네임의 경우를 만들어주는건 불가능
+        }
+        */
+        const changeNickname = (date) => {
+            return {
+                type: 'CHANGE_NICKNAME',
+                data,
+            }
+        };
+        store.dispatch(changeNickname('mighty tak'))
+        ```
+    - 실제 reducer
+        ```js
+        const initialState = {
+            user: {
+                isLoggedIn: false,
+                user: null,
+                signUpData: {};
+                loginData: ();
+            },
+            post: {
+                mainPosts: [],
+            }
+        };
+        
+        const loginAction = (data) => {
+            return {
+            type: 'LOG_IN',
+            data,
+        }
+        
+        const rootReducer  = (state = initialState, action) => {
+            switch (action.type) {
+                case 'CHANGE_NICKNAME':
+                    return {
+                        ...state,
+                        user: {
+                            ...state.user,
+                            isLoggedIn: true,
+                            user: action.data;
+                        }
+                    };
+                default:
+                    return state;   // 'Reducer "user" returned undefined during initialization' 에러뜨면 이거 넣어야 함
+                }
+            }
+        }
+        ```
+        ![image](https://user-images.githubusercontent.com/60066472/91638107-0a535600-ea48-11ea-901d-bd5e49c86182.png)
+    - components/AppLayout.js
+        ```js
+        import { userSelector } from 'react-redux';
+        
+        const AppLayout = ({children }) => {
+            const isLoggedIn = useSelecctor((state) => state.user.isLoggedIn); // isLoggedIn이 바뀌면 알아서 AppLayout이 리렌더링 됨
+        }
+        ```
+    - components/LoginForm.js
+        ```js
+        import { useDispatch } from 'react-redux'
+        import { loginAction } from '../reducers'
+        
+        const LoginForm = () => {
+            const dispatch = useDispatch();
+            
+            const onSubmitForm = useCallback(() => {
+                dispatch(loginAction(id, password));
+                }, [id, password])
+            }
+        }
+        ```
+- __리듀서 쪼개기____
+- __더미데이터와 포스트폼 만들기__
+- __게시글 구현하기__
+- __댓글 구현하기__
