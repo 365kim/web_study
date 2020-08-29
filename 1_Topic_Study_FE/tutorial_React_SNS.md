@@ -180,17 +180,17 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         - useCallback과 useMemo는 바뀐게 없는 것으로 쳐줌
         - return 부분이 그냥 버츄얼돔 부분이라고 생각하면 됨
     - __(문제)__ 이 객체를 주는 인라인스타일은 리렌더링 최적화 안됨
-            ```
-                <div style={{ marginTop: 10px}}>
-                    <Button> ... </Button>
-                </div>
-            ```
+        ```js
+        <div style={{ marginTop: 10px}}>
+            <Button> ... </Button>
+        </div>
+        ```
         - `{} === {}` 같이 객체와 객체를 비교하면 무조건 false이기 때문
         - 성능에 크게 영향이 없다면 그냥 인라인스타일로 해도 되지만 누적되면 성능저하가 뚜렷함
     - __(해결방법1)__ 스타일드 컴포넌트 적용
         - \<Button\>과 같은 일반적인 컴포넌트일 경우
             ```js
-            `import styled from 'styled-components';`
+            import styled from 'styled-components';
             const ButtonWrapper = styled.div` // div 컴포넌트이면서 css가 다음과 같이 적용된 버튼래퍼라는 컴포넌트 생성
                 margin-top: 10px;
             `; // backtic으로 감싼 것에 주의
@@ -293,7 +293,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             data: PropTypes.array.isRequired,
         }
         ```
-- ___회원가입 페이지 만들기(커스텀 훅)__
+- __회원가입 페이지 만들기(커스텀 훅)__
     - 변수명은 알아보기 쉽게 nick처럼 줄이지 않고 nickname이라고 전체단어를 적어줌
     - 리렌더링 최적화는 배포직전에 테스트해보고 보완해도 늦지않음
     - 사용자에게 입력받는 내용은 여러 번 체크할수록 좋음
@@ -332,5 +332,10 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             ...
         </Form>
         ```
-        
-## 🌼 . Hello, Next.js
+<br>
+
+## 🌼 3. Redux 연동하기
+- __리덕스 설치와 필요성 소개__
+- __리덕스의 원리와 불변성__
+- __리덕스 실제 구현하기__
+- __미들웨어와 리덕스 데브툴즈__
