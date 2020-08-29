@@ -6,7 +6,7 @@
     - 08/29(토) HTML 시맨틱태그 적용 - [Repl.it](https://repl.it/@365kim/Github-Clone)
 - __처음 써본 것__
     - Repl.it IDE
-    - 시맨틱태그 `main`, `section`, `footer` 등
+    - HTML 시맨틱태그
 <br>
 <br>
 
