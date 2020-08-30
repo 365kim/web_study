@@ -482,6 +482,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         
         const AppLayout = ({children }) => {
             const isLoggedIn = useSelecctor((state) => state.user.isLoggedIn); // isLoggedIn이 바뀌면 알아서 AppLayout이 리렌더링 됨
+            // const { isLoggedIn } = useSelecctor((state) => state.user); 구조분해할당 가능. 성능상 차이 있음
         }
         ```
     - components/LoginForm.js
@@ -498,7 +499,137 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             }
         }
         ```
-- __리듀서 쪼개기____
+- __리듀서 쪼개기__
+    - (복습) 리듀서는 이전 state와 action을 받아서 다음 state를 돌려주는 함수
+    - initialState의 depth가 1이 되도록 reducers/user.js, reducers/post.js로 쪼개주기
+        - 쪼갠 후에는 경로 수정에 유의
+    - reducers/index.js
+        ```js
+        import { HYDRATE } from 'next-redux-wrapper';
+        import user from './user';
+        import post from './post';
+        
+        const rootReducer = combineReduder({ //combineReduer로 각 리듀서를 합쳐줌
+            index: (state = {}, action) => {
+                switch (action.type) {
+                    case HYDATE: // 이 때 SSR을 위한 HYDRATE 넣어주기 위해 index: 하나 더 넣어줌
+                        console.log('HYDRATE', action);
+                        return { ...state, ...action.payload };
+                    default:
+                        return state;
+                }
+            },
+            user,
+            post,
+        });
+            }
+        ```
+    - pages/index.js
+        ```js
+        const Home = () => {
+            const { isLoggedIn } = useSelector((state => state.user);
+            const { mainPosts } = useSelector((state => state.post);
+            return (
+                <AppLayout>
+                    {isLoggedIn && <PostForm />}
+                    {mainPosts.map((post, index) => <PostCard key={post.id} post={post} />  // 배열 안에 jsx 넣을때는 key를 꼭 넣어주어야 함
+                    /*
+                    {mainPosts.map((post, index) => <PostCard key={index} post={post} />}
+                    (안티패턴) 게시글처럼 map 대상이 지워질 가능성이 있다면 index를 key로 쓰면 안됨
+                    단, 데이터가 변경되지 않을 경우에는 괜찮음
+                    */
+                ...
+        }
+            
+        ```
 - __더미데이터와 포스트폼 만들기__
-- __게시글 구현하기__
-- __댓글 구현하기__
+    - 더미데이터 속성 정하기
+        - 서버개발자에게 어떤 식으로 줄 것인지 물어볼 수도 있고 프론트엔드 개발자가 먼저 이런식으로 달라고 요청할 수도 있음
+    - 더미데이터 설정
+        ```js
+        export const initialState = {
+            mainPost: [{
+                id: 1,
+                User: { // MySQL에서 합쳐주는 것들은 대문자로 나옴
+                    id: 1,
+                    nidkname: '제로초'
+                },
+                Images: [{
+                    src: 'https://image.url.jpg',
+                }, {
+                    src: 'https://image.url.jpg',
+                }, {
+                    src: 'https://image.url.jpg',
+                }],
+            }],
+            imagePaths: [];
+            postAdded: false;
+        }
+        
+        const ADD_POST = 'ADD_POST'; // 변수로 지정하면 오타로 인한 에러를 방지할 수 있음
+        export const addPost = {
+            type: ADD_POST,
+        }
+        
+        const reducuer = (state = initialState, action) => {
+            ...
+            return {
+                ...state,
+                mainPosts: [dummyPost, ...state.mainPosts], // 앞에다 추가해야 게시글 위에 올라옴
+                }
+                ...
+            }
+        };
+        ```
+    - AntD 와 같이 공식홈페이지에서 찾을 수 있는 것 외우지 X
+        - 알베르트 아인슈타인, "(책에서) 찾을 수있는 것을 외우지 말아라"
+    - 포스트폼 작성 시
+        - 글자를 치려고했는데 [object Object]가 떴다면 문자열이 객체로 변환되고 있다는 것
+        - 작성 후 비우게 하려면 `dispatch(addPost);` 후에 `setText('');`
+    - 이미지 파일 선택하여 불러오기 구현 (ref사용)
+        ```js
+        import { useRef } from 'React'
+        ...
+        const imageInput = useRef(); // 실제 돔에 접근하기 위함
+        
+        const onClickImageUpload = useCallback(() => {
+            imageInput.current.click;
+        }, [imageInput.current]);
+        ...
+            <input type="file" multiple ref={imageInput} />
+            <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+        ```
+- __포스트카드 구현하기__
+    - components/PostCard.js
+        ```js
+        const PostCard = ({ post }) => {
+            const id = useSelector((state) => state.user.me?.id // 옵셔널 체이닝 이용, state.user.me && state.user.me.id 와 같은 역할
+            ...
+                <ButtonGroup>
+                    {id && post.User.id === id ? ( // 포스트 작성자와 사용자의 id가 같은지 검사
+                        <>
+                            <Button>수정</Button>
+                            <Button type="danger">삭제</Button>
+                        </>
+                    ) : <Button>신고</Button>
+                </ButtonGroup>
+        ```
+    - propTypes를 더 자세하게 적어주고 싶은 경우
+        ```js
+        // post: PropTypes.object.isRequired,
+        PostCard.propTypes = {
+            post: PropTypes.shape({
+                id: PropTypes.number,
+                User: PropTypes.object,
+                createdAt: PropTypes.object,
+                Comments: PropTypes.arrayOf(PropTypes.object),  // 객체들의 배열
+                }).isRequired
+        }
+        ```
+    - (에러) 'Can't resolv '@ant-design' in ...' => 없는 것을 import하려고 할 경우
+    - 토글버튼 구현 (e.g. 좋아요버튼)
+        ```js
+        const onToggleLike = useCallback(() => {
+            setLiked((prev) => !prev); // true/false 를 왔다리 갔다리할 수 있음
+        }, []);
+        ```
