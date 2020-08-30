@@ -389,7 +389,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
 - __리덕스의 원리와 불변성__
     - reducer에서 항상 새로 생성된 객체를 리턴하는 이유
         - 객체를 새로 만들어야 모든게 기록으로 남아 변경 추적이 되기 때문
-        - 단, 메모리를 아끼기 위해 `...state`(object spread)로 된 부분은 확실히 안바뀌는 참조관계로 해줌
+        - 단, 메모리를 아끼기 위해 `...state`[(object spread)](https://ko.javascript.info/destructuring-assignment#ref-646)로 된 부분은 확실히 안바뀌는 참조관계로 해줌
         <p><img src="https://user-images.githubusercontent.com/60066472/91637430-4fc15480-ea43-11ea-9349-f6265f3b6c3e.png" width="400"></p>
     - reducers/index.js
         ```js
