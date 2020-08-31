@@ -633,3 +633,79 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             setLiked((prev) => !prev); // true/false 를 왔다리 갔다리할 수 있음
         }, []);
         ```
+- __게시글 구현하기__
+    - (에러) 오타로인한 에러는 정말 찾기 어려움. 에러메세지를 꼭 열심히 볼 것
+![image](https://user-images.githubusercontent.com/60066472/91689656-88764080-eb9f-11ea-9685-fa93fd80d38f.png)
+- __이미지 구현하기__
+    - \<img\>의 alt는 웹접근성을 위함. 정확한 이름을 알려주는 것이 좋음
+    - 페이스북에서는 올리는 사진이 음식이면 머신러닝으로 알아서 alt="음식"으로 넣어줌
+    - \<img\>의 role="presentation"를 넣어 굳이 누를 필요 없다는 것을 스크린리더에게 알려줌
+        ```js
+        if (images.length === 1) { // 이미지 1개일 때
+            return ();
+        }
+        if (images.length === 2) { // 이미지 2개일 때
+            return ();
+        }
+        return (); // 이미지 3개 이상일 때, 더보기 버튼 구현
+        ```
+- __이미지 캐러셀 구현하기__
+    - `npm i react-slick`
+    - 컴포넌트가 복잡해지면 디렉토리를 추가하는 경우도 있음
+    - compoenets/imagesZoom/index.js    
+        ```js
+        import Slick 'react-slick';
+        
+        const ImagesZoom = (( images, onClose }) => {
+            const [currentSlide, setCurrentSlide] = useState(0); // 현재슬라이드가 몇인지는 state로 저장
+            return (
+                <div>
+                    <header>
+                        <h1>상세 이미지</h1>
+                        <button onClick={onClose}><X></button>
+                    </header>
+                    <div>
+                        <div>
+                            <Slick
+                                initialSlide={0}
+                                afterChange={(slide) => setCurrentSlide(slide)}
+                                infinite
+                                arrow={false}
+                                slidesToShow={1} // 한번에 하나씩만 보이게
+                                slidesToScroll={1}> // 한번에 하나씩만 넘기게
+                                {images.map((v) => (
+                                    <div key={v.src}>
+                                        <img src={v.src} alt={v.src} />
+                                    </div>
+                                ))}
+                            </Slick>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        
+        ImagesZoom.propTypes = {
+            images: PropTypes.arrayOf(PropTypes.object).isRequired,
+            onClose: PropTypes.func.isRequired,
+        };
+        
+        export default ImagesZoom
+        ```
+    - components/PosstImages.js
+        ```
+        import ImagesZoom from './ImagesZoom'; // from './ImagesZoom/index'; 로 쓰지 않아도 알아서 index.js불러옴
+        ```
+    - 스타일드 컴포넌트 추가
+        ```js
+        import styled from 'styled-components';
+        
+        const Overlay = styled.div` // func() 이 아닌 func``로 함수호출 가능 (자바스크립트 문법, tagged template literal)
+            position: fixed;
+            z-index: 5000;
+            top:0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        `;
+        ```
