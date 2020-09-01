@@ -542,7 +542,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         }
             
         ```
-- __더미데이터와 포스트폼 만들기__
+- __더미데이터와 만들기__
     - 더미데이터 속성 정하기
         - 서버개발자에게 어떤 식으로 줄 것인지 물어볼 수도 있고 프론트엔드 개발자가 먼저 이런식으로 달라고 요청할 수도 있음
     - 더미데이터 설정
@@ -581,6 +581,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             }
         };
         ```
+- __포스트폼 만들기__
     - AntD 와 같이 공식홈페이지에서 찾을 수 있는 것 외우지 X
         - 알베르트 아인슈타인, "(책에서) 찾을 수있는 것을 외우지 말아라"
     - 포스트폼 작성 시
@@ -649,11 +650,11 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         }
         return (); // 이미지 3개 이상일 때, 더보기 버튼 구현
         ```
-- __이미지 캐러셀 구현하기__
+- __리액트 슬릭으로 이미지 캐러셀 구현하기__
     - `npm i react-slick`
-    - 컴포넌트가 복잡해지면 디렉토리를 추가하는 경우도 있음
     - compoenets/imagesZoom/index.js    
         ```js
+        // 컴포넌트가 복잡해지면 compenents 디렉토리 하위에 디렉토리를 추가하는 경우도 있음
         import Slick 'react-slick';
         
         const ImagesZoom = (( images, onClose }) => {
@@ -670,7 +671,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
                                 initialSlide={0}
                                 afterChange={(slide) => setCurrentSlide(slide)}
                                 infinite
-                                arrow={false}
+                                arrow={false} // 스와이프만 하도록
                                 slidesToShow={1} // 한번에 하나씩만 보이게
                                 slidesToScroll={1}> // 한번에 하나씩만 넘기게
                                 {images.map((v) => (
@@ -692,7 +693,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         
         export default ImagesZoom
         ```
-    - components/PosstImages.js
+    - components/PostImages.js
         ```
         import ImagesZoom from './ImagesZoom'; // from './ImagesZoom/index'; 로 쓰지 않아도 알아서 index.js불러옴
         ```
@@ -709,3 +710,59 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             bottom: 0;
         `;
         ```
+- __글로벌 스타일__
+    - 일반적으로 styled div는 로컬 scope를 갖지만, 전역 스타일드 컴포넌트도 만들 수 있음
+        ```js
+        import { createGlobalStyle } from 'styled-component';
+
+        const Global = createGlobalStyle` // 백틱 자체가 ES6부터 생긴 문법
+            slick-slide {
+            display: inline-block;
+        `
+        ```
+- __컴포넌트 폴더구조 만드는 이유__
+    - 100줄이 넘지 않는 파일을 작성하기 위해, 로직에 핵심적인 부분만 남기고 덜 중요한 부분은 별도의 파일로 둠
+    - 예를들면 모든 스타일드 컴포넌트를 imagesZoom/styles.js 파일에 넣어주고 export 해주고 index.js에서는 import만 해줌
+    - 특히 global styled component의 경우 후에 export해두면 재사용하기도 좋음
+    - 컴포넌트가 커질수록 폴더로 만드는 경우가 많고, 심지어 Depth가 2보다 깊어질수 있음
+    - "개발자들은 자기가 옛날에 만들었던 코드가 자기의 자산이래요! 자기가 만든 코드를 잘 챙겨두세요 :D"
+- __게시글 해시태그 링크로 만들기__
+    - 해시태그 클릭하면 관련된 게시물 뜨게 설정할 것
+    - 정규표현식 테스트할 수 있는 사이트 [RegExr](https://regexr.com/)
+    ![image](https://user-images.githubusercontent.com/60066472/91859633-a6c66400-eca5-11ea-912e-e2a0969304dc.png)
+    ```js
+    <div>
+        {postData.split(/(#[^\s#]+)/g).map(v, index) => { // split에서는 해시테그부분을 괄호로 감싸주어야 함
+            if (v.match(/(#[^\s#]+)/) {
+                return <Link href={`/hashtag/${v.slice{(1)}` key={index}><a>{v}</a><Link> // key 안넣으면 에러
+            }
+            return v;
+        })}
+    ```
+
+## 🌼 4. Redux-saga 연동하기
+- __redux-thunk 이해하기__
+    - 리덕스가 비동기 action을 dispatch할 수 있도록 하는 리덕스의 미들웨어(기능을 향상시켜주는 것)
+    - redux-thunk : action 하나로 dispatch 여러번 할 수 있게됨
+    - `npm i redux-thunk`
+    - store/configureStore.js
+        ```js
+        import thunkMiddleware from 'redux-thunk';
+
+        //redux-thunk 함수 변형해서 customize해보기
+        const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => { // 미들웨어는 3단 고차함수로 작성 
+            console.log(action);
+            return next(action);
+        };
+        
+        const configureStore = () => {
+            const middlewares = [thunkMiddleware, loggerMiddleware]; // 여기에 쏙 넣어주기만 하면 됨
+        };
+        ```
+
+    - 비동기요청 3세트 : REQUEST SUCCESS FAILURE
+    - hunk를 많이들 쓰지만, 수업(+실무)에서 saga를 쓰는 이유
+        - delay, take latest(두번클릭했을때), throttle적용(셀프디도스공격 방지,,,) 같이 실무에서 많이 쓰이는 기능 제공함
+- __saga 설치하고 generator 이해하기__
+- __saga 이펙트 알아보기__
+- __take, take 시리즈, throttle 알아보기__
