@@ -1,4 +1,8 @@
 __리액트 리뉴얼강좌(SNS 만들기)__ 강의
+- [1. Hello, Next.js](#-1-hello-nextjs)
+- [2. AntD 사용해 SNS 화면 만들기](#-2-antd-사용해-sns-화면-만들기)
+- [3. Redux 연동하기](#-3-redux-연동하기)
+- [4. Redux-saga 연동하기](#-4-redux-saga-연동하기)
 
 ## 🌼 1. Hello, Next.js
 - __리뉴얼 강좌 소개__
@@ -6,16 +10,24 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         - Next : v9 (타입스크립트 지원, 파일시스템 동적 라우팅, API 라우트 등)
         - Node : v14
         - Ant Design : v4
-- __SSR vs CSR(SPA)__
-    - SSR (서버사이드 렌더링) - 전통적인 방식
-        - 요청흐름: 브라우저 > 프론트서버 > 백엔드세버 > 데이터베이스 > 백엔드서버 > 프론트엔드서버 > 브라우저!
-        - :+1: 화면 전체가 한 번에 그려짐
-        - :-1: 로딩창도 없이 아무것도 뜨지 않는 로딩시간+ (사용자는 3초 만에 떠남)
-    - CSR (클라이언트사이드 렌더링) - 리액트 방식
-        - 요청흐름: 브라우저 > 프론트서버 > 브라우저! <br> 　　 　　브라우저 > 백엔드서버 > 데이터베이스 > 백엔드서버 > 브라우저!
-        - :+1: 로딩창이 떠서 사용자 체감 로딩시간 짧음 (무엇이라도 보이면 사용자의 인내심+)
-        - :-1: 데이터까지 받아오는 전체시간은 더 걸릴 수 있음
-        - :-1: 검색엔진은 빈 페이지라고 간주해 검색순위가 떨어질 수 있음 (구글 제외)
+<br>
+
+- __SSR__ (서버사이드 렌더링) - 전통적인 방식
+    - 요청흐름
+        - 브라우저 > 프론트서버 > 백엔드세버 > 데이터베이스 > 백엔드서버 > 프론트엔드서버 > 브라우저!
+    - :+1: 화면 전체가 한 번에 그려짐
+    - :-1: 로딩창도 없이 아무것도 뜨지 않는 로딩시간+ (사용자는 3초 만에 떠남)
+<br>
+
+- __CSR__ (클라이언트사이드 렌더링) - 리액트 방식
+    - 요청흐름
+        - 브라우저 > 프론트서버 > 브라우저!
+        - 브라우저 > 백엔드서버 > 데이터베이스 > 백엔드서버 > 브라우저!
+    - :+1: 로딩창이 떠서 사용자 체감 로딩시간 짧음 (무엇이라도 보이면 사용자의 인내심+)
+    - :-1: 데이터까지 받아오는 전체시간은 더 걸릴 수 있음
+    - :-1: 검색엔진은 빈 페이지라고 간주해 검색순위가 떨어질 수 있음 (구글 제외)
+<br>
+
 - __Next.js 필요성__
     - 요청흐름: 첫방문or새로고침하면 SSR, 내부이동or클릭에선 CSR
     - :+1: SSR 지원하여 검색엔진에 노출
@@ -24,6 +36,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - SSR + 코드스플리팅은 실무에서는 필수적으로 적용해야 함!
     - Next.js 필요없이 리액트로 충분한 서비스?
         - 검색엔진에 나올 필요X, 속도 중요X (e.g. admin)
+<br>
+
 - __Next.js 실행__
     - `npm init`, `react-name`, `yes`
     - `npm i next@9` 버전 명시하지 않으면 항상 최신 버전으로 설치됨
@@ -31,22 +45,30 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - `npm run dev`로 빌드하고 localhost:3000 들어가서 확인
     - The module 'react' was not found. 오류
         - 프로젝트 내 해당 모듈이 없다는 뜻. `npm i react`로 해결
+<br>
+
 - __파일시스템 라우팅__
     - pages/index.js 생성
         - pages 디렉토리 안에 있으면 코드스플리팅된 컴포넌트로 만들어줌
     - [공식 홈페이지](https://nextjs.org/docs/routing/introduction)
     - Next.js v9에서 [name.js] 동적라우팅 기능 추가됨
-- __레이아웃 컴포넌트__
+<br>
+
+- __Layout 컴포넌트__
     - components/AppLayout.js 생성
     - 각 페이지에서 공통적으로 쓸 컴포넌트 (헤더, 내비게이션바, 푸터)
     - `npm i prop-types` 설치 필요
     - AnotherLayout.js 등을 만들어 페이지별로 레이아웃을 다르게 설정할 수 있음
-- __Link__
+<br>
+
+- __Link 컴포넌트__
     - Next.js에서는 리액트라우터가 아닌 자체적인 라우터를 사용
     - `import Link from 'next/link';`
     - `<Link href="/"><a>노드버드</a><Link>`와 같이 Link 컴포넌트에 href를 적어주어야 함
     - Next.js에는 리액트 핫로더가 적용되어 있음 (코드 수정시 바로바로 빌드)
     - 개발모드에서는 속도가 느릴 수 있는데 배포 시에는 미리 다 빌드 해놓기 때문에 문제없음
+<br>
+
 - __eslint__
     - `npm i eslint eslint-plugin-import eslint-plugin-react eslint-plugin-react-hooks -D`
     - 한 사람이 코딩한 것처럼 할 수 있음!
@@ -77,6 +99,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
           }
         }
         ```
+<br>
+
 - __Q&A__
     - 다이나믹라우팅 덕분에 이제 custom 프론트엔드를 만들 필요없이 next로만 할 수 있음
     - SSR에서는 프론트서버-백엔드서버 사이에 CORS 적용 필요
@@ -86,7 +110,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     - 몽고DB는 데이터간 관계가 없는 경우에만 좋음 (e.g. 로그 쌓기)
     - 뷰/리액트 다 하는 것 보다는 하나를 더 잘하는 것이 나음
     - 시장규모 리액트가 뷰의 10배 [(npm trends)](https://www.npmtrends.com/@angular/core-vs-angular-vs-react-vs-vue) <p><img src="https://user-images.githubusercontent.com/60066472/91006466-68310980-e614-11ea-96cf-eb39ec2245bd.png" width="500"></p>
-<br>
+<br><br>
 
 ## 🌼 2. AntD 사용해 SNS 화면 만들기
 - __AntD__
@@ -97,14 +121,18 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
     -  `npm i antd @ant-design/icons` 최적화하기 위해 아이콘을 분리한 경우가 많음
     - 코드 가져올 때 클래스를 훅스로 바꾸어주어야 함
     - 리액트랑 연결하는 방법 `import 'antd/dist/antd.css`를 \_app.js에 넣어줌
-    
+<br>
 - __컴포넌트 스타일링 방식__
     - SASS 또는 SCSS 와같은 CSS 전처리기
     - [Styled-Components](https://styled-components.com/): 컴포넌트 자체에 CSS를 입혀서 만들어줌
     - [emotions](https://emotion.sh/docs/introduction): styled-components보다 SSR에서 조금더 편리
     - `npm i styled-components` (5.1.1버전)
+<br>
+
 - __pages/\_app.js__
     - pages 디렉토리 내 페이지들의 부모격이 되는 공통파일
+<br>
+
 - __Head__
     - `import Head from 'next/head';`
     - 넥스트의 head 컴포넌트를 활용해서.js에서 head태그를 사용할 수 있음
@@ -113,6 +141,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
           <title>내 프로필 | Nodebird</title>
         </Head>
         ```
+<br>
+
 - __반응형 그리드 사용하기__
     - (원칙) 가로먼저 쪼개고 세로 쪼갠다
     - (원칙) 모바일 - 태블릿 - 데스크탑 순서로 디자인한다
@@ -128,6 +158,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         ```
     - \<a\> 새탭열기 보안위협 제거
         `<a href="https://www.zerocho.com" target="_blank" rel="noreferer noopener`></a>
+<br>
+
 - __로그인 폼 만들기__
     - 원래는 컴포넌트(순수하게 화면 보여주는것), 컨테이너(데이터 다루는 것) 구분했으나, hooks 나오면서 컴포넌트와 컨테이너 구분을 추천하지 않는 것이 공식 리액트 입장
     - 이번 한번만 직접 만들어보고 리액트Form 관련 라이브러리 활용 추천
@@ -172,6 +204,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
                 </div>
             </Form>
         ```
+<br>
+
 - __리렌더링 이해하기__
     - __리액트의 리렌더링__
         - 함수형 컴포넌트에서 리렌더링 될 때 함수 안에 부분이 다시 실행되는 것은 맞음
@@ -217,6 +251,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
                 <Button> ... </Button>
             </ButtonRapper>
             ```
+<br>
+
 - __더미 데이터로 로그인하기__
     - pages/LoginForm.js
         ```js
@@ -253,6 +289,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         ...
         }
         ```
+<br>
+
 - __크롬 확장프로그램__
     - React Developer Tools: 리렌더링 되는 부분 하이라이트됨
         ![image](https://user-images.githubusercontent.com/60066472/91579629-dfed9400-e986-11ea-8458-7e91576aa5e9.png)
@@ -263,6 +301,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         - 이미 리액트에서 데이터가 바뀌면 알아서 화면을 다시 그려주는데 제이쿼리는 자기가 알아서 화면을 다시 직접 그려야 함
         - 제이쿼리로 만든 라이브러리를 가져다 쓰고싶다면 간섭없도록 주의(제이쿼리가 컨트롤하는 부분은 리액트가 건들지 않도록, vice versa)
     - 대륙의실수: echarts 오픈소스 차트라이브러리, AntD, Vue
+<br>
+
 - __프로필 페이지 만들기__
     - 페이지를 만들 때 바로 div, div 코딩하지 말고 먼저 가상의 컴포넌트를 생각해서 적는 것이 효율적
     - 한 컴포넌트당 100줄이 넘어가면 분리하는 편(제로초 스타일)
@@ -294,6 +334,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             data: PropTypes.array.isRequired,
         }
         ```
+<br>
+
 - __회원가입 페이지 만들기(커스텀 훅)__
     - 변수명은 알아보기 쉽게 nick처럼 줄이지 않고 nickname이라고 전체단어를 적어줌
     - 리렌더링 최적화는 배포직전에 테스트해보고 보완해도 늦지않음
@@ -333,7 +375,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             ...
         </Form>
         ```
-<br>
+<br><br>
 
 ## 🌼 3. Redux 연동하기
 - __리덕스 설치와 필요성 소개__
@@ -386,6 +428,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         // 원래 리덕스는 <Provider store={store}> ... </Provider>로 감싸줘야하지만 넥스트 현재버전에선 넣으면 안됨
         export default wrapper.withRedux(NodeBird);
         ```
+<br>
+
 - __리덕스의 원리와 불변성__
     - reducer에서 항상 새로 생성된 객체를 리턴하는 이유
         - 객체를 새로 만들어야 모든게 기록으로 남아 변경 추적이 되기 때문
@@ -420,6 +464,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             }
         }
         ```
+<br>
+
 - __리덕스 실제 구현하기__
     - 빌드옵션에 `npm run dev -p 3060` 하면 포트설정 가능
     - 동적 action 생성 (action creator)
@@ -499,6 +545,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             }
         }
         ```
+<br>
+
 - __리듀서 쪼개기__
     - (복습) 리듀서는 이전 state와 action을 받아서 다음 state를 돌려주는 함수
     - initialState의 depth가 1이 되도록 reducers/user.js, reducers/post.js로 쪼개주기
@@ -542,7 +590,9 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         }
             
         ```
-- __더미데이터와 만들기__
+<br>
+
+- __더미데이터 만들기__
     - 더미데이터 속성 정하기
         - 서버개발자에게 어떤 식으로 줄 것인지 물어볼 수도 있고 프론트엔드 개발자가 먼저 이런식으로 달라고 요청할 수도 있음
     - 더미데이터 설정
@@ -581,7 +631,9 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             }
         };
         ```
-- __포스트폼 만들기__
+<br>
+
+- __포스트폼 구현하기__
     - AntD 와 같이 공식홈페이지에서 찾을 수 있는 것 외우지 X
         - 알베르트 아인슈타인, "(책에서) 찾을 수있는 것을 외우지 말아라"
     - 포스트폼 작성 시
@@ -600,6 +652,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             <input type="file" multiple ref={imageInput} />
             <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         ```
+<br>
+
 - __포스트카드 구현하기__
     - components/PostCard.js
         ```js
@@ -637,6 +691,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
 - __게시글 구현하기__
     - (에러) 오타로인한 에러는 정말 찾기 어려움. 에러메세지를 꼭 열심히 볼 것
 ![image](https://user-images.githubusercontent.com/60066472/91689656-88764080-eb9f-11ea-9685-fa93fd80d38f.png)
+<br>
+
 - __이미지 구현하기__
     - \<img\>의 alt는 웹접근성을 위함. 정확한 이름을 알려주는 것이 좋음
     - 페이스북에서는 올리는 사진이 음식이면 머신러닝으로 알아서 alt="음식"으로 넣어줌
@@ -650,6 +706,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
         }
         return (); // 이미지 3개 이상일 때, 더보기 버튼 구현
         ```
+<br>
+
 - __리액트 슬릭으로 이미지 캐러셀 구현하기__
     - `npm i react-slick`
     - compoenets/imagesZoom/index.js    
@@ -710,6 +768,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             bottom: 0;
         `;
         ```
+<br>
+
 - __글로벌 스타일__
     - 일반적으로 styled div는 로컬 scope를 갖지만, 전역 스타일드 컴포넌트도 만들 수 있음
         ```js
@@ -720,12 +780,16 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             display: inline-block;
         `
         ```
+<br>
+
 - __컴포넌트 폴더구조 만드는 이유__
     - 100줄이 넘지 않는 파일을 작성하기 위해, 로직에 핵심적인 부분만 남기고 덜 중요한 부분은 별도의 파일로 둠
     - 예를들면 모든 스타일드 컴포넌트를 imagesZoom/styles.js 파일에 넣어주고 export 해주고 index.js에서는 import만 해줌
     - 특히 global styled component의 경우 후에 export해두면 재사용하기도 좋음
     - 컴포넌트가 커질수록 폴더로 만드는 경우가 많고, 심지어 Depth가 2보다 깊어질수 있음
     - "개발자들은 자기가 옛날에 만들었던 코드가 자기의 자산이래요! 자기가 만든 코드를 잘 챙겨두세요 :D"
+<br>
+
 - __게시글 해시태그 링크로 만들기__
     - 해시태그 클릭하면 관련된 게시물 뜨게 설정할 것
     - 정규표현식 테스트할 수 있는 사이트 [RegExr](https://regexr.com/)
@@ -739,6 +803,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             return v;
         })}
     ```
+<br><br>
 
 ## 🌼 4. Redux-saga 연동하기
 - __redux-thunk 이해하기__
@@ -759,10 +824,83 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             const middlewares = [thunkMiddleware, loggerMiddleware]; // 여기에 쏙 넣어주기만 하면 됨
         };
         ```
-
     - 비동기요청 3세트 : REQUEST SUCCESS FAILURE
     - hunk를 많이들 쓰지만, 수업(+실무)에서 saga를 쓰는 이유
         - delay, take latest(두번클릭했을때), throttle적용(셀프디도스공격 방지,,,) 같이 실무에서 많이 쓰이는 기능 제공함
-- __saga 설치하고 generator 이해하기__
+<br>
+
+- __saga 설치하기__
+    - `npm rm redux-thunk` `npm i redux-saga next-redux-saga axios`
+    - next에서 redux-saga 연결하는 [방법](https://github.com/bmealhouse/next-redux-saga)
+    - store/configureStore.js
+        ```js
+        import createSagaMiddleware from 'redux-saga';
+        import rootSaga from '../sagas';
+        
+        const configureStore = () => {
+            const sagaMiddleware = createSagaMiddleware();
+            const middlewares = [sagaMiddleware, loggerMiddleware];
+            ..
+            store.sagaTask = sagaMiddleware.run(rootSaga);
+            return store;
+        }
+        ```
+    - pages/_app.js
+        ```js
+        import withReduxSaga from 'next-redux-saga'; //hoc high order component
+        
+        export default wrapperwidthRedux(withReduxSaga(NodeBird));
+        ```
+<br>
+
 - __saga 이펙트 알아보기__
-- __take, take 시리즈, throttle 알아보기__
+    - 루트 saga만들어놓고 거기에 비동기 action들을 하나씩 추가해서 사용
+    - generator(*)
+        - 중간점(yield문)이 있는 함수 => 무한의 이벤트리스너 처럼 활용
+        - yield를 넣어주면 테스트할 때도 편리!
+        - 모던 튜토리얼 [설명](https://ko.javascript.info/generators)
+    - call vs fork
+        - call : 동기함수 호출, 결과값을 받아올 때까지 기다려줌
+        - fork : 비동기함수 호출, 결과값을 받아올 때까지 기다려주지 않음
+    - take
+        - takeEvery는 while(true) 효과
+        - takeLatest는 버튼을 잘못 2번 눌렀을 때 포스트가 2번 포스팅되는게 아니라 마지막 것 1번만 실행
+            - 그렇지만 서버에는 2개의 데이터가 저장되므로, 반드시 서버쪽에서 데이터가 중복되서 들어왔는지 확인해주어야 함
+        - takeLeading은 반대로 처음 요청만 실행
+     - sagas/index.js
+        ```js
+        import { all, fork, call, put, takeEvery, takeLatest } from 'redux-saga/effects'; // saga 이펙트, 이펙트 앞에는 yield를 붙여서 사용
+        
+        function logInAPI(data) { // 이건 제너레이터 아님!
+            return axios.post('api/login', data)
+        }
+        
+        function* logIn(action) {
+            try { // 요청이 실패한 경우 대비 try catch
+                yield delay(1000); // 아직 서버 구현 전이니까 delay로 비동기적인 효과주기 (실제로는 아래 yield call 실행)
+                // const result = yield call(logInAPI, action.data); // 서버로 로그인하는 요청을 보내고 결과를 받음. call 대신 fork를 쓸 수 없음
+                yield put({                     // put은 dispatch 역할
+                    type: 'LOG_IN_SUCCESS', // 리덕스에서 action이 너무 많아서 action을 최소화하는게 좋음
+                    data: result.data,
+                });
+            } catch (err) {
+                yeild put ({
+                    type: 'LOG_IN_FAILURE',
+                    data: err.response.data,
+                });
+            }
+        });
+        
+        function* watchLogin() { // 이 패턴 그대로 watchLogout, addPost 만들어주면 됨.
+            yield takeLatest('LOG_IN_REQUEST', logIn); // LOG_IN_REQUEST action이 들어오면 logIn 실행
+            // yield throttle('LOG_IN_REQUEST', logIn, 10000); // 10초 내에 1번만 실행되도록 함. takeLatest의 단점커버, 디도스공격도 막을 수 있음
+        }
+
+        export default function* rootSaga() {
+            yeild all([             // all은 배열을 받아 한 번에 다 실행해줌
+                fork(watchLogin),   // '이벤트리스너' 같은 것들 등록해주는 것
+                fork(watchLogout),
+                fork(watchAddPost),
+            ]);
+        }
+        ```
