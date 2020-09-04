@@ -74,7 +74,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
     - `npm i eslint eslint-plugin-import eslint-plugin-react eslint-plugin-react-hooks -D`
     - 한 사람이 코딩한 것처럼 할 수 있음!
     - 설정파일 .eslintrc 생성하고 vscode 에디터 연동 별도로 해야함!
-        ```
+        ```js
         {
           "parserOptions": {
             "ecmaVersion": 2020,
