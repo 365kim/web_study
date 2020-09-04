@@ -1,4 +1,4 @@
-__리액트 리뉴얼강좌(SNS 만들기)__ 강의
+__리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https://github.com/ZeroCho/react-nodebird)
 1. [Hello, Next.js](#-1-hello-nextjs)
 2. [AntD 사용해 SNS 화면 만들기](#-2-antd-사용해-sns-화면-만들기)
 3. [Redux 연동하기](#-3-redux-연동하기)
@@ -905,3 +905,51 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의
             ]);
         }
         ```
+<br>
+
+- __로그인 시나리오__
+    - 1. components/LoginForm.js에서 id, password 입력
+    - 2. onSubmitForm 의 `dispatch(loginRequestAction({id, password}));` 실행
+    - 3. reducers/user.js의 리듀서 switch문 LOG_IN_REQUEST도 실행
+    - 4. 그와 거의 동시에 sagas/user.js의 watchLogIn() 이벤트리스너로 logIn의 실행
+    - 5. agas/user.js에서 1초(delay(1000)) 뒤에 LOG_IN_SUCCESS가 되면서 이게 dispatch됨
+    - 6. 그럼 다시 reducers/user.js에서 switch문 LOG_IN_SUCCESS 실행해서 데이터 넣어주고, isLoggedIn: true로 바꿔줌
+    - 7. AppLayout.js에서 `{isLoggedIn ? <UserProfile /> : <LoginForm />}` 부분이 다시 렌더됨
+<br>
+
+- __코드 정리하기__
+    - action이 문자열로 하드코딩 되어있으면 오타에 취약해서 변수로 바꾸어 주는 것이 좋음
+    - 다른 파일에서도 쓰기 위해 export해주도록 함
+    - action 디렉토리에 새로 정리해주어도 좋음
+        ```js
+        export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
+        export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS'; 
+        export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
+        ```
+    - 변수명 만으로도 state값과 action값을 서로 구분할 수 있게 request,success,failure는 action에만 사용하고 state에는 다른 워딩을 사용
+        ```js
+        export const initialState = {
+            logInLoading : false, // 로그인 시도중
+            logInDone : false,
+            logInError: false,
+            logOutLoading : false, // 로그아웃 시도중
+            logOutDone : false,
+            logOutError: false,
+            me: null,
+            signUpData: {},
+            loginData: {},
+        }
+        ```
+    - reducer 스위치문 정리 (패턴이 있음)
+        - REQUEST - loading: true, done: false, error: null
+        - SUCCESS - loading: false, done: true, me: dummyUser(action.data) or null
+        - FAILURE - loading: false, error: action.error
+<br>
+
+- __eslint 적용하기__
+    - `npm i -D babel-eslint eslint-conf-airbnb eslint-plugin-import eslint-plugin-react-hooks eslint-plugin-jsx-a11y`
+        - airbnb가 강하게 검사해서 적용해줌 `"extends" [ airbnb ]`
+        - a11y가 접근성(Accessibility) 의미
+        - 에디터가 인식 못하는 경우에는 껏킴 ㄱㄱ
+        - 필요없는 것은 rules에서 off시켜주면 됨
+    ![image](https://user-images.githubusercontent.com/60066472/92251593-058b1800-ef08-11ea-8e64-acab72f1e0fc.png)
