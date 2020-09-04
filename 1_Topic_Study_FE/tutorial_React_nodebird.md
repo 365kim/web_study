@@ -908,13 +908,13 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
 <br>
 
 - __로그인 시나리오__
-    - 1. components/LoginForm.js에서 id, password 입력
-    - 2. onSubmitForm 의 `dispatch(loginRequestAction({id, password}));` 실행
-    - 3. reducers/user.js의 리듀서 switch문 LOG_IN_REQUEST도 실행
-    - 4. 그와 거의 동시에 sagas/user.js의 watchLogIn() 이벤트리스너로 logIn의 실행
-    - 5. agas/user.js에서 1초(delay(1000)) 뒤에 LOG_IN_SUCCESS가 되면서 이게 dispatch됨
-    - 6. 그럼 다시 reducers/user.js에서 switch문 LOG_IN_SUCCESS 실행해서 데이터 넣어주고, isLoggedIn: true로 바꿔줌
-    - 7. AppLayout.js에서 `{isLoggedIn ? <UserProfile /> : <LoginForm />}` 부분이 다시 렌더됨
+    - components/LoginForm.js에서 id, password 입력
+    - onSubmitForm 의 `dispatch(loginRequestAction({id, password}));` 실행
+    - reducers/user.js의 리듀서 switch문 `LOG_IN_REQUEST`도 실행
+    - 그와 거의 동시에 sagas/user.js의 `watchLogIn()` 이벤트리스너로 `logIn()` 실행
+    - sagas/user.js에서 1초(`delay(1000)`) 뒤에 `LOG_IN_SUCCESS`가 되면서 이게 dispatch됨
+    - 그럼 다시 reducers/user.js에서 switch문 `LOG_IN_SUCCESS` 실행해서 데이터 넣어주고, `isLoggedIn: true`로 바꿔줌
+    - AppLayout.js에서 `{isLoggedIn ? <UserProfile /> : <LoginForm />}` 부분이 다시 렌더됨
 <br>
 
 - __코드 정리하기__
