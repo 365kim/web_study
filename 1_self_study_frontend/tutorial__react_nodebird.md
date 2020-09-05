@@ -689,6 +689,8 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
             setLiked((prev) => !prev); // true/false 를 왔다리 갔다리할 수 있음
         }, []);
         ```
+<br>
+
 - __게시글 구현하기__
     - (에러) 오타로인한 에러는 정말 찾기 어려움. 에러메세지를 꼭 열심히 볼 것
 ![image](https://user-images.githubusercontent.com/60066472/91689656-88764080-eb9f-11ea-9685-fa93fd80d38f.png)
@@ -878,7 +880,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
         
         function* logIn(action) {
             try { // 요청이 실패한 경우 대비 try catch
-                yield delay(1000); // 아직 서버 구현 전이니까 delay로 비동기적인 효과주기 (실제로는 아래 yield call 실행)
+                yield delay(1000); // 아직 서버 구현 전이니까 delay로 로그인하는 비동기적인 효과주기 (실제로는 아래 yield call 실행)
                 // const result = yield call(logInAPI, action.data); // 서버로 로그인하는 요청을 보내고 결과를 받음. call 대신 fork를 쓸 수 없음
                 yield put({                     // put은 dispatch 역할
                     type: 'LOG_IN_SUCCESS', // 리덕스에서 action이 너무 많아서 action을 최소화하는게 좋음
@@ -908,13 +910,13 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
 <br>
 
 - __로그인 시나리오__
-    - components/LoginForm.js에서 id, password 입력
-    - onSubmitForm 의 `dispatch(loginRequestAction({id, password}));` 실행
-    - reducers/user.js의 리듀서 switch문 `LOG_IN_REQUEST`도 실행
-    - 그와 거의 동시에 sagas/user.js의 `watchLogIn()` 이벤트리스너로 `logIn()` 실행
-    - sagas/user.js에서 1초(`delay(1000)`) 뒤에 `LOG_IN_SUCCESS`가 되면서 이게 dispatch됨
-    - 그럼 다시 reducers/user.js에서 switch문 `LOG_IN_SUCCESS` 실행해서 데이터 넣어주고, `isLoggedIn: true`로 바꿔줌
-    - AppLayout.js에서 `{isLoggedIn ? <UserProfile /> : <LoginForm />}` 부분이 다시 렌더됨
+    - __[1]__ components/LoginForm.js에서 id, password 입력
+    - __[2]__ onSubmitForm 의 `dispatch(loginRequestAction({id, password}));` 실행
+    - __[3]__ reducers/user.js의 리듀서 switch문 `LOG_IN_REQUEST`도 실행
+    - __[4]__ 그와 거의 동시에 sagas/user.js의 `watchLogIn()` 이벤트리스너로 `logIn()` 실행
+    - __[5]__ sagas/user.js에서 1초(`delay(1000)`) 뒤에 `LOG_IN_SUCCESS`가 되면서 이게 dispatch됨
+    - __[6]__ 그럼 다시 reducers/user.js에서 switch문 `LOG_IN_SUCCESS` 실행해서 데이터 넣어주고, `isLoggedIn: true`로 바꿔줌
+    - __[7]__ AppLayout.js에서 `{isLoggedIn ? <UserProfile /> : <LoginForm />}` 부분이 다시 렌더됨
 <br>
 
 - __코드 정리하기__
@@ -946,10 +948,100 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
         - FAILURE - loading: false, error: action.error
 <br>
 
-- __eslint 적용하기__
+- __eslint 점검하기__
     - `npm i -D babel-eslint eslint-conf-airbnb eslint-plugin-import eslint-plugin-react-hooks eslint-plugin-jsx-a11y`
         - airbnb가 강하게 검사해서 적용해줌 `"extends" [ airbnb ]`
         - a11y가 접근성(Accessibility) 의미
         - 에디터가 인식 못하는 경우에는 껏킴 ㄱㄱ
         - 필요없는 것은 rules에서 off시켜주면 됨
-    ![image](https://user-images.githubusercontent.com/60066472/92251593-058b1800-ef08-11ea-8e64-acab72f1e0fc.png)
+    <p><img src="https://user-images.githubusercontent.com/60066472/92251593-058b1800-ef08-11ea-8e64-acab72f1e0fc.png" width="400"></p>
+<br>
+
+- __동적 더미데이터 만들기__
+    - 아래코드 실행 시 에러발생<p><img src="https://user-images.githubusercontent.com/60066472/92306760-99261c80-efcc-11ea-9a7a-a87222fc561b.png"></p>
+        ```js
+        const dummyPost = (data) => ({
+            id: 2, // id가 2로 고정되어있는데 이걸 key로 써서 반복문에서 에러발생한 것
+            content: data,
+            User: {
+                id: 1,
+                nickname: '제로초',
+            },
+            Images: [],
+            Comments: [],
+        });
+        ```
+<br>
+
+- __shortid 라이브러리__
+    - `npm i shortid` 
+    - 거의 겹치지 않는 아이디를 생성해줌
+        ```js
+        import shortId from 'shortid';
+        ...
+            id: shortId.generate(),
+        ```
+<br>
+
+- __saga에 action 여러개 넣기__
+    - 어떤 action이 여러 리듀서의 데이터를 동시에 바꿔야할 경우
+        - saga로 여러 action을 동시에 dispatch해서 각각의 리듀서를 호출해주면 됨
+        - action이 많아지면 코드가 길어지고 번거로울 수 있지만, 각각의 action들이 Redux Dev Tools에 기록되어 디버깅할 때 좋음!
+    - (e.g.) reducers/user.js 에서 상태를 바꿀 수 있는 action을 추가해주고, sagas/post에서 그 액션을 실행해서 user.js 리듀서 호출
+        ```js
+        function* addPost(action) {
+            try {
+            yield delay(1000);
+            const id = shortId.generate();
+            yield put({
+                type: ADD_POST_SUCCESS,
+                data: {
+                id,
+                content: action.data,
+                }
+            });
+            yield put({
+                type: ADD_POST_TO_ME, // user.js 리듀서 호출
+                data: id,
+            });
+            ...
+        }
+        ```
+<br>
+
+- __게시글 삭제하기__
+    - user.js
+        ```js
+        case: REMOVE_POST_OF_ME:
+            return {
+                ...state,
+                me: {
+                    ...state.me,
+                    Posts: state.me.Posts.filter((v) => v.id !== action.data), // 불변성 지킬 수 있는 삭제방법
+                },
+            };
+        ```
+<br>
+
+- __immer 라이브러리__
+    - 불변성 관리
+        - 바뀌는 것만 바뀌고 나머지는 참조를 유지해 메모리를 절약할 수 있음
+    - 수동으로 불변성을 지키기 위한 노력...
+        ```js
+        case ADD_COMMENT_SUCCESS: {
+            const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
+            const post = { ...state.mainPosts[postIndex] };
+            post.Comments = [dummyComment(action.data.content), ...post.Comments];
+            const mainPosts = [...state.mainPoast];
+            mainPosts[postIndex] = post;
+            return {
+                ...state,
+                mainPosts,
+                addCommentLoading: false,
+                addCommentDone: true,
+            };
+        }
+        ```
+<br>
+
+- __faker 라이브러리__
