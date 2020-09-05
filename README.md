@@ -1,35 +1,43 @@
-## :runner: Web Study
+## :runner: Front-End Study
 
-### Front-End Basic
+| 　　 DESCRIPTION 　 　 | 　 TOPIC 　　 　 　　　　　　 　　                                               | 　 　　 DATE 　 　 　 | 　 REFERENCE 　　　 　　　　  |
+| :--------------------: | :------------------------------------------------------------------------------- | :-------------------- | :---------------------------- |
+|                        |                                                                                  |                       |                               |
+|      **Tutorial**      |                                                                                  |                       |                               |
+|                        | 　[**CSS**](./1_self_study_frontend/tutorial__css.md)                            | 　　 2020. 06. 08.    | 　 online class _(egoing)_    |
+|                        | 　[**JavaScript**](./1_self_study_frontend/tutorial__javascript.md)              | 　　 2020. 06. 09.    | 　 online class _(egoing)_    |
+|                        | 　[**Bootstrap**](./1_self_study_frontend/tutorial__bootstrap.md)                | 　　 2020. 06. 10.    | 　 online class _(dongbinna)_ |
+|                        | 　[**React Basic**](./1_self_study_frontend/tutorial__react_velopert.md)         | 　　 2020. 06. 12.    | 　 online class _(velopert)_  |
+|                        | 　[**React Web Game**](./1_self_study_frontend/tutorial__react_webgame.md)       | 　　 2020. 06. 15.    | 　 online class _(zerocho)_   |
+|                        | 　[**React Router**](./1_self_study_frontend/tutorial__react_router.md)          | 　　 2020. 06. 16.    | 　 online class _(velopert)_  |
+|                        | 　[**MDB**](./1_self_study_frontend/tutorial__mdb_react.md)                      | 　　 2020. 06. 19.    | 　 official document          |
+|                        | 　[**Next.js**](./1_self_study_frontend/tutorial__nextjs_bootstrap.md)           | 　　 2020. 07. 03.    | 　 official document          |
+|                        | 　[**Redux**](./1_self_study_frontend/tutorial__redux.md)                        | 　　 2020. 07. 25.    | 　 online class _(egoing)_    |
+|                        | 　[**React Nodebird**](./1_self_study_frontend/tutorial__react_nodebird.md)      | 　　 2020. 08. 24. ~  | 　 online class _(zerocho)_   |
+|                        |                                                                                  |                       |                               |
+|    **Exploration**     |                                                                                  | 　　 2020. 06. 17.    |                               |
+|                        | 　[**Material Design**](./1_self_study_frontend/exploration__material_design.md) | 　　 2020. 06. 17.    |                               |
+|                        | 　[**Color Scheme**](./1_self_study_frontend/exploration__color_scheme.md)       | 　　 2020. 06. 24.    |                               |
+|                        |                                                                                  |                       |                               |
+|     **Case Study**     |                                                                                  |                       |                               |
+|                        | 　[**index layout**](./1_self_study_frontend/casestudy__index.md)                | 　　 2020. 06. 25.    |                               |
+|                        | 　[**footer component**](./1_self_study_frontend/casestudy__footer.md)           | 　　 2020. 06. 26.    |                               |
 
-| 　 Description 　 |                                  　 Topic 　                                   | 　　 Reference 　　        | 　　 Date 　　  |
-| :---------------: | :----------------------------------------------------------------------------: | :------------------------- | :-------------: |
-|     tutorial      |              [**css**](./1_self_study_frontend/tutorial__css.md)               | online class _(egoing)_    |  2020. 06. 08.  |
-|                   |       [**javascript**](./1_self_study_frontend/tutorial__javascript.md)        | online class _(egoing)_    |  2020. 06. 09.  |
-|                   |        [**bootstrap**](./1_self_study_frontend/tutorial__bootstrap.md)         | online class _(dongbinna)_ |  2020. 06. 10.  |
-|                   |     [**react basic**](./1_self_study_frontend/tutorial__react_velopert.md)     | online class _(velopert)_  |  2020. 06. 12.  |
-|                   |    [**react webgame**](./1_self_study_frontend/tutorial__react_webgame.md)     | online class _(zerocho)_   |  2020. 06. 15.  |
-|                   |     [**react router**](./1_self_study_frontend/tutorial__react_router.md)      | online class _(velopert)_  |  2020. 06. 16.  |
-|                   |           [**mdb**](./1_self_study_frontend/tutorial__mdb_react.md)            | official document          |  2020. 06. 19.  |
-|                   |      [**nextjs**](./1_self_study_frontend/tutorial__nextjs_bootstrap.md)       | official document          |  2020. 07. 03.  |
-|                   |            [**redux**](./1_self_study_frontend/tutorial__redux.md)             | online class _(egoing)_    |  2020. 07. 25.  |
-|                   |   [**react nodebird**](./1_self_study_frontend/tutorial__react_nodebird.md)    | online class _(zerocho)_   | 2020. 08. 24. ~ |
-|    exploration    | [**material design**](./1_self_study_frontend/exploration__material_design.md) |                            |  2020. 06. 17.  |
-|                   |    [**color scheme**](./1_self_study_frontend/exploration__color_scheme.md)    |                            |  2020. 06. 24.  |
-|    case study     |            [**index**](./1_self_study_frontend/casestudy__index.md)            |                            |  2020. 06. 25.  |
-|                   |           [**footer**](./1_self_study_frontend/casestudy__footer.md)           |                            |  2020. 06. 26.  |
+## :runner: Back-End Study
 
-### Back-End Basic
+| 　　 DESCRIPTION 　 　 | 　 TOPIC 　　 　 　　　　　　 　　                             | 　 　　 DATE 　 　 　 | 　 REFERENCE 　　　 　　　　 |
+| :--------------------: | :------------------------------------------------------------- | :-------------------- | :--------------------------- |
+|                        |                                                                |                       |                              |
+|      **Tutorial**      |                                                                |                       |                              |
+|                        | 　[**Database**](./2_self_study_backend/tutorial__database.md) | 　　 2020. 06. 10.    | 　 online class _(egoing)_   |
+|                        | 　[**MySQL**](./2_self_study_backend/tutorial__mysql.md)       | 　　 2020. 06. 11.    | 　 online class _(egoing)_   |
+|                        | 　[**Express**](./2_self_study_backend/tutorial__express.md)   | 　　 2020. 06. 17.    | 　 online class _(egoing)_   |
 
-| 　 Description 　 |                         　 Topic 　                          | 　　 Reference 　　     | 　　 Date 　　 |
-| :---------------: | :----------------------------------------------------------: | :---------------------- | :------------: |
-|     tutorial      | [**database**](./2_self_study_backend/tutorial__database.md) | online class _(egoing)_ | 2020. 06. 10.  |
-|                   |    [**mysql**](./2_self_study_backend/tutorial__mysql.md)    | online class _(egoing)_ | 2020. 06. 11.  |
-|                   |  [**express**](./2_self_study_backend/tutorial__express.md)  | online class _(egoing)_ | 2020. 06. 17.  |
+## :runner: ETC.
 
-### ETC.
-
-| 　 Description 　 |                                  　 Topic 　                                   | 　　 Reference 　　 | 　　 Date 　　 |
-| :---------------: | :----------------------------------------------------------------------------: | :------------------ | :------------: |
-|    exploration    | [**initial setting**](./1_self_study_frontend/exploration__initial_setting.md) |                     | 2020. 06. 07.  |
-|                   |     [**open source**](./1_self_study_frontend/exploration__open_source.md)     |                     | 2020. 07. 02.  |
+| 　　 DESCRIPTION 　 　 | 　 TOPIC 　　 　 　　　　　　 　　                                                | 　 　　 DATE 　 　 　 | 　 REFERENCE 　　　 　　　　 |
+| :--------------------: | :-------------------------------------------------------------------------------- | :-------------------- | :--------------------------- |
+|                        |                                                                                   |                       |                              |
+|    **Exploration**     |                                                                                   |                       |                              |
+|                        | 　[**Initial Settings**](./1_self_study_frontend/exploration__initial_setting.md) | 　　 2020. 06. 07.    |                              |
+|                        | 　[**Open Source**](./1_self_study_frontend/exploration__open_source.md)          | 　　 2020. 07. 02.    |                              |
