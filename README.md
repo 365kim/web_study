@@ -15,7 +15,7 @@
 |                        | 　[**Redux**](./1_self_study_frontend/tutorial__redux.md)                        | 　　 2020. 07. 25.    | 　 online class _(egoing)_    |
 |                        | 　[**React Nodebird**](./1_self_study_frontend/tutorial__react_nodebird.md)      | 　　 2020. 08. 24. ~  | 　 online class _(zerocho)_   |
 |                        |                                                                                  |                       |                               |
-|    **Exploration**     |                                                                                  | 　　 2020. 06. 17.    |                               |
+|    **Exploration**     |                                                                                  | 　　                  |                               |
 |                        | 　[**Material Design**](./1_self_study_frontend/exploration__material_design.md) | 　　 2020. 06. 17.    |                               |
 |                        | 　[**Color Scheme**](./1_self_study_frontend/exploration__color_scheme.md)       | 　　 2020. 06. 24.    |                               |
 |                        |                                                                                  |                       |                               |
