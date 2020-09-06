@@ -15,7 +15,7 @@
       $primary-color: #333;
 
       ```
-    - mixin으로 스타일 함수 함수지정 가능
+    - mixin으로 스타일 함수지정 가능
       ```scss
       @mixin transform($property) {
       -webkit-transform: $property; // 브라우저 prefix 처리에도 유용
