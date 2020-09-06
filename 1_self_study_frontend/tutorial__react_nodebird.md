@@ -881,7 +881,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
         function* logIn(action) {
             try { // 요청이 실패한 경우 대비 try catch
                 yield delay(1000); // 아직 서버 구현 전이니까 delay로 로그인하는 비동기적인 효과주기 (실제로는 아래 yield call 실행)
-                // const result = yield call(logInAPI, action.data); // 서버로 로그인하는 요청을 보내고 결과를 받음. call 대신 fork를 쓸 수 없음
+                // const result = yield call(logInAPI, action.data); // ★서버구현후 서버로 로그인하는 요청을 보내고 결과를 받음. call 대신 fork를 쓸 수 없음
                 yield put({                     // put은 dispatch 역할
                     type: 'LOG_IN_SUCCESS', // 리덕스에서 action이 너무 많아서 action을 최소화하는게 좋음
                     data: result.data,
@@ -1026,22 +1026,78 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
 - __immer 라이브러리__
     - 불변성 관리
         - 바뀌는 것만 바뀌고 나머지는 참조를 유지해 메모리를 절약할 수 있음
-    - 수동으로 불변성을 지키기 위한 노력...
+    - immer없이 수동으로 불변성을 지키기 위한 노력...
         ```js
-        case ADD_COMMENT_SUCCESS: {
-            const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
-            const post = { ...state.mainPosts[postIndex] };
-            post.Comments = [dummyComment(action.data.content), ...post.Comments];
-            const mainPosts = [...state.mainPoast];
-            mainPosts[postIndex] = post;
-            return {
-                ...state,
-                mainPosts,
-                addCommentLoading: false,
-                addCommentDone: true,
-            };
-        }
+        const reducer = (state = initialState, action) => {
+            switch (action.type) {
+            ...
+                case ADD_COMMENT_SUCCESS: {
+                    const postIndex = state.mainPosts.findIndex((v) => v.id === action.data.postId);
+                    const post = { ...state.mainPosts[postIndex] };
+                    post.Comments = [dummyComment(action.data.content), ...post.Comments];
+                    const mainPosts = [...state.mainPoast];
+                    mainPosts[postIndex] = post;
+                    return {
+                        ...state,
+                        mainPosts,
+                        addCommentLoading: false,
+                        addCommentDone: true,
+                    };
+                }
         ```
+    - `npm i immer` hook버전은 use-immer
+        ```js
+        import produce from 'immer';
+        ...
+        const reducer = (state = initialState, action) => {
+            return produce(state, (draft) => { // state를 draft로 대체함. draft의 불변성은 알아서 immer가 지켜줌 => ...표현이 사라짐
+                switch (action.type) {
+                ...
+                    case ADD_COMMENT_SUCCESS: {
+                        const post = draft.mainPosts.find((v) => v.id === action.data.postId);
+                        post.Comments.unshift(dummyComment(action.data.content));
+                        draft.addCommentLoading = false;
+                        draft.addCommentDone = true;
+                        break; // break 빼먹으면 큰일남!
+                    });
+        ```
+    - 변수명을 통일성있게 지어야 수정할 때 시간을 아낄 수 있습니다. 프로그래머의 생산성은 시간! 시간을 아껴야 개발자의 가치가 올라가는 겁니다 :D
 <br>
 
 - __faker 라이브러리__
+    - `npm i faker`
+    - shortid와 마찬가지로 더미데이터 작성에 유용함
+    - 수 천개를 처리하는 작업을 보여주는 것이 프론트엔드의 실력!
+        ```js
+        import faker from 'faker';
+        ...
+        InitialState.mainPosts = InitialState.mainPosts.concat(
+            Array(20).fill().map((v, i) => {
+                id: shortId.generate();
+                User: {
+                    id: shorId.generate();
+                    nickname: faker.name.findName() // 사용법 공식문서 참조
+                }
+                content: faker.lorem.paragrph
+                Images: [{
+                    src: faker.image.imageUrl(),
+                }],
+                Comments: [{
+                    User: {
+                        id: shortId.generate();
+                        nickname: facker.name.findName()
+                    },
+                    content: faker.lorem.sentence(),
+                }];
+            })
+        );
+        ```
+    - lorempixel.com, placeholder.com 더미데이터임을 확실하게 보여주는 이미지
+<br>
+
+- __리덕스 코드량 줄일 수 있는 라이브러리__
+    - __swr__
+    - __redux-toolkit__
+        - 리덕스팀에서 만듬
+        - createReducer를 switch문 없이 쓸 수있음
+        - immer와 어떻게 함께 쓸지는 고민해봐야함
