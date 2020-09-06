@@ -26,10 +26,32 @@
     - 08/30(월) 헤더 상세구현
     - 09/02(수) 사용자 프로필 상세구현
     - 09/02(수) 컨트리뷰션 상세구현(계속) - [Repl.it](https://repl.it/@365kim/Github-Clone-0902)</p>
-    - 09/00() 푸터 상세구현
-    - 09/00() 미디어쿼리 상세구현
 - __처음 써본 것__
-    - 기록
+    - 반복문으로 그리드 그리기
+        ```js
+        // contribution-grid.js
+        for (let i = 0; i < 4; i++) {
+            document.write("<div class=\"grid-container\">");
+          for (let j = 0; j < 22; j++) {
+            document.write("<div class=\"grid-item\" style=\"background: #EBEDF0;\"></div>");
+          }
+          for (let j = 0; j < 30; j++) {
+            document.write("<div class=\"grid-item\" style=\"background: #9BE9A8\"></div>");
+          }
+            document.write("</div>");
+        }
+
+        for (let i = 0; i < 3; i++) {
+            document.write("<div class=\"grid-container\">");
+          for (let j = 0; j < 21; j++) {
+            document.write("<div class=\"grid-item\" style=\"background: #EBEDF0;\"></div>");
+          }
+          for (let i = 0; i < 29; i++) {
+              document.write("<div class=\"grid-item\" style=\"background: #9BE9A8\"></div>");
+          }
+            document.write("</div>");
+        }
+        ```
 - __진도(예정)__
     - 다음주: CSS3, 부트스트랩
     - 다담주: Javascript
