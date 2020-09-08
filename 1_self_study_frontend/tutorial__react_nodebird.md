@@ -1080,7 +1080,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
                 }
                 content: faker.lorem.paragrph
                 Images: [{
-                    src: faker.image.imageUrl(),
+                    src: faker.image.image(),
                 }],
                 Comments: [{
                     User: {
@@ -1101,3 +1101,54 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
         - 리덕스팀에서 만듬
         - createReducer를 switch문 없이 쓸 수있음
         - immer와 어떻게 함께 쓸지는 고민해봐야함
+<br>
+
+- __인피니트 스크롤링__
+    - 데이터 n(=10)개씩 추가로 가져와서 스크롤이 추가되는 효과 구현
+    - reducers/post.js
+        ```js
+        export const initialState = {
+            mainPosts; [],
+            hasMorePosts: true, // false면 그만 가져오도록
+            ...
+        }
+        ...   
+            case LOAD_POSTS_SUCCESS:
+                draft.loadPostsloading = false;
+                draft.loadPostsDone = true;
+                draft.loadPostsloading = action.data.concat(draft.mainPosts); // 기존데이터 + 10개씩 추가
+                draft.hasMorePosts = draft.mainPosts.length < 50; // 이미 50개 불러왔으면 그만 가져오도록 조건 설정
+                break;
+        ...
+        ```
+    - pages/index.js // 스크롤 detect
+        ```js
+        const Home = () => {
+            const { mainPosts, hasMorePosts } = useSelecter((state) => state.post);
+            ...
+            
+            useEffect(() => {
+                function onScroll() {
+                    // console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight);
+                    // scrollY : 시작지점으로부터 스크롤을 얼마나 내렸는지
+                    // clientHeight : 보이는 화면의 높이
+                    // scrollHeight : 컨텐츠의 총 높이
+                    // 끝까지 내렸을 때 scrollY + clientHeight === scrollHeight
+                    if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300
+                        && hasMorePosts && loadPostsLoading === false) {
+                        dispatch({
+                            type: LOAD_POSTS_REQUEST,
+                        });
+                    }
+                }
+                window.addEventListener('scroll', onScroll); // 현재 스크롤 위치 가져오기
+                return () => {
+                    window.removeEventListener('scroll', onScroll); 
+                    // useEffect에서 window.addEvenetListner했을 때 리턴해서 remove안하면 계속 메모리에 쌓여있게되서 반드시 해제
+                };
+            }, [hasMorePost]);
+        ```
+        ![image](https://user-images.githubusercontent.com/60066472/92469709-3de46c00-f210-11ea-890b-3def12008c27.png)
+    - react virtualized
+        - 수백 개가 로딩되어 있어도 화면에는 3~4개의 게시글을 표시해서 렉없이 스크롤링 됨
+        - 데스크탑처럼 메모리가 크지 않은 모바일 환경에서 유용
