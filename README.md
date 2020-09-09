@@ -5,7 +5,7 @@
 | :------------------- | :------------------------------------------------------------------------------- | :-------------------- | :---------------------------- |
 |                      |                                                                                  |                       |                               |
 | 　**Tutorial**       |                                                                                  |                       |                               |
-|                      | 　[**CSS**](./1_self_study_frontend/tutorial__css.md)                            | 　 2020. 06. 08.      | 　 online class _(egoing)_    |
+|                      | 　[**CSS**](./1_self_study_frontend/tutorial__css.md)                            | 　 2020. 06. 08.      | 　 online class _(zerocho)_   |
 |                      | 　[**JavaScript**](./1_self_study_frontend/tutorial__javascript.md)              | 　 2020. 06. 09.      | 　 online class _(egoing)_    |
 |                      | 　[**Bootstrap**](./1_self_study_frontend/tutorial__bootstrap.md)                | 　 2020. 06. 10.      | 　 online class _(dongbinna)_ |
 |                      | 　[**React Basic**](./1_self_study_frontend/tutorial__react_velopert.md)         | 　 2020. 06. 12.      | 　 online class _(velopert)_  |
