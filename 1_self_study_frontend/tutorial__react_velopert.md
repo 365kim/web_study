@@ -6,9 +6,9 @@
   - 리액트를 쉽고 재밌게 배운다
   - 기초지식 습득
 - 일부분은 무료(유튜브), 일부분은 유료(인프런)
-  <br>
+<br>
 
-## 2 프론트엔드 라이브러리란 무엇인가?
+## 2. 프론트엔드 라이브러리란 무엇인가?
 
 - **프론트엔드 라이브러리의 필요성**
   - 생산성
@@ -36,23 +36,23 @@
 
   <br>
 
-## 3 리액트의 Virtual DOM
+## 3. 리액트의 Virtual DOM
 
 - 리액트 이전에도 MVC, MVVM, MVW 등을 사용하던 기존의 웹프레임워크/라이브러리가 있었음
   - 양방향 바인딩: Model의 값이 변하면 View에서도 이 값을 변화시켜 주고 View서 어떤 값을 변화시키려고 하면 Model의 있는 값의 변화시켜줌
   - 변화(Mutation)시키지 말고, 데이터가 바뀌면 그냥 뷰를 날려버리고 새로 만들어버리면 어떨까?
 - **가상 돔(Virtual DOM)** - 브라우저는 돔 기반으로 작동하기 때문에 페이지가 그때그때 새로운 뷰를 만들면 성능적으로 문제 - 변화가 일어나면 실제로 브라우저의 DOM의 새로운 걸 넣는 것이 아니라 자바스크립트로 이루어진 가상이 도움에 한번 렌더링을 하고 기존의 DOM과 비교를 한 다음에 정말 변화가 필요한 곳에만 업데이트를 해줌 - [React and the Virtual DOM 쉽게 설명하는 영상](https://youtu.be/muc2ZF0QIO4) - View: Draw all on Virtual DOM - React: Detect differences and patch the Real DOM
-  <br>
+<br>
 
-## 4 리액트를 특별하게 만드는 점
+## 4. 리액트를 특별하게 만드는 점
 
 - 어마어마한 생태계
 - 리액트를 사용하는 기업이 많음
   - facebook, airbnb, bbc, coursera, ebay, twitch, walmart, yahoo,...
 - 만족도 높고 인기많음
-  <br>
+<br>
 
-## 5 본격적인 리액트 코드 작성하기
+## 5. 본격적인 리액트 코드 작성하기
 
 - **Webpack**
   - 전체적으로 파일을 관리해주는 도구
@@ -84,9 +84,9 @@
     ```
   - 작성한 컴포넌트를 다른 곳에서 불러와서 사용 할 수 있도록 내보내기
     `js export default App; `
-    <br>
+<br>
 
-## 6 JSX 기본 문법 알아보기 (i)
+## 6. JSX 기본 문법 알아보기 (i)
 
 - **JSX**
   - html이랑 비슷하게 생긴, 자바스크립트로 변환되는 언어
@@ -120,9 +120,9 @@
   - **const** : 한번 선언 후 고정적인 값
   - **let** : 유동적인 값
 - **화살표 함수(arrow function)** - this, arguemnts, super 개념이 없는 함수 - 항상 익명 - 메소드 함수가 아닌 곳에 가장 적합 - [참고자료](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/%EC%95%A0%EB%A1%9C%EC%9A%B0_%ED%8E%91%EC%85%98)
-  <br>
+<br>
 
-## 7 JSX 기본 문법 알아보기 (ii)
+## 7. JSX 기본 문법 알아보기 (ii)
 
 - **JSX에서 CSS 스타일 사용**
   - 기존 html에서는 문자열로 속성 지정하지만 리액트에서는 객체형식으로 지정함
@@ -159,10 +159,9 @@
     }
   }
   ```
-
 <br>
 
-## 8 Props
+## 8. Props
 
 - props와 state 모두 리액트에서 데이터를 다룰 때 사용되는 개념
 - React 컴포넌트로 전달되는 인수
@@ -228,10 +227,11 @@
       name: "Hong gil-dong",
     };
     ```
+    
 - **함수형 컴포넌트** - 함수형 컴포넌트에서는 첫번째 파라미터로 props 객체를 전달받음 - [구조분해 할당 문법](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) - 클래스형 컴포넌트와의 주요 차이점: state 기능, lifecyle 기능이 빠져있음 - 초기마운트 속도가 미세하게 빠르고 불필요한 기능은 없기 때문에 메모리 자원도 덜 사용함 - 단순히 값을 받아와서 보여주기만 하는 경우에 사용
-  <br>
+<br>
 
-## 9 State
+## 9. State
 
 - state는 컴포넌트 자기자신이 갖고 있고, state가 바뀔 때마다 리렌더링됨
 - props는 자식입장에서는 읽기전용인 반면 states는 내부에서 변경할 수 있음
@@ -279,10 +279,9 @@
     this.handleDecrease = this.handleDecrease.bind(this);
   }
   ```
-
 <br>
 
-## 10 LifeCycle API
+## 10. LifeCycle API
 
 - [참고자료](https://react-anyone.vlpt.us/05.html)
 - **나타날 때(Mounting)**
@@ -319,7 +318,7 @@
 - **에러발생했을 때** - **_componentDidCatch(error, info)_** - 에러가 발생할 수 있는 컴포넌트의 부모 컴포넌트에서 사용해야 함 - error: 어떤 에러가 발생했는지 알려줌 - info: 에러가 어디서 발생했는지 알려줌 - 실수로 잡지 못했던 버그 발생 시 사용자에게는 "오류를 해결하기 위해서 최선을 다하겠습니다. "메세지 보여주고 에러 내용이 개발자에게 전달하는 용도로 사용
   ![comp](https://user-images.githubusercontent.com/60066472/84901294-3bc5b200-b0e6-11ea-8d0f-0b54b2dc1f29.jpeg)
   출처:https://twitter.com/dan_abramov/status/981712092611989509
-  <br>
+<br>
 
 ## 11. Create React App 사용하기
 
