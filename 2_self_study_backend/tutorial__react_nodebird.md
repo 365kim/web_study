@@ -42,7 +42,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
   - 프론트서버나 브라우저에서 요청이 보내면, 요청의 메서드나 URL에 따라서 응답을 해주어야 함
     - 응답을 보내지 않으면 특정시간(약 30s) 후 브라우저가 응답실패로 처리함
   - 일일이 라우팅 한다면...
-    ```
+    ```js
     const server = http.createServer((req, res) => {
       if (req.method === 'GET' {
         if (req.url === '/api/post') {
