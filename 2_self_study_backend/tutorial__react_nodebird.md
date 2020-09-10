@@ -39,6 +39,7 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
 <br>
 
 - __익스프레스로 라우팅하기__
+  - express 도 내부적으로 http를 써서 서버를 돌릴 수 있음
   - 프론트서버나 브라우저에서 요청이 보내면, 요청의 메서드나 URL에 따라서 응답을 해주어야 함
     - 응답을 보내지 않으면 특정시간(약 30s) 후 브라우저가 응답실패로 처리함
   - 일일이 라우팅 한다면...
@@ -61,6 +62,42 @@ __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https:
   - express
     - 기본 http보다 코드를 깔끔하고 구조적으로 짤 수 있음
     - `npm i express`
+      ```
+      const express = require('express');
+      
+      const app = express(); // 한 번 호출해줌
+      app.get('/api/post', (req, res) => { // 'get' 부분이 메소드, /api/post 부분이 
+        res.json([
+          {id: 1, content: 'hello1'}
+          {id: 2, content: 'hello2'}
+        ])
+      });
+      
+      app.post('/api/post', (req, res) => {
+        res.json({id: 1, content: 'hello1'})
+      });
+      
+      app.delete('/api/post', (req, res) => {
+        
+      });
+      ```
+- __요청 메서드__
+  - 주요 HTTP 메서드
+    - GET (가져오기)
+    - POST (생성)
+    - DELETE (삭제)
+    - PUT (전체수정) 
+    - PATCH (부분수정)
+    - OPTIONS (찔러보기)
+  - REST API (Representational State Transfer API)
+    - 규칙1. URI는 '자원'을 표현하는 데에 집중 (명사)
+    - 규칙2. HTTP METHOD는 '행위'를 표현하는데 집중 (동사)
+    - 현업에선 애매하면 그냥 POST 사용
+  - [Swagger](https://swagger.io/) 로 API 문서 자동화 가능
+  - [postman](https://www.postman.com/)
+    - 브라우저에서 url로 줄 수 있는 GET 외에 POST, PUT, PATCH 등 다른 메서드로 요청을 보낼 수 있음
+    <p><img scr="https://user-images.githubusercontent.com/60066472/92732494-82f3d400-f3b1-11ea-8ff7-177ae3a4328d.png" width="500"></p>
+
 <br>
     
 - __익스프레스 라우터 분리하기__
