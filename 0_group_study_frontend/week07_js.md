@@ -1,17 +1,17 @@
 ## :tulip: 7주차 진도
-- __주　제__　JS 기초
-- __진도(예정)__
+- __주제__　JS 기초
+- __진도__
     - [30일 바닐라JS 코딩챌린지](https://javascript30.com/)
-<br>
 <br>
 
 ## :tulip: 보충학습
 
-### Day00 Getting Setup
-- 스타터 파일 [다운로드](https://github.com/wesbos/JavaScript30)
+### Day00 - Getting Setup
+- 자료 다운로드
   - `git clone https://github.com/wesbos/JavaScript30.git`
+<br>
 
-### Day01 JavaScript Drum Kit :page_with_curl: [__학습코드__](https://repl.it/@365kim/JS30-DAY01#script.js)
+### Day01 - JavaScript Drum Kit :page_with_curl: [내 코드](https://repl.it/@365kim/JS30-DAY01#script.js)
 - __\<kbd\> 태그__
   - 키보드 입력, 음성 입력 등
   - 키값 알아내기 : [keycode.info](http://keycode.info/)
@@ -33,4 +33,5 @@
   - `const key = document.querySelector(`div[data-key="${e.keyCode}"]`);`
 - __addEventListener__
   - `window.addEventListener('keydow', playSound');`
-  
+<br>
+
