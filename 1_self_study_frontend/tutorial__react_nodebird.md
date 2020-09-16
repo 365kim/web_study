@@ -1,8 +1,8 @@
 __리액트 리뉴얼강좌(SNS 만들기)__ 강의 [소스코드 보기](https://github.com/ZeroCho/react-nodebird)
-1. [Hello, Next.js](#-1-hello-nextjs)
-2. [AntD 사용해 SNS 화면 만들기](#-2-antd-사용해-sns-화면-만들기)
-3. [Redux 연동하기](#-3-redux-연동하기)
-4. [Redux-saga 연동하기](#-4-redux-saga-연동하기)
+1. [Hello, Next.js](#1-hello-nextjs)
+2. [AntD 사용해 SNS 화면 만들기](#2-antd-사용해-sns-화면-만들기)
+3. [Redux 연동하기](#3-redux-연동하기)
+4. [Redux-saga 연동하기](#4-redux-saga-연동하기)
 <br>
 
 ## 1. Hello, Next.js
