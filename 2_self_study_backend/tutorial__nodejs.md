@@ -59,6 +59,7 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
 
 ### 1-4 🎯 axios + cheerio로 첫 크롤링하기
 - `npm i axios cheerio`
+
   ```js
   const xlsx = require('xlsx');
   const axios = require('axios'); // ajax 라이브러리
