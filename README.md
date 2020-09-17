@@ -33,7 +33,8 @@
 |                      | 　[**Database**](./2_self_study_backend/tutorial__database.md)             | 　 2020. 06. 10.      | 　 online class _(egoing)_   |
 |                      | 　[**MySQL**](./2_self_study_backend/tutorial__mysql.md)                   | 　 2020. 06. 11.      | 　 online class _(egoing)_   |
 |                      | 　[**Express**](./2_self_study_backend/tutorial__express.md)               | 　 2020. 06. 17.      | 　 online class _(egoing)_   |
-|                      | 　[**React Nodebird**](./2_self_study_backend/tutorial__react_nodebird.md) | 　 2020. 09. 08. ~    | 　 online class _(zerocho)_  |
+|                      | 　[**React Nodebird**](./2_self_study_backend/tutorial__react_nodebird.md) | 　 2020. 09. 08.      | 　 online class _(zerocho)_  |
+|                      | 　[**Nodejs**](./2_self_study_backend/tutorial__nodejs.md) | 　 2020. 09. 16. ~    | 　 online class _(zerocho)_  |
 
 ## :runner: ETC.
 
