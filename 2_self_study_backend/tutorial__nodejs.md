@@ -58,50 +58,118 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
 <br>
 
 ### 1-4 🎯 axios + cheerio로 첫 크롤링하기
+- __axios + cheerio 조합__
+  - 간단한 페이지 크롤링 가능 (axios 요청에 html을 주는 경우에만)
+  - axios 요청에 텅 비어있는 html을 반환하거나, URL이 없는 SPA라면 더 강력한 퍼펫티어 사용 필요
 - `npm i axios cheerio`
 
   ```js
-  const xlsx = require('xlsx');
-  const axios = require('axios'); // ajax 라이브러리
-  const cheerio = require('cheerio'); // html 파싱
-  // const add_to_sheet = require('./add_to_sheet');
+  const xlsx = require("xlsx");
+  const axios = require("axios"); // ajax 라이브러리
+  const cheerio = require("cheerio"); // html 파싱
 
-  const workbook = xlsx.readFile('xlsx/data.xlsx');
+  const workbook = xlsx.readFile("xlsx/data.xlsx");
   const ws = workbook.Sheets.영화목록;
   const records = xlsx.utils.sheet_to_json(ws);
 
   const crawler = async () => {
-    add_to_sheet(ws, 'C1', 's', '평점');
-    await Promise.all(records.map(async (r) => { // 순서 보장 X
-      const response = await axios.get(r.링크);
-      if (response.status === 200) { // 응답이 성공한 경우
-        const html = response.data;
-        const $ = cheerio.load(html); //
-        const text = $('.score.score_left .star_score').text(); // cheerio에서 제이쿼리 api 사용가능
-        console.log(r.제목, '평점', text.trim()); // whitespaces 처리
-        const newCell = 'C' + (i + 2);
-        add_to_sheet(ws, newCell, 'n', text.trim());
-      }
-    }));
-    xlsx.writeFile(workbook, 'xlsx/result.xlsx');
+    await Promise.all(
+      records.map(async (r) => {
+        // 순서 보장 X
+        const response = await axios.get(r.링크);
+        if (response.status === 200) {
+          // 응답이 성공한 경우
+          const html = response.data;
+          const $ = cheerio.load(html); //
+          const text = $(".score.score_left .star_score").text(); // tag 외에 text만 가져오기 (textContent), cheerio에서 제이쿼리 api 사용가능해서 text()
+          console.log(r.제목, "평점", text.trim()); // whitespaces 처리
+        }
+      })
+    );
   };
   crawler();
   ```
-- 크롤링 후, 의도한 컨텐츠가 제대로 크롤링 되었는지 확인해야함
+- 크롤링 후, 의도한 컨텐츠가 제대로 크롤링 되었는지 확인해야 함
 <br>
 
 ### 1-5 🎯 Promise.all과 for of 문의 차이
+- __Promise.all__ : 순서보장 X
+  - 동시에 진행되서 속도가 빠름
+- __for of 문__ : 순서보장 O
+    ```js
+    const crawler = async () => {
+      for (const [i, r] of records.enthries()) { => { // 순서 보장 O
+       ...
+      }));
+    ```
 - [참고자료](https://medium.com/@taelee42/callback-%ED%95%A8%EC%88%98-promise-async-await-%EC%9D%98-%EB%B0%9C%EC%A0%84-%EC%9D%B4%EC%9C%A0%EC%99%80-%EC%82%AC%EC%9A%A9%EB%B2%95-resolve-reject%EB%AA%B0%EB%9D%BC%EB%8F%84-%EC%9D%B4%ED%95%B4%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C-javascript-37a9bd53bbb0)
 <br>
 
 ### 1-6 🎯 보너스: xlsx 패키지
-- 
+- __엑셀표의 1행(헤더) 제외시키는 방법__
+  - 배열의 첫번째 요소 shift
+    ```js
+    const records = xlsx.utils.sheet_to_json(ws, header: 'A');
+    records.shift();
+    ```
+  - 영역을 표시해주는 !ref 문자열 변경
+    ```js
+    const records = xlsx.utils.sheet_to_json(ws, header: 'A');
+    console.log((ws['!ref'])); // A1:B11 -> A2:B11로 문자열 변경
+    ws['!ref'] = "A2:B11"
+    }
+    ```
+- 엑셀 시트가 여러개일 때 xlsx패키지의 SheetsNames 활용
+  ```
+  for (const sheet of workbook.SheetsNames) {
+    // 시트별로 따로 코딩
+  }
 <br>
 
 ### 1-7 🎯 보너스: api와의 차이점, 자동화
-- 
+- __API 한계__
+  - API 제공자가 주는 정보만 받을 수 있음
+- __크롤링 한계__
+  - 페이지에 보이지 않는 것은 가져올 수 없음
+  - 법적 분쟁의 소지가 있음
+- 퍼펫티어로 매크로와 같은 자동화 프로그램 만들 수 있음!
 <br>
 
 ### 1-8 🎯 보너스: 엑셀에 쓰기
-- 
+- add_to_sheets.js
+  ```js
+  const xlsx = require('xlsx');
+
+  function range_add_cell(range, cell) {
+    var rng = xlsx.utils.decode_range(range);
+    var c = typeof cell === 'string' ? xlsx.utils.decode_cell(cell) : cell;
+    if (rng.s.r > c.r) rng.s.r = c.r;
+    if (rng.s.c > c.c) rng.s.c = c.c;
+
+    if (rng.e.r < c.r) rng.e.r = c.r;
+    if (rng.e.c < c.c) rng.e.c = c.c;
+    return xlsx.utils.encode_range(rng);
+  }
+
+  module.exports = function add_to_sheet(sheet, cell, type, raw) {
+    sheet['!ref'] = range_add_cell(sheet['!ref'], cell);
+    sheet[cell] = { t: type, v: raw };
+  };
+  ```
+- index.js
+  ```
+  const add_to_sheet = require('./add_to_sheet');
+
+  const crawler = async () => {
+    add_to_sheet(ws, 'C1', 's', '평점'); // (1) cell C1에, string 타입으로 '평점'이라고 입력
+    for (const [i, r] of records.entires()) {
+      const response = await axios.get(r.링크);
+      if (response.status === 200) {
+        ...
+        const newCell = 'C' + (i + 2);
+        add_to_sheet(ws, newCell, 'n', text.trim()); // (2)
+      }
+    }));
+    xlsx.writeFile(workbook, 'xlsx/result.xlsx'); // (3) 결과물 파일명 result
+  };
 <br>
