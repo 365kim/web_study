@@ -11,7 +11,7 @@
   - `git clone https://github.com/wesbos/JavaScript30.git`
 <br>
 
-### Day01 - JavaScript Drum Kit [(내 코드)](https://repl.it/@365kim/JS30-Day01#script.js)
+### [Day01](https://repl.it/@365kim/JS30-Day01#script.js) - JavaScript Drum Kit
 #### :page_with_curl: HTML
 - __\<kbd\>__ : 키보드, 음성 입력 등
   - 키값 알아내기 : [keycode.info](http://keycode.info/)
@@ -21,7 +21,7 @@
 - __"data-"__ : 비표준 속성(attribute)
   - ’data-'로 시작하는 속성 전체는 개발자가 용도에 맞게 사용하도록 별도로 예약됨
   - `div[data-key="${e.keyCode}"`
-#### :page_with_curl: JS
+#### :page_with_curl: JavaScript
 - __querySelectorAll__ : CSS 선택자에 대응하는 요소 모두를 반환
   - 첫 번째 요소만 반환하려면 querySelector
   - `const keys = Array.from(document.querySelectorAll(".key"));`
@@ -37,7 +37,7 @@
   - keyup: 사용자가 키보드 버튼을 땔 때
 <br>
 
-### Day02 - CSS + JS Clock :page_with_curl: [(내 코드)](https://repl.it/@365kim/JS30-Day02#script.js)
+### [Day02](https://repl.it/@365kim/JS30-Day02#script.js) - CSS + JS Clock
 #### :page_with_curl: CSS
 - __transform-origin__ : 피봇 포인트 설정
     - `transform-origin: 50%` (중앙)
@@ -48,14 +48,14 @@
     - 3차베지어곡선 : 부드러운 곡선을 모델링하는데 사용됨
     - `transition-timing-function: cubic-bezier(0.660, 0.070, 0.410, 1.555);`
     - [커스텀 베지어곡선 애니메이션 만들기](https://matthewlein.com/tools/ceaser)
-#### :page_with_curl: JS
+#### :page_with_curl: JavaScript
 - __setInterval__ : 일정시간 간격으로 반복해서 함수 실행
     - `setInterval(function, 1000);`
 - __시작점 애니메이션 끊기는 현상 처리__
     - `if (secondsDegrees <= 90) secondHand.style.transition = "all 0.00s";`
 <br>
 
-### Day03 - Playing with CSS Variables and JS [(내 코드)](https://repl.it/@365kim/JS30-Day03#script.js)
+### [Day03](https://repl.it/@365kim/JS30-Day03#script.js) - Playing with CSS Variables and JS
 #### :page_with_curl: HTML
 - __\<input type="range"\>__ : 슬라이드바
     - `<input type="range" min="10" max="200" value="10" data-sizing="px" name="spacing">`
@@ -78,7 +78,7 @@
       filter: blur(var(--blur));
     }
     ```
-#### :page_with_curl: JS
+#### :page_with_curl: JavaScript
 - __NodeList__ (≠ Array)
     - entires(), forEach(), item(), keys(), values(), length 지원
     - NodeList에서 지원하지 않는 map(), reduce() 등을 사용하기 위해 배열로 변환하기도 함
