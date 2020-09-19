@@ -28,9 +28,13 @@
 - __classList__ : 클래스 하나만 추가/제거할 때 사용
   -  _add, remove, toggle, contains_
   - `key.classList.add('playing');`
-  - `e.target.classList.remove("playing");` 
+  - `e.target.classList.remove("playing");`
 - __addEventListener__
+  - `element.addEventListener(event, handler, [options]);`
   - `window.addEventListener('keydown', playSound');`
+- __키보드 이벤트__
+  - keydown: 사용자가 키보드 버튼을 누를 때
+  - keyup: 사용자가 키보드 버튼을 땔 때
 <br>
 
 ### Day02 - CSS + JS Clock :page_with_curl: [(내 코드)](https://repl.it/@365kim/JS30-Day02#script.js)
@@ -41,7 +45,7 @@
 - __transition__ : CSS 속성 변경이 일정시간에 걸쳐 일어나도록 조절
     - `transition: all 0.08s`;
 - __cubic-bezier__
-    - 베지어곡선 : 부드러운 곡선을 모델링하는데 사용됨
+    - 3차베지어곡선 : 부드러운 곡선을 모델링하는데 사용됨
     - `transition-timing-function: cubic-bezier(0.660, 0.070, 0.410, 1.555);`
     - [커스텀 베지어곡선 애니메이션 만들기](https://matthewlein.com/tools/ceaser)
 #### :page_with_curl: JS
@@ -50,3 +54,46 @@
 - __시작점 애니메이션 끊기는 현상 처리__
     - `if (secondsDegrees <= 90) secondHand.style.transition = "all 0.00s";`
 <br>
+
+### Day03 - Playing with CSS Variables and JS [(내 코드)](https://repl.it/@365kim/JS30-Day03#script.js)
+#### :page_with_curl: HTML
+- __\<input type="range"\>__ : 슬라이드바
+    - `<input type="range" min="10" max="200" value="10" data-sizing="px" name="spacing">`
+- __\<input type="color"\>__ : 컬러피커
+    - `<input type="color" value="ffc600" name="base">`
+#### :page_with_curl: CSS
+- __CSS 변수선언__
+    ```css
+    :root {
+      --base: #ffc600; // '--'는 SASS의 '$'와 같은 역할
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    ```
+- __CSS변수 사용__
+    ```css
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+    ```
+#### :page_with_curl: JS
+- __NodeList__ (≠ Array)
+    - entires(), forEach(), item(), keys(), values(), length 지원
+    - NodeList에서 지원하지 않는 map(), reduce() 등을 사용하기 위해 배열로 변환하기도 함
+- __addEventListener__
+  ```js
+  input.addEventListener('change', handleUpdate()');
+  inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+  ```
+  - mousemove : 마우스를 움질일 때
+  - mousedown : 요소위에서 마우스 왼쪽 버튼을 누르고 있을 때
+  - mouseup : 마우스 버튼을 뗄 때
+- __JS로 CSS변수 값 변경__
+    - input에 등록된 이벤트리스너가 불러주는 'name'과 'value'로 CSS 값을 설정해줌
+    ```js
+    const suffix = this.dataset.suffix || ""; // undefined값이 되는 것 방지
+    document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+    ```
+    ![image](https://user-images.githubusercontent.com/60066472/93662279-f1175580-fa99-11ea-83d0-7b6c0ba7a2e0.png)
