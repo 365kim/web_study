@@ -120,10 +120,11 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
     }
     ```
 - 엑셀 시트가 여러개일 때 xlsx패키지의 SheetsNames 활용
-  ```
+  ```js
   for (const sheet of workbook.SheetsNames) {
     // 시트별로 따로 코딩
   }
+  ```
 <br>
 
 ### 1-7 🎯 보너스: api와의 차이점, 자동화
@@ -157,7 +158,7 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
   };
   ```
 - index.js
-  ```
+  ```js
   const add_to_sheet = require('./add_to_sheet');
 
   const crawler = async () => {
@@ -172,4 +173,80 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
     }));
     xlsx.writeFile(workbook, 'xlsx/result.xlsx'); // (3) 결과물 파일명 result
   };
+<br><br>
+
+## 2. puppeteer 사용하기
+### 2-1 🎯 puppeteer 시작하기
+- __강력한 puppeteer__
+  - 웹로봇이 아니라, 마치 사람처럼 동작하도록 설정 가능
+  - 페이지 방문, 마우스 클릭, 로그인, 딜레이 설정, userAgent 설정 등
+- `npm i puppeteer`
+  - 최초 다운시 크로미움도 다운로드 <br>
+  ![image](https://user-images.githubusercontent.com/60066472/93844606-b51e0380-fcd8-11ea-90bf-eb5c51473e90.png) 
+- csv 다운받기
+  - puppeteer는 비동기적으로 처리하기 때문에 항상 async await 써주어야 함
+    ```js
+    const puppeteer = require("puppeteer");
+
+    const crawler = async () => {
+      const browser = await puppeteer.launch({headless: false}); // 브라우저 띄움
+      const page1 = await browser.newPage(); // 페이지 띄움
+      const page2 = await browser.newPage(); // 두번째 탭에 다른 페이지 띄움
+      await page1.goto("http://zerocho.com");
+      await page1.waitFor(3000); // page가 모두 로딩된 후 3초 기다림
+      await page2.goto("http://naver.com");
+      await page2.waitFor(1000);
+      await page1.close(); // 페이지 닫기 * 메모리 관리에 중요함
+      await page2.close();
+      await browser.close(); // 브라우저 닫기
+    };
+    
+    crawler();
+    ```
 <br>
+
+### 2-2 🎯 headless 옵션 이해하기
+- __headless 옵션__
+  - headless는 브라우저의 '화면'이 없다는 의미
+      - `const browser = await puppeteer.launch({headless: true})`;
+  - 기본값이 true이므로 아예 옵션을 넣지 않아도 됨
+    - `const browser = await puppeteer.launch()`;
+  - 실무에서는 배포모드에서는 true로, 개발모드일 때만 화면을 보기위해 headless: false로 해둠
+    - `const browser = await puppeteer.launch({headless: process.env.NODE_ENV === 'production'})`;
+- __탭을 여러 개 띄울 때 await는 비효율적!__
+  - Promise.all로 동시에 요청해서 속도를 빠르게 할 수 있음
+    ```js
+    const crawler = async () => {
+      const browser = await puppeteer.launch({ headless: false });
+      const [page1, page2, page3] = await Promise.all([
+        browser.newPage(),
+        browser.newPage(),
+        browser.newPage(),
+      ]);
+      await Promise.all([
+        page1.goto("http://zerocho.com"),
+        page2.goto("https://naver.com"),
+        page3.goto("https://google.com"),
+      ]);
+      await Promise.all([
+        await page1.waitFor(3000),
+        await page2.waitFor(1000),
+        await page3.waitFor(2000),
+      ]);
+      await page1.close();
+      await page2.close();
+      await page3.close();
+      await browser.close();
+    };
+    
+    crawler();
+    ```
+<br>
+
+### 2-3 🎯 첫 puppeteer 크롤링
+
+### 2-4 🎯 csv에 출력하기
+
+### 2-5 🎯 page.evaluate 사용하기
+
+### 2-6 🎯 userAgent와 한 탭으로 크롤링
