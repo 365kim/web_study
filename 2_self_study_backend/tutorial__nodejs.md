@@ -458,17 +458,187 @@ __Node.js 강좌(웹크롤링)__ 강의 [소스코드 보기](github.com/zerocho
 
 ## 3. axios와 cheerio로 이미지 다운로드
 ### 3-1 🎯 이미지 다운로드 준비하기
+- __노드로 폴더생성하기__
+  - 폴더를 생성하기 전 존재여부 먼저 체크해야 함 (기존에 폴더가 있으면 충돌 발생해서 에러남)
+    ```js
+    fs.readdir("poster", (err) => {
+      if (err) {
+        console.error("poster 폴더가 없어, 새로 생성합니다");
+        fs.mkdirSync("poster");
+      }
+    });
+    ```
+- __이미지 파일 관리__
+  - 엑셀에 입력하기보다는 파일로 따로 저장해서 관리하는 것이 편리
+  - 방법 1. 이미지 개별 저장
+  - 방법 2. 스크린샷
 
 <br>
 
 ### 3-2 🎯 axios로 이미지 저장하기
+- __(1단계) 이미지 url 찾기__
+  - 개발자 도구에서 적절한 선택자 탐색
+    ```js
+    const result = await page.evaluate(() => {
+      const [scoreEl, imgEl] = [
+        document.querySelector(".score.score_left .star_score"),
+        document.querySelector(".poster img"),
+      ];
+      let [score, img] = [
+        scoreEl ? scoreEl.textContent : undefined,
+        imgEl ? imgEl.src : undefined,
+      ];
+      return { score, img };
+    });
+    ```
+- __(2단계) axios를 이용해서 버퍼로 가져오기__
+  - Array Buffer
+    - 서버, 브라우저간 이진데이터를 주고 받을 때 사용하는 buffer가 연속적으로 들어있는 자료구조
+  - 쿼리스트링 제거
+    ```js
+    const imgBuffer = await axios.get(result.img.replace(/\?.*$/, ""), {
+      responseType: "arraybuffer",
+    });
+    ```
+    ![image](https://user-images.githubusercontent.com/60066472/93957553-7ac36d80-fd8f-11ea-9a86-f80536e753f7.png)
+    ![image](https://user-images.githubusercontent.com/60066472/93956876-10f69400-fd8e-11ea-8efc-dd4a1f7964f6.png)
+- __(3단계) 버퍼를 파일로 저장하기__
+  - 해당 웹사이트의 url을 직접 사용하면 해당 서버에 부담을 줄 수 있으므로, 다운받아서 사용해야 함
+  - fs모듈이 버퍼(binary data)를 파일로 변환시켜줌
+   ```js
+   fs.writeFileSync(`poster/${r.제목}.jpg`, imgBuffer.data);
+   ```
 <br>
 
 ### 3-3 🎯 브라우저 사이즈 조절과 스크린샷
+- __브라우저 크기조절__
+  ```js
+  const browser = await puppeteer.launch({
+    headless: false,
+    args: ["--window-size=1920,1080"],
+  });
+  ```
+- __화면 크기조절__
+  ```js
+  await page.setViewport({
+    width: 1920,
+    height: 1080,
+  });
+  ```
+- __스크린샷__
+  - 매일 스크린샷을 찍고, 바뀐 부분을 머신러닝으로 알아차려서 특정한 작업을 할 수 있음
+  - 확장자: png (기본), jpg (제공)
+  - page.screenshot()의 옵션 중 fullPage와 clip은 동시에 사용하지 못함 (exclusive)
+    ```js
+    await page.screenshot({
+      path: `screenshot/${r.제목}.png`,
+      // fullPage: true,
+      clip: {
+        x: 100,
+        y: 100,
+        width: 300,
+        height: 300,
+      }
+    }
+    ```
+  <p align="center"><img src="https://user-images.githubusercontent.com/60066472/93958344-4486ed80-fd91-11ea-8be3-8fe0e4e76643.png" width="300"></p>
+- __(실습결과) 전체코드__
+  ```js
+  const xlsx = require("xlsx");
+  const puppeteer = require("puppeteer");
+  const fs = require("fs");
+  const axios = require("axios");
+  const add_to_sheet = require("./add_to_sheet");
+
+  const workbook = xlsx.readFile("xlsx/data.xlsx");
+  const ws = workbook.Sheets.영화목록;
+  const records = xlsx.utils.sheet_to_json(ws);
+
+  fs.readdir("poster", (err) => {
+    if (err) {
+      console.error("poster 폴더가 없어, 새로 생성합니다");
+      fs.mkdirSync("poster");
+    }
+  });
+
+  fs.readdir("screenshot", (err) => {
+    if (err) {
+      console.error("screenshot 폴더가 없어, 새로 생성합니다");
+      fs.mkdirSync("screenshot");
+    }
+  });
+
+  const crawler = async () => {
+    try {
+      const browser = await puppeteer.launch({
+        headless: false,
+        args: ["--window-size=1920,1080"],
+      });
+      const page = await browser.newPage();
+      await page.setViewport({
+        width: 1920,
+        height: 1080,
+      });
+
+      add_to_sheet(ws, "C1", "s", "평점");
+      for (const [i, r] of records.entries()) {
+        await page.goto(r.링크);
+        const result = await page.evaluate(() => {
+          const [scoreEl, imgEl] = [
+            document.querySelector(".score.score_left .star_score"),
+            document.querySelector(".poster img"),
+          ];
+          let [score, img] = [
+            scoreEl ? scoreEl.textContent : undefined,
+            imgEl ? imgEl.src : undefined,
+          ];
+          return { score, img };
+        });
+
+        if (result.score) {
+          const newCell = "C" + (i + 2);
+          console.log(r.제목, "평점", result.score.trim(), newCell);
+          add_to_sheet(ws, newCell, "n", result.score.trim());
+        }
+        if (result.img) {
+          await page.screenshot({
+            path: `screenshot/${r.제목}.png`,
+            fullPage: true,
+          const imgResult = await axios.get(result.img.replace(/\?.*$/, ""), {
+            responseType: "arraybuffer",
+          });
+          fs.writeFileSync(`poster/${r.제목}.jpg`, imgResult.data);
+        }
+        await page.waitForTimeout(1000);
+      }
+      await page.close();
+      await browser.close();
+      xlsx.writeFile(workbook, "xlsx/result.xlsx");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  crawler();
+  ```
 <br>
 
-### 3-4. 보너스: querySelector과 CSS 선택자
-<br>
-
-### 3-5. 보너스: CSS 선택자 조합하기
+### 3-4,5 🎯 보너스: querySelector와 CSS 선택자
+- __기본__
+  - `$('div')`  == `querySelector('div')`
+  - `$$('div')` == `querySelectorAll('div')`
+- __응용__
+  - 붙여쓰기(동시에)
+    - `$('div.poster')`
+    - `$('score.score_left')`
+    - `$('div#container')`
+  - 띄어쓰기(자손)
+    - `$('div a img')`
+  - 꺽새(자식)
+    - `$('div > a > img')`
+  - 대괄호(속성)
+    - `$('img[width="26"]')`
+  - 조합
+    - `$('div.poster img')`
+- __마무리__
+  - 선택자를 최적화하면서 최대한 간결하게 정리
 <br>
