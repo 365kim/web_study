@@ -42,5 +42,5 @@
 | :------------------- | :-------------------------------------------------------------------------------- | :-------------------- | :--------------------------- |
 |                      |                                                                                   |                       |                              |
 | 　**Exploration**    |                                                                                   |                       |                              |
-|                      | 　[**Initial Settings**](./1_self_study_frontend/exploration__initial_setting.md) | 　 2020. 06. 07.      |                              |
-|                      | 　[**Open Source**](./1_self_study_frontend/exploration__open_source.md)          | 　 2020. 07. 02.      |                              |
+|                      | 　[**Initial Settings**](./3_self_study_etc/exploration__initial_settings.md) | 　 2020. 06. 07.      |                              |
+|                      | 　[**Open Source**](./3_self_study_etc/exploration__open_source.md)          | 　 2020. 07. 02.      |                              |
